@@ -1,0 +1,35 @@
+system_pkgs: 
+  - software-properties-common
+  - librdkafka-dev
+  - libpcre3-dev
+  - libcurl3-openssl-dev
+  - zlib1g 
+  - zlib1g-dev
+  - libgmp-dev
+  - freetds-common 
+  - freetds-bin 
+  - freetds-dev
+  - libssl-dev
+  - net-tools 
+  - resolvconf
+  - htop
+  - dirmngr 
+  - apt-transport-https
+  - git 
+  - curl 
+  - unzip
+  - dos2unix
+
+cassandra_urls:
+  # - https://rgdata.s3.nl-ams.scw.cloud/dev/libssl1.0.0_1.0.2l-1_bpo8_1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.28.0/libuv1_1.28.0-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.28.0/libuv1-dev_1.28.0-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.12.0/cassandra-cpp-driver_2.12.0-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.12.0/cassandra-cpp-driver-dev_2.12.0-1_amd64.deb
+
+# This list must be processed in this particular order to work correctly
+cassandra_pkgs:
+  - libuv1_1.28.0-1_amd64.deb
+  - libuv1-dev_1.28.0-1_amd64.deb
+  - cassandra-cpp-driver_2.12.0-1_amd64.deb
+  - cassandra-cpp-driver-dev_2.12.0-1_amd64.deb
