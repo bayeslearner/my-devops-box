@@ -1,0 +1,4 @@
+.vagrant
+*.log
+config/*.*
+!config/*.dist
