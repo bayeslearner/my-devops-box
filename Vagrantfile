@@ -23,15 +23,18 @@ Vagrant.configure("2") do |config|
 		vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
 	end
 
+	# Env vars
 	vars = {
 		"TERRAFORM_VERSION" => "0.12.2",
 		"PACKER_VERSION" => "1.4.1",
 		"DOCKER_COMPOSE_VERSION" => "1.24.0"
 	}
 	
+	# Vagrantfile vars
 	confDir = File.expand_path(File.dirname(__FILE__))
 	glusterVolumes = confDir + '/config/gluster.conf'
 	glusterHosts = confDir + '/config/gluster.hosts'
+	ansible_privkey = File.expand_path("~/.ssh/ansible_id_rsa")
 
 	# Loading environment variables to /etc/profile.d/vagrant_env.sh
 	as_str = vars.map { |k, str| ["export #{k}=#{str.gsub "$", "\$"}"] }.join("\n")
@@ -49,8 +52,15 @@ Vagrant.configure("2") do |config|
 	end
 
 	config.vm.provision "ansible-post-install", type: "shell", run: "once" do |s|
-		s.name = "Configuring Ansible"
-		s.path = "scripts/config-ansible.sh"
+		if File.exist? File.expand_path(ansible_privkey)
+			config.vm.synced_folder "ansible/", "/home/vagrant/ansible", create: true 
+			s.name = "Configuring Ansible"
+			s.path = "scripts/config-ansible.sh"
+			s.privileged = false
+			s.args = [File.read(File.expand_path(ansible_privkey)), ansible_privkey.split('/').last]
+		else
+			puts "ansible ssh private key not found. Skipping..."
+		end
 	end
 	
 	config.vm.provision "docker", type: "shell" do |s|

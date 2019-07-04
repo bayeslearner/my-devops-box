@@ -1,4 +1,6 @@
-.vagrant
+.vagrant/
 *.log
-config/*.*
+
+# Exclude everything from config/ but .dist files
+config/*
 !config/*.dist
