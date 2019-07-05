@@ -1,0 +1,60 @@
+---
+- hosts: web
+  gather_facts: false
+  tasks:
+    - name: checking availability - frontend servers
+      ping:
+
+- hosts: api
+  gather_facts: false
+  tasks:
+    - name: checking availability - backend servers
+      ping:
+
+- hosts: lsd
+  gather_facts: false
+  tasks:
+    - name: checking availability - lsd servers
+      ping:
+
+- hosts: workers
+  gather_facts: false
+  tasks:
+    - name: checking availability - workers
+      ping:
+
+- hosts: consumers
+  gather_facts: false
+  tasks:
+    - name: checking availability - consumers
+      ping:
+
+- hosts: cassandra
+  gather_facts: false
+  tasks:
+    - name: checking availability - cassandra cluster
+      ping:
+
+- hosts: elk
+  gather_facts: false
+  tasks:
+    - name: checking availability - ELK stack
+      ping:
+
+- hosts: zookeeper
+  gather_facts: false
+  tasks:
+    - name: checking availability - zookeeper cluster
+      ping:
+
+- hosts: brokers
+  gather_facts: false
+  tasks:
+    - name: checking availability - kafka cluster
+      ping:
+
+- hosts: glusterfs
+  gather_facts: false
+  tasks:
+    - name: checking availability - glusterfs nodes
+      ping:

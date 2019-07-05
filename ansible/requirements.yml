@@ -1,3 +1,5 @@
 ---
+# install with the following command: 
+# ansible-galaxy install -r /home/vagrant/ansible/requirements.yml
 - src: geerlingguy.php
 - src: geerlingguy.php-pecl

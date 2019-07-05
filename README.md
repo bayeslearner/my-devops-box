@@ -1,5 +1,5 @@
 # DevOps box
-* A vagrant project with an Ubuntu 16.04 box with the tools needed to practise and operate as a DevOps
+* A vagrant project with an Ubuntu 16.04.06 box with the tools needed to practise and operate as a DevOps
 
 # Tools included
 * Docker & docker-compose
@@ -30,6 +30,11 @@ vagrant up --provision-with common,docker
 Only AWS client 
 ```bash
 vagrant up --provision-with common,aws-cli
+```
+
+Ansible lab example 
+```bash
+ vagrant up --provision-with common,file,ansible,ansible-post-install
 ```
 
 ## Enable GlusterFS client
