@@ -26,6 +26,10 @@ private_key_file = ~/.ssh/ansible_id_rsa
 host_key_checking = False
 inventory = ~/ansible/inventory
 interpreter_python = /usr/bin/python
+callback_whitelist = profile_tasks, timer
+
+[ssh_connection]
+pipelining = True
 " | sudo tee $HOME/.ansible.cfg
 
 # refresh user permissions
