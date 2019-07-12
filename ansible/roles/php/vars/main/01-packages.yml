@@ -1,7 +1,7 @@
 ---
 system_pkgs: 
   - software-properties-common
-  - librdkafka-dev
+  - librdkafka-dev # TODO: install librdkafka from sources and compile instead
   - libpcre3-dev
   - libcurl3-openssl-dev
   - zlib1g 
