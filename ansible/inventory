@@ -1,38 +1,11 @@
 [web]
 web01
-web02
 
 [api]
 api01
-api02
 
-[lsd]
-lsd01
-
-[workers]
+[worker]
 worker01
-worker02
 
-[consumers]
+[consumer]
 consumer01
-
-[cassandra]
-cass01
-cass02
-cass03
-
-[elk]
-elastic01
-logstash
-kibana
-
-[zookeeper]
-zookeeper01
-
-[brokers]
-broker01
-broker02
-
-[glusterfs]
-glusterfs01
-glusterfs02

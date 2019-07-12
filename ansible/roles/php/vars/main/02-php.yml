@@ -3,6 +3,7 @@ php_enable_php_fpm: true
 php_enable_webserver: false
 php_webserver_daemon: "nginx"
 
+# php.ini settings
 php_display_errors: "On"
 php_expose_php: "On"
 php_memory_limit: "512M"
@@ -16,8 +17,9 @@ php_max_file_uploads: "20"
 php_post_max_size: "32M"
 php_allow_url_fopen: "On"
 
-php_date_timezone: "Europe/Paris"
+php_date_timezone: "UTC"
 
+# apt packages
 php_packages:
   - php
   - php-dev
@@ -33,9 +35,16 @@ php_packages:
   - php-opcache
   - php-json
   - php-curl
-  - php-xdebug
   - php-sybase
-  - php-oauth
   - php-mysql
   - php-pgsql
   - php-pear
+
+# OpCache settings
+php_opcache_zend_extension: "opcache.so"
+php_opcache_enable: "1"
+php_opcache_memory_consumption: "256"
+php_opcache_max_accelerated_files: "20000"
+php_opcache_validate_timestamps: "1"
+php_opcache_revalidate_freq: "60"
+

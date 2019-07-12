@@ -1,0 +1,86 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # Allow SSH Agent Forward from The Box
+  config.ssh.forward_agent = true
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+
+  config.vm.box = "rgsystems/stretch64"
+  config.vm.box_version = "1.1.0"
+
+  config.vm.define "web01" do |web|
+    web.vm.hostname = 'web01'
+    web.vm.network "private_network", ip: "192.168.10.21"
+    web.vm.provider 'virtualbox' do |vb|
+      vb.gui = false
+      vb.name = "web01"
+      vb.customize ['modifyvm', :id, '--cpus', '1']
+      vb.customize ['modifyvm', :id, '--memory', '1024']
+      vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
+      vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+      vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+    end
+  end
+
+  # config.vm.define "api01" do |api|
+  #   api.vm.hostname = 'api01'
+  #   api.vm.network "private_network", ip: "192.168.10.31"
+  #   api.vm.provider 'virtualbox' do |vb|
+  #     vb.gui = false
+  #     vb.name = "api01"
+  #     vb.customize ['modifyvm', :id, '--cpus', '1']
+  #     vb.customize ['modifyvm', :id, '--memory', '1024']
+  #     vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
+  #     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+  #     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+  #   end
+  # end
+
+  # config.vm.define "worker01" do |worker|
+  #   worker.vm.hostname = 'worker01'
+  #   worker.vm.network "private_network", ip: "192.168.10.41"
+  #   worker.vm.provider 'virtualbox' do |vb|
+  #     vb.gui = false
+  #     vb.name = "worker01"
+  #     vb.customize ['modifyvm', :id, '--cpus', '1']
+  #     vb.customize ['modifyvm', :id, '--memory', '1024']
+  #     vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
+  #     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+  #     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+  #   end
+  # end
+
+  # config.vm.define "consumer01" do |consumer|
+  #   consumer.vm.hostname = 'consumer01'
+  #   consumer.vm.network "private_network", ip: "192.168.10.51"
+  #   consumer.vm.provider 'virtualbox' do |vb|
+  #     vb.gui = false
+  #     vb.name = "consumer01"
+  #     vb.customize ['modifyvm', :id, '--cpus', '1']
+  #     vb.customize ['modifyvm', :id, '--memory', '1024']
+  #     vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
+  #     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+  #     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+  #   end
+  # end
+
+  # local variables
+  ansible_privkey = "~/.ssh/ansible_id_rsa"
+  ansible_pubkey = "~/.ssh/ansible_id_rsa_pub"
+
+  # common provisionning
+  config.vm.provision 'update hosts entries', type: 'shell', path: 'scripts/hosts.sh', run: 'once'
+  config.vm.provision 'copy ssh keys', type: 'shell', run: 'once' do |s| 
+    s.path = 'scripts/common.sh'
+    s.privileged = false
+    s.env = {
+      "ANSIBLE_PRIVKEY_CONTENT" => File.read(File.expand_path(ansible_privkey)),
+      "ANSIBLE_PRIVKEY_NAME" => ansible_privkey.split('/').last,
+      "ANSIBLE_PUBKEY_CONTENT" => File.read(File.expand_path(ansible_pubkey))
+    }
+  end
+
+end

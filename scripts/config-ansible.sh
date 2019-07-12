@@ -16,7 +16,6 @@ fi
 # copy ansible ssh key from host to guest
 echo "$1" | sudo tee $HOME/.ssh/$2 > /dev/null
 sudo chmod 600 $HOME/.ssh/$2
-# chown vagrant:vagrant /home/vagrant/.ssh/$2
 
 # set it as a default key for vagrant user 
 echo "
@@ -30,6 +29,7 @@ callback_whitelist = profile_tasks, timer
 
 [ssh_connection]
 pipelining = True
+ssh_args = -o ForwardAgent=yes
 " | sudo tee $HOME/.ansible.cfg
 
 # refresh user permissions
