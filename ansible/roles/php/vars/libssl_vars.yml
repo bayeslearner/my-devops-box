@@ -1,0 +1,3 @@
+# Necessary for debian stretch hosts
+libssl_url: https://rgdata.s3.nl-ams.scw.cloud/dev/libssl1.0.0_1.0.2l-1_bpo8_1_amd64.deb
+libssl_pkg: libssl1.0.0_1.0.2l-1_bpo8_1_amd64.deb

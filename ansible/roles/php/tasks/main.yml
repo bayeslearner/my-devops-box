@@ -11,16 +11,15 @@
   with_items: "{{ cassandra_urls }}"
 
 # updating libssl is required prior to install cassandra cpp drivers on Debian stretch 
-- name: APT | download newer libssl for debian stretch
-  get_url:
-    url: "{{ libssl_url }}"
-    dest: "/tmp"
-  when: is_stretch|bool
+- include_vars: libssl_vars.yml
+  when:
+    - ansible_facts['distribution'] is match("Debian")
+    - ansible_facts['distribution_release'] is match("stretch")
 
-- name: APT | install newer libssl for debian stretch
-  apt:
-    deb: "/tmp/{{ libssl_pkg }}"
-  when: is_stretch|bool
+- include_tasks: libssl.yml
+  when:
+    - ansible_facts['distribution'] is match("Debian")
+    - ansible_facts['distribution_release'] is match("stretch")
 
 - name: APT | install Cassandra C++ drivers
   apt:
@@ -30,11 +29,6 @@
 - name: PHP | install php packages and configure php.ini and opcache settings
   import_role:
     name: geerlingguy.php
-
-- name: PHP | removes apache2 directory if exists
-  file:
-    path: /etc/php/7.0/apache2/
-    state: absent
 
 - name: PHP | configure freetds driver for pdo_dblib
   template: 
@@ -95,6 +89,16 @@
     owner: root
     group: root
     mode: 0644
+
+# - name: PHP | removes apache2 directory if exists
+#   file:
+#     path: /etc/php/7.0/apache2/
+#     state: absent
+
+# - name: PHP | removes apache2 from sapi
+#   file:
+#     path: usr/lib/php/7.0/sapi/apache2
+#     state: absent
 
 - name: PECL | enable extensions using phpenmod
   shell: phpenmod {{ item }}

@@ -2,6 +2,7 @@
 - hosts: web
   become: true
   gather_facts: true
+  debugger: on_failed
   tasks:
     - name: update apt cache
       apt: update_cache=yes cache_valid_time=86400
@@ -9,6 +10,3 @@
 
   roles:
     - php
-
-  vars: 
-    - is_stretch: ansible_facts['os_family'] == 'Debian' and ansible_facts['distribution_release'] == 'stretch'"

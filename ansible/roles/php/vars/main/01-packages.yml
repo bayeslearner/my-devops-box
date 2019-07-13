@@ -1,7 +1,13 @@
 ---
 system_pkgs: 
   - software-properties-common
-  # - librdkafka-dev # TODO: install librdkafka from sources and compile instead
+  - build-essential
+  - dirmngr 
+  - apt-transport-https
+  - git 
+  - curl
+  - wget
+  - unzip
   - libpcre3-dev
   - libcurl3-openssl-dev
   - zlib1g 
@@ -14,16 +20,7 @@ system_pkgs:
   - net-tools 
   - resolvconf
   - htop
-  - dirmngr 
-  - apt-transport-https
-  - git 
-  - curl 
-  - unzip
   - dos2unix
-
-# Necessary for debian stretch hosts
-libssl_url: https://rgdata.s3.nl-ams.scw.cloud/dev/libssl1.0.0_1.0.2l-1_bpo8_1_amd64.deb
-libssl_pkg: libssl1.0.0_1.0.2l-1_bpo8_1_amd64.deb
 
 # Cassandra C++ drivers
 cassandra_urls:
