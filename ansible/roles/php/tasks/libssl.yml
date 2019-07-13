@@ -1,11 +1,12 @@
+---
 # updating libssl is required prior to install cassandra cpp drivers on Debian stretch 
+- include_vars: libssl_vars.yml
+
 - name: APT | download newer libssl for debian stretch
   get_url:
     url: "{{ libssl_url }}"
     dest: "/tmp"
-  when: ansible_facts['distribution'] is match("Debian")
 
 - name: APT | install newer libssl for debian stretch
   apt:
     deb: "/tmp/{{ libssl_pkg }}"
-  when: ansible_facts['distribution'] is match("Debian")

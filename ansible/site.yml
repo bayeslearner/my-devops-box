@@ -1,5 +1,5 @@
 ---
-- hosts: web
+- hosts: api
   become: true
   gather_facts: true
   debugger: on_failed

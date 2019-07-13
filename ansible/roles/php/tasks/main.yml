@@ -11,11 +11,6 @@
   with_items: "{{ cassandra_urls }}"
 
 # updating libssl is required prior to install cassandra cpp drivers on Debian stretch 
-- include_vars: libssl_vars.yml
-  when:
-    - ansible_facts['distribution'] is match("Debian")
-    - ansible_facts['distribution_release'] is match("stretch")
-
 - include_tasks: libssl.yml
   when:
     - ansible_facts['distribution'] is match("Debian")
