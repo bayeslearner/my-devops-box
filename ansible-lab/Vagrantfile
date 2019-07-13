@@ -11,6 +11,12 @@ Vagrant.configure("2") do |config|
   config.vm.box = "rgsystems/stretch64"
   config.vm.box_version = ">=1.1.0"
 
+  # local variables 
+  # feel free to edit to fit your needs
+  ansible_privkey = "~/.ssh/id_rsa"
+  ansible_pubkey = "~/.ssh/id_rsa.pub"
+
+  # VMs
   config.vm.define "web01" do |web|
     web.vm.hostname = 'web01'
     web.vm.network "private_network", ip: "192.168.10.21"
@@ -67,11 +73,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  # local variables
-  ansible_privkey = "~/.ssh/id_rsa"
-  ansible_pubkey = "~/.ssh/id_rsa.pub"
-
-  # common provisionning
+  # common provisionning for every host
   config.vm.provision 'update hosts entries', type: 'shell', path: 'scripts/hosts.sh', run: 'once'
   config.vm.provision 'copy ssh keys', type: 'shell', run: 'once' do |s| 
     s.path = 'scripts/common.sh'
