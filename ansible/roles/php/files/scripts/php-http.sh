@@ -1,5 +1,11 @@
 #!/bin/bash 
 
+# Depends on: php
+if ! which php > /dev/null ; then
+    echo "PHP was not found. Aborting.."
+    exit 1
+fi
+
 # Check if http-related extensions are present
 if ! php -m | grep -q 'http' ; then
     pecl install propro raphf > /dev/null

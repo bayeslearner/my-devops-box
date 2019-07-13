@@ -1,7 +1,7 @@
 ---
 system_pkgs: 
   - software-properties-common
-  - librdkafka-dev # TODO: install librdkafka from sources and compile instead
+  # - librdkafka-dev # TODO: install librdkafka from sources and compile instead
   - libpcre3-dev
   - libcurl3-openssl-dev
   - zlib1g 
@@ -25,6 +25,7 @@ system_pkgs:
 libssl_url: https://rgdata.s3.nl-ams.scw.cloud/dev/libssl1.0.0_1.0.2l-1_bpo8_1_amd64.deb
 libssl_pkg: libssl1.0.0_1.0.2l-1_bpo8_1_amd64.deb
 
+# Cassandra C++ drivers
 cassandra_urls:
   - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.28.0/libuv1_1.28.0-1_amd64.deb
   - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.28.0/libuv1-dev_1.28.0-1_amd64.deb
@@ -37,3 +38,6 @@ cassandra_pkgs:
   - libuv1-dev_1.28.0-1_amd64.deb
   - cassandra-cpp-driver_2.12.0-1_amd64.deb
   - cassandra-cpp-driver-dev_2.12.0-1_amd64.deb
+
+# Librdkafka for php rdkafka extension
+librdkafka_version: "1.1.0"

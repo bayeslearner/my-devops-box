@@ -52,6 +52,11 @@
   register: http_result
   changed_when: "'successfully installed pecl_http' in http_result.stdout"
 
+- name: PECL | install and enable librdkafka c++ driver and php rdkafka via script
+  script: "files/scripts/php-rdkafka.sh {{ librdkafka_version }}"
+  register: rdkafka_result
+  changed_when: "'successfully installed rdkafka' in http_result.stdout"
+
 - name: PECL | install extensions
   shell: "yes '' | pecl install {{ item }}"
   register: pecl_result
@@ -62,7 +67,6 @@
     - apcu_bc
     - xdebug
     - oauth
-    - rdkafka
     - cassandra
 
 - name: PECL | copy extensions .ini files
@@ -74,7 +78,6 @@
     mode: 0644
   with_items:
     - oauth
-    - rdkafka
     - cassandra
 
 - name: PECL | override default configuration for xdebug
@@ -99,7 +102,6 @@
     - apcu
     - xdebug
     - oauth
-    - rdkafka
     - cassandra
   register: item
   changed_when: "item.stdout_lines == ''"
