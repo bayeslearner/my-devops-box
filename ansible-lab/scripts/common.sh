@@ -1,4 +1,4 @@
-#!/bin/bash -eux
+#!/bin/bash -e
 
 HOME=/home/ansible
 
@@ -10,9 +10,9 @@ echo "ansible        ALL=(ALL)       NOPASSWD: ALL" | sudo tee -a /etc/sudoers
 
 # set ssh keys
 sudo mkdir $HOME/.ssh/
-echo "$ANSIBLE_PRIVKEY_CONTENT" | sudo tee $HOME/.ssh/$ANSIBLE_PRIVKEY_NAME
+echo "$ANSIBLE_PRIVKEY_CONTENT" | sudo tee $HOME/.ssh/$ANSIBLE_PRIVKEY_NAME > /dev/null
 sudo chmod 600 $HOME/.ssh/$ANSIBLE_PRIVKEY_NAME
-echo "$ANSIBLE_PUBKEY_CONTENT" | sudo tee $HOME/.ssh/authorized_keys
+echo "$ANSIBLE_PUBKEY_CONTENT" | sudo tee $HOME/.ssh/authorized_keys > /dev/null
 sudo chmod 600 $HOME/.ssh/authorized_keys
 
 # refresh permissions
