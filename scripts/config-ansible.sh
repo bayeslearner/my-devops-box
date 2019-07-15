@@ -35,5 +35,8 @@ ssh_args = -o ForwardAgent=yes
 # refresh user permissions
 sudo chown -R vagrant:vagrant $HOME
 
-# test availability
+# fix shell scripts & test availability
+pushd $HOME/ansible
+find . -type f -name '*.sh' | xargs sudo dos2unix
 ansible all ping -m ping
+popd
