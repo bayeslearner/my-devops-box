@@ -8,9 +8,6 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
 
-  config.vm.box = "rgsystems/stretch64"
-  config.vm.box_version = ">=1.1.0"
-
   # local variables 
   # feel free to edit to fit your needs
   ansible_privkey = "~/.ssh/id_rsa"
@@ -18,6 +15,8 @@ Vagrant.configure("2") do |config|
 
   # VMs
   config.vm.define "web01" do |web|
+    web.vm.box = "rgsystems/xenial64"
+    web.vm.box_version = ">=1.1.0"
     web.vm.hostname = 'web01'
     web.vm.network "private_network", ip: "192.168.10.21"
     web.vm.provider 'virtualbox' do |vb|
@@ -32,6 +31,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "api01" do |api|
+    api.vm.box = "rgsystems/xenial64"
+    api.vm.box_version = ">=1.1.0"
     api.vm.hostname = 'api01'
     api.vm.network "private_network", ip: "192.168.10.31"
     api.vm.provider 'virtualbox' do |vb|
@@ -46,6 +47,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "worker01" do |worker|
+    worker.vm.box = "rgsystems/stretch64"
+    worker.vm.box_version = ">=1.1.0"
     worker.vm.hostname = 'worker01'
     worker.vm.network "private_network", ip: "192.168.10.41"
     worker.vm.provider 'virtualbox' do |vb|
@@ -60,6 +63,8 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "consumer01" do |consumer|
+    consumer.vm.box = "rgsystems/stretch64"
+    consumer.vm.box_version = ">=1.1.0"
     consumer.vm.hostname = 'consumer01'
     consumer.vm.network "private_network", ip: "192.168.10.51"
     consumer.vm.provider 'virtualbox' do |vb|
