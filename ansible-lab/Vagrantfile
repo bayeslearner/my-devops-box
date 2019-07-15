@@ -81,7 +81,7 @@ Vagrant.configure("2") do |config|
   # common provisionning for every host
   config.vm.provision 'apt packages', type: 'shell' do |s|
     s.inline = <<-SHELL
-      'apt-get install -yq dos2unix'
+      apt-get install -y dos2unix
     SHELL
   end
 

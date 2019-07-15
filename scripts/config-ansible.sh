@@ -38,5 +38,5 @@ sudo chown -R vagrant:vagrant $HOME
 # fix shell scripts & test availability
 pushd $HOME/ansible
 find . -type f -name '*.sh' | xargs sudo dos2unix
-ansible all ping -m ping
+ansible all -m ping
 popd
