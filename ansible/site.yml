@@ -1,39 +1,12 @@
 ---
-- hosts: 
-  - web
-  - api
-  - worker
-  - consumer
-
-  # Forks for rolling updates
-  # https://docs.ansible.com/ansible/latest/user_guide/playbooks_delegation.html 
-  # run this playbook with --forks=X to override this default value
-  # serial: 5 
-  
+- hosts: all
   become: true
-  gather_facts: true
-  debugger: on_failed
-
-  pre_tasks: 
-    - name: check for dos2unix tool on local system
-      local_action:
-        module: stat
-        path: /usr/bin/dos2unix
-      register: dos2unix
-
-    - name: ensure shell scripts copied from Windows will run
-      local_action: shell find . -type f -name '*.sh' | xargs dos2unix
-      become: yes
-      become_user: vagrant
-      when: dos2unix.stat.exists
-      register: dos2unix
-
+  gather_facts: false
   tasks:
     - name: update apt cache
       apt: update_cache=yes cache_valid_time=86400
       tags: [ 'packages' ]
 
-  roles:
-    - php
-    - geerlingguy.nodejs
-    - wkhtmltopdf
+- include: php.yml
+- include: wkhtmltopdf.yml
+- include: nodejs.yml
