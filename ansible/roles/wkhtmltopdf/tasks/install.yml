@@ -1,0 +1,13 @@
+---
+- name: dowload wkhtmltopdf for current release
+  get_url:
+    url: "https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.{{ ansible_facts['distribution_release'] }}_amd64.deb"
+    dest: "/tmp/wkhtmltox_{{ ansible_facts['distribution_release'] }}.deb"
+  register: wkhtmltox_pkg
+  
+- name: install wkhtmltopdf
+  apt:
+    deb: "{{ wkhtmltox_pkg.dest }}"
+
+- name: install remaining dependencies
+  shell: apt-get install -f

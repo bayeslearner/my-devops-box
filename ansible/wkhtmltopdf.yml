@@ -1,0 +1,23 @@
+---
+- hosts:     
+  - web
+  - api
+  - worker
+  - consumer
+
+  # Forks for rolling updates
+  # https://docs.ansible.com/ansible/latest/user_guide/playbooks_delegation.html 
+  # run this playbook with --forks=X to override this default value
+  # serial: 5 
+
+  become: true
+  gather_facts: true
+  debugger: on_failed
+
+  tasks:
+    - name: update apt cache
+      apt: update_cache=yes cache_valid_time=86400
+      tags: [ 'packages' ]
+
+  roles:
+    - wkhtmltopdf
