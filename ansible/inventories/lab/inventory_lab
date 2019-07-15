@@ -1,0 +1,11 @@
+[web]
+web01
+
+[api]
+api01
+
+[worker]
+worker01
+
+[consumer]
+consumer01
