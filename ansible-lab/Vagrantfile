@@ -79,7 +79,16 @@ Vagrant.configure("2") do |config|
   end
 
   # common provisionning for every host
+  config.vm.provision 'apt packages', type: 'shell' do |s|
+    s.inline = <<-SHELL
+      'apt-get install -yq dos2unix'
+    SHELL
+  end
+
+  config.vm.provision 'install python interpreter', type: 'shell', path: 'scripts/python.sh'
+  
   config.vm.provision 'update hosts entries', type: 'shell', path: 'scripts/hosts.sh', run: 'once'
+  
   config.vm.provision 'copy ssh keys', type: 'shell', run: 'once' do |s| 
     s.path = 'scripts/common.sh'
     s.privileged = false
