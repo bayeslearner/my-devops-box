@@ -3,8 +3,8 @@
 LIBRDKAFKA_VERSION=${1:-"1.1.0"}
 
 # Depends on: php
-if ! which php > /dev/null ; then
-    echo "PHP was not found. Aborting.."
+if ! [ -x "$(command -v php)" ] ; then
+    echo "PHP needs to be installed before this script!"
     exit 1
 fi
 
