@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
       vb.name = "web01"
       vb.customize ['modifyvm', :id, '--cpus', '1']
       vb.customize ['modifyvm', :id, '--memory', '1024']
-      vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
+      vb.customize ['modifyvm', :id, '--ostype', 'Xenial_64']
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
       vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     end
@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
       vb.name = "api01"
       vb.customize ['modifyvm', :id, '--cpus', '1']
       vb.customize ['modifyvm', :id, '--memory', '1024']
-      vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
+      vb.customize ['modifyvm', :id, '--ostype', 'Xenial_64']
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
       vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     end
