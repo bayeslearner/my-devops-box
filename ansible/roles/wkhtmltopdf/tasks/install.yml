@@ -18,4 +18,4 @@
 
 - name: print out version before finish
   debug: 
-    var: wkhtmltox_version
+    var: wkhtmltox_version.stdout
