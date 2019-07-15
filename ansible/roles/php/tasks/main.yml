@@ -85,16 +85,6 @@
     group: root
     mode: 0644
 
-# - name: PHP | removes apache2 directory if exists
-#   file:
-#     path: /etc/php/7.0/apache2/
-#     state: absent
-
-# - name: PHP | removes apache2 from sapi
-#   file:
-#     path: usr/lib/php/7.0/sapi/apache2
-#     state: absent
-
 - name: PECL | enable extensions using phpenmod
   shell: phpenmod {{ item }}
   loop: 
