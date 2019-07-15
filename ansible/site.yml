@@ -1,7 +1,9 @@
 ---
 - hosts: 
-    - web
-    - api
+  - web
+  - api
+  - worker
+  - consumer
 
   # Forks for rolling updates
   # https://docs.ansible.com/ansible/latest/user_guide/playbooks_delegation.html 
@@ -33,3 +35,5 @@
 
   roles:
     - php
+    - geerlingguy.nodejs
+    - wkhtmltopdf
