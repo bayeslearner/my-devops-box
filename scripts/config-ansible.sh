@@ -34,3 +34,6 @@ ssh_args = -o ForwardAgent=yes
 
 # refresh user permissions
 sudo chown -R vagrant:vagrant $HOME
+
+# test availability
+ansible all ping -m
