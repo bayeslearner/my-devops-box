@@ -5,6 +5,11 @@ Syntax checking before run
 ansible-playbook ansible/playbook.yml --syntax-check
 ```
 
+Syntax linting
+```bash
+ansible-lint ansible/playbook.yml
+```
+
 Run with extra vars 
 ```bash
 ansible-playbook playbook.yml --extra-vars "version=1.23.45 other_variable=foo"
