@@ -3,12 +3,14 @@
   apt:
     package: "{{ system_pkgs }}"
     state: present
+  tags: [ 'packages' ]
 
 - name: APT | download Cassandra C++ drivers
   get_url: 
     url: "{{ item }}"
     dest: "/tmp"
   with_items: "{{ cassandra_urls }}"
+  tags: [ 'packages' ]
 
 # updating libssl is required prior to install cassandra cpp drivers on Debian stretch 
 - include_tasks: libssl.yml
@@ -20,11 +22,13 @@
   apt:
     deb: "/tmp/{{ item }}"
   loop: "{{ cassandra_pkgs }}"
+  tags: [ 'packages' ]
 
 - name: PHP | install php packages and configure php.ini and opcache settings
   import_role:
     name: geerlingguy.php
-
+  tags: [ 'packages' ]
+  
 - name: PHP | configure freetds driver for pdo_dblib
   template: 
     src: freetds.ini.j2
@@ -35,16 +39,26 @@
   
 - name: PECL | update channel
   command: "pecl channel-update pecl.php.net"
+  register: pecl_update
+  changed_when: "'up to date' in pecl_update.stdout_lines"
+
+# - debug: "var=pecl_update"
 
 - name: PECL | install and enable propro, raph, http, oauth via script
   script: "files/scripts/php-http.sh"
   register: http_result
-  changed_when: "'successfully installed pecl_http' in http_result.stdout"
+  changed_when: "'successfully installed pecl_http' in http_result.stdout" # changed when script echo'ed the expected string
+  failed_when: http_result.rc == 1 # failed when script's return code is 1
+
+# - debug: "var=http_result"
 
 - name: PECL | install and enable librdkafka c++ driver and php rdkafka via script
   script: "files/scripts/php-rdkafka.sh {{ librdkafka_version }}"
   register: rdkafka_result
   changed_when: "'successfully installed rdkafka' in http_result.stdout"
+  failed_when: http_result.rc == 1 # failed when script's return code is 1
+
+# - debug: "var=rdkafka_result"
 
 - name: PECL | install extensions
   shell: "yes '' | pecl install {{ item }}"
@@ -95,3 +109,8 @@
   register: item
   changed_when: "item.stdout_lines == ''"
   failed_when: "item.stderr != ''"
+
+- name: PHP | install composer
+  import_role:
+    name: geerlingguy.composer
+  tags: [ 'packages' ]
