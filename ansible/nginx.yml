@@ -1,0 +1,11 @@
+---
+- hosts: 
+  - web
+  - api
+
+  become: true
+  gather_facts: true
+  debugger: on_failed
+
+  roles:
+    - nginx

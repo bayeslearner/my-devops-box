@@ -10,3 +10,4 @@
 - include: php.yml
 - include: wkhtmltopdf.yml
 - include: nodejs.yml
+- include: nginx.yml
