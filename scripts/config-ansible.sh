@@ -35,8 +35,9 @@ ssh_args = -o ForwardAgent=yes
 # refresh user permissions
 sudo chown -R vagrant:vagrant $HOME
 
-# fix shell scripts & test availability
+# fix shell scripts, download external roles and test availability
 pushd $HOME/ansible
 find . -type f -name '*.sh' | xargs sudo dos2unix
+ansible-galaxy install -r requirements.yml
 ansible all -m ping
 popd
