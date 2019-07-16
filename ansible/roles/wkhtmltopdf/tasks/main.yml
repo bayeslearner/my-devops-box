@@ -6,5 +6,5 @@
 
 # - debug: "var=wkhtmltopdf_bin"
 
-- include_tasks: ./install.yml
+- include_tasks: install.yml
   when: wkhtmltopdf_bin.stat.exists == false
