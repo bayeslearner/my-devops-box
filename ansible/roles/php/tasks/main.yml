@@ -1,9 +1,17 @@
 ---
-- name: APT | install system dependencies
+- name: APT | install freetds
   apt:
-    package: "{{ system_pkgs }}"
+    package: "{{ freetds_pkgs }}"
     state: present
   tags: [ 'packages' ]
+
+- name: APT | configure freetds driver for pdo_dblib
+  template: 
+    src: freetds.ini.j2
+    dest: /etc/freetds/freetds.conf
+    owner: root
+    group: root
+    mode: 0644
 
 - name: APT | download Cassandra C++ drivers
   get_url: 
@@ -29,14 +37,7 @@
     name: geerlingguy.php
   tags: [ 'packages' ]
   
-- name: PHP | configure freetds driver for pdo_dblib
-  template: 
-    src: freetds.ini.j2
-    dest: /etc/freetds/freetds.conf
-    owner: root
-    group: root
-    mode: 0644
-  
+
 - name: PECL | update channel
   command: "pecl channel-update pecl.php.net"
   register: pecl_update

@@ -1,2 +1,20 @@
 ---
-#
+common_apt_packages:
+  - software-properties-common
+  - build-essential
+  - dirmngr 
+  - apt-transport-https
+  - git 
+  - curl
+  - wget
+  - unzip
+  - net-tools 
+  - resolvconf
+  - htop
+  - dos2unix
+  - libpcre3-dev
+  - libcurl3-openssl-dev
+  - zlib1g 
+  - zlib1g-dev
+  - libgmp-dev
+  - libssl-dev

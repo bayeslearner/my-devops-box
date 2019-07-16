@@ -1,2 +1,6 @@
 ---
-# tasks file for roles/common
+- name: APT | install common packages for any host
+  apt:
+    package: "{{ common_apt_packages }}"
+    state: present
+  tags: [ 'packages' ]
