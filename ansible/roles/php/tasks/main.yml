@@ -28,24 +28,18 @@
     group: root
     mode: 0644
 
-- name: APT | download Cassandra C++ drivers
-  get_url: 
-    url: "{{ item }}"
-    dest: "/tmp"
-  with_items: "{{ cassandra_urls }}"
-  tags: [ 'packages' ]
+- name: APT | ensure cassandra c++ driver is not installed
+  find:
+    paths: /usr/lib/x86_64-linux-gnu/
+    patterns: '*cassandra*'
+  register: cassandra_cpp_result
 
-- name: APT | downgrade libssl-dev for debian/stretch hosts (required for cassandra-cpp-drivers)
-  include_tasks: install-libssl.yml
+- debug: "var=cassandra_cpp_result"
+
+- name: APT | install cassandra c++ driver if it is not found
+  include_tasks: install-cassandra-cpp.yml
   when:
-    - ansible_facts['distribution'] is match("Debian")
-    - ansible_facts['distribution_release'] is match("stretch")
-  tags: [ 'packages' ]
-
-- name: APT | install Cassandra C++ drivers
-  apt:
-    deb: "/tmp/{{ item }}"
-  loop: "{{ cassandra_pkgs }}"
+    - cassandra_cpp_result.matched < 1
   tags: [ 'packages' ]
 
 - name: PHP | install php packages and configure php.ini and opcache settings
