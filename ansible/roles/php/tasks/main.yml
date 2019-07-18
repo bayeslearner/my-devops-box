@@ -58,24 +58,6 @@
   register: pecl_update
   changed_when: "'up to date' in pecl_update.stdout_lines"
 
-# - debug: "var=pecl_update"
-
-# - name: PECL | install and enable propro, raph, http, oauth via script
-#   script: "files/scripts/php-http.sh"
-#   register: http_result
-#   changed_when: "'successfully installed pecl_http' in http_result.stdout" # changed when script echo'ed the expected string
-#   failed_when: http_result.rc == 1 # failed when script's return code is 1
-
-# - debug: "var=http_result"
-
-# - name: PECL | install and enable librdkafka c++ driver and php rdkafka via script
-#   script: "files/scripts/php-rdkafka.sh {{ librdkafka_version }}"
-#   register: rdkafka_result
-#   changed_when: "'successfully installed rdkafka' in http_result.stdout"
-#   failed_when: http_result.rc == 1 # failed when script's return code is 1
-
-# - debug: "var=rdkafka_result"
-
 - name: PECL | install extensions
   shell: "yes '' | pecl install {{ item }}"
   register: pecl_result
@@ -115,6 +97,6 @@
   changed_when: "item.stdout_lines == ''"
   failed_when: "item.stderr != ''"
 
-- name: PHP | install composer
+- name: PHP | install composer from external role
   import_role:
     name: geerlingguy.composer
