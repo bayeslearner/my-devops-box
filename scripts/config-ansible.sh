@@ -21,6 +21,7 @@ sudo chmod 600 $HOME/.ssh/$2
 echo "
 [defaults]
 remote_user = ansible
+remote_tmp = /tmp
 private_key_file = ~/.ssh/$2
 host_key_checking = False
 inventory = ~/ansible/inventory
