@@ -22,6 +22,13 @@ Run step by step (debug)
 ansible-playbook playbook.yml --step
 ```
 
+Step by step with increased verbosity 
+```bash
+# shows tasks' stdout lines during execution 
+# use -vv or -vvv for even more information
+ansible-playbook playbook.yml --step -v 
+```
+
 Limit execution by task tags
 ```bash
 # show tagged tasks, default is []
