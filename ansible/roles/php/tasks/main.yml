@@ -34,7 +34,7 @@
     patterns: '*cassandra*'
   register: cassandra_cpp_result
 
-- debug: "var=cassandra_cpp_result"
+# - debug: "var=cassandra_cpp_result"
 
 - name: APT | install cassandra c++ driver if it is not found
   include_tasks: install-cassandra-cpp.yml
