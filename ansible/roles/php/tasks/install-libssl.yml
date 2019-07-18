@@ -6,9 +6,7 @@
   get_url:
     url: "{{ libssl_url }}"
     dest: "/tmp"
-  tags: [ 'packages' ]
   
 - name: APT | install newer libssl for debian stretch
   apt:
     deb: "/tmp/{{ libssl_pkg }}"
-  tags: [ 'packages' ]
