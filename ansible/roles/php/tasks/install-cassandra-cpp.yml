@@ -4,17 +4,14 @@
     url: "{{ item }}"
     dest: "/tmp"
   with_items: "{{ cassandra_urls }}"
-  tags: [ 'packages' ]
 
 - name: APT | downgrade libssl-dev for debian/stretch hosts (required for cassandra-cpp-drivers)
   include_tasks: install-libssl.yml
   when:
     - ansible_facts['distribution'] is match("Debian")
     - ansible_facts['distribution_release'] is match("stretch")
-  tags: [ 'packages' ]
 
 - name: APT | install cassandra C++ driver
   apt:
     deb: "/tmp/{{ item }}"
   loop: "{{ cassandra_pkgs }}"
-  tags: [ 'packages' ]
