@@ -1,4 +1,11 @@
 ---
+- name: APT | install librdkafka if not found 
+  include_tasks: install-librdkafka.yml
+  when:
+    - "'web' not in group_names"
+    - "'librdkafka' is not search('/usr/local/lib')"
+  tags: [ 'packages' ]
+
 - name: APT | install freetds
   apt:
     package: "{{ freetds_pkgs }}"
@@ -20,11 +27,12 @@
   with_items: "{{ cassandra_urls }}"
   tags: [ 'packages' ]
 
-# updating libssl is required prior to install cassandra cpp drivers on Debian stretch 
-- include_tasks: libssl.yml
+- name: APT | downgrade libssl-dev for debian/stretch hosts (required for cassandra-cpp-drivers)
+  include_tasks: install-libssl.yml
   when:
     - ansible_facts['distribution'] is match("Debian")
     - ansible_facts['distribution_release'] is match("stretch")
+  tags: [ 'packages' ]
 
 - name: APT | install Cassandra C++ drivers
   apt:
@@ -37,7 +45,6 @@
     name: geerlingguy.php
   tags: [ 'packages' ]
   
-
 - name: PECL | update channel
   command: "pecl channel-update pecl.php.net"
   register: pecl_update
@@ -45,19 +52,19 @@
 
 # - debug: "var=pecl_update"
 
-- name: PECL | install and enable propro, raph, http, oauth via script
-  script: "files/scripts/php-http.sh"
-  register: http_result
-  changed_when: "'successfully installed pecl_http' in http_result.stdout" # changed when script echo'ed the expected string
-  failed_when: http_result.rc == 1 # failed when script's return code is 1
+# - name: PECL | install and enable propro, raph, http, oauth via script
+#   script: "files/scripts/php-http.sh"
+#   register: http_result
+#   changed_when: "'successfully installed pecl_http' in http_result.stdout" # changed when script echo'ed the expected string
+#   failed_when: http_result.rc == 1 # failed when script's return code is 1
 
 # - debug: "var=http_result"
 
-- name: PECL | install and enable librdkafka c++ driver and php rdkafka via script
-  script: "files/scripts/php-rdkafka.sh {{ librdkafka_version }}"
-  register: rdkafka_result
-  changed_when: "'successfully installed rdkafka' in http_result.stdout"
-  failed_when: http_result.rc == 1 # failed when script's return code is 1
+# - name: PECL | install and enable librdkafka c++ driver and php rdkafka via script
+#   script: "files/scripts/php-rdkafka.sh {{ librdkafka_version }}"
+#   register: rdkafka_result
+#   changed_when: "'successfully installed rdkafka' in http_result.stdout"
+#   failed_when: http_result.rc == 1 # failed when script's return code is 1
 
 # - debug: "var=rdkafka_result"
 
@@ -66,12 +73,7 @@
   register: pecl_result
   changed_when: pecl_result is succeeded
   failed_when: "not (('already installed' in pecl_result.stdout) or ('install ok:' in pecl_result.stdout))"
-  with_items:
-    - apcu
-    - apcu_bc
-    - xdebug
-    - oauth
-    - cassandra
+  with_items: "{{ php_pecl_extensions_install }}" # defined in group_vars 
 
 - name: PECL | copy extensions .ini files
   template: 
@@ -80,9 +82,7 @@
     owner: root
     group: root
     mode: 0644
-  with_items:
-    - oauth
-    - cassandra
+  with_items: "{{ php_pecl_extensions_files }}" # defined in group_vars 
 
 - name: PECL | override default configuration for xdebug
   template: 
@@ -102,11 +102,7 @@
 
 - name: PECL | enable extensions using phpenmod
   shell: phpenmod {{ item }}
-  loop: 
-    - apcu
-    - xdebug
-    - oauth
-    - cassandra
+  loop: "{{ php_pecl_extensions_enable }}" # defined in group_vars 
   register: item
   changed_when: "item.stdout_lines == ''"
   failed_when: "item.stderr != ''"
@@ -114,4 +110,3 @@
 - name: PHP | install composer
   import_role:
     name: geerlingguy.composer
-  tags: [ 'packages' ]
