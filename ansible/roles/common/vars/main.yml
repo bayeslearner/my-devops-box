@@ -2,6 +2,7 @@
 common_apt_packages:
   - software-properties-common
   - build-essential
+  - python-apt
   - dirmngr 
   - apt-transport-https
   - git 
