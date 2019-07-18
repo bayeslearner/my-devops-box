@@ -1,5 +1,4 @@
 ---
-# Necessary for debian stretch hosts
 libssl_url: http://security.ubuntu.com/ubuntu/pool/main/o/openssl/libssl-dev_1.0.2g-1ubuntu4.15_amd64.deb
 libssl_pkg: libssl-dev_1.0.2g-1ubuntu4.15_amd64.deb
 libssl_checksum: "sha256:eb04177a96f8b8b68d536d11771ff565263813c7fb29713e0847b100f0daa7a4"
