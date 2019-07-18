@@ -9,11 +9,11 @@ freetds_pkgs:
 
 # cassandra C++ drivers
 cassandra_urls:
-  - https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dependencies/libuv/v1.29.1/libuv1_1.29.1-1_amd64.deb
-  - https://downloads.datastax.com/cpp-driver/ubuntu/18.04/dependencies/libuv/v1.29.1/libuv1-dev_1.29.1-1_amd64.deb
-  - https://downloads.datastax.com/cpp-driver/ubuntu/18.04/cassandra/v2.13.0/cassandra-cpp-driver_2.13.0-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.29.1/libuv1_1.29.1-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.29.1/libuv1-dev_1.29.1-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.13.0/cassandra-cpp-driver_2.13.0-1_amd64.deb
   - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.13.0/cassandra-cpp-driver-dev_2.13.0-1_amd64.deb
-  - https://downloads.datastax.com/cpp-driver/ubuntu/18.04/cassandra/v2.13.0/cassandra-cpp-driver-dbg_2.13.0-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.13.0/cassandra-cpp-driver-dbg_2.13.0-1_amd64.deb
 
 # this list must be processed in this particular order to work correctly
 cassandra_pkgs:
