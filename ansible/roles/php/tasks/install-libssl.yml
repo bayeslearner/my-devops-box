@@ -15,10 +15,18 @@
     checksum: "{{ libssl_dev_checksum }}"
   register: libssl_dev
 
-- name: APT | install libssl1.0.0
+- name: APT | install libssl:1.0.0
   apt:
     deb: "{{ libssl.dest }}"
+    dpkg_options: '--force-downgrade'
 
-- name: APT | install libssl1.0.2g
+- name: APT | install libssl-dev:1.0.2g
+  shell: "dpkg -i {{ libssl_dev.dest }}"
+
+- name: APT | install libssl-dev:1.0.2g
   apt:
     deb: "{{ libssl_dev.dest }}"
+    dpkg_options: '--force-downgrade'
+
+# - name: install remaining dependencies (libssl:1.0.0)
+#   shell: apt-get install -f
