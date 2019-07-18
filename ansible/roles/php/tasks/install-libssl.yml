@@ -1,15 +1,24 @@
 ---
 - include_vars: libssl_vars.yml
-
-- name: APT | download libssl1.0.2g for debian stretch
+    
+- name: APT | download libssl:1.0.0
   get_url:
     url: "{{ libssl_url }}"
     dest: "/tmp"
     checksum: "{{ libssl_checksum }}"
-  
-- name: APT | install libssl1.0.2g for debian stretch
-  apt:
-    deb: "/tmp/{{ libssl_pkg }}"
+  register: libssl
 
-- name: APT | install remaining dependencies
-  shell: apt-get install -f
+- name: APT | download libssl-dev:1.0.2g
+  get_url:
+    url: "{{ libssl_dev_url }}"
+    dest: "/tmp"
+    checksum: "{{ libssl_dev_checksum }}"
+  register: libssl_dev
+
+- name: APT | install libssl1.0.0
+  apt:
+    deb: "{{ libssl.dest }}"
+
+- name: APT | install libssl1.0.2g
+  apt:
+    deb: "{{ libssl_dev.dest }}"
