@@ -1,0 +1,17 @@
+---
+php_pecl_extensions_install:
+  - apcu
+  - apcu_bc
+  - xdebug
+  - oauth
+  - cassandra
+
+php_pecl_extensions_files:
+  - oauth
+  - cassandra
+
+php_pecl_extensions_enable:
+  - apcu
+  - xdebug
+  - oauth
+  - cassandra
