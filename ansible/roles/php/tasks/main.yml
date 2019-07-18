@@ -1,9 +1,17 @@
 ---
-- name: APT | install librdkafka if not found 
+- name: APT | ensure librdkafka is not installed
+  find:
+    paths: /usr/local/lib
+    patterns: 'librdkafka*'
+  register: librdkafka_result
+
+# - debug: "var=librdkafka_result"
+
+- name: APT | install librdkafka if it is not found and host does not belong to group 'web'
   include_tasks: install-librdkafka.yml
   when:
     - "'web' not in group_names"
-    - "'librdkafka' is not search('/usr/local/lib')"
+    - librdkafka_result.matched < 1
   tags: [ 'packages' ]
 
 - name: APT | install freetds
