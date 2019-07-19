@@ -90,7 +90,3 @@
   register: item
   changed_when: "item.stdout_lines == ''"
   failed_when: "item.stderr != ''"
-
-- name: PHP | install composer from external role
-  import_role:
-    name: geerlingguy.composer
