@@ -1,0 +1,25 @@
+---
+common_pkgs:
+  - software-properties-common
+  - build-essential
+  - python-apt
+  - dirmngr 
+  - apt-transport-https
+  - git 
+  - curl
+  - wget
+  - unzip
+  - net-tools 
+  - resolvconf
+  - htop
+  - dos2unix
+  - libpcre3-dev
+  - libcurl3-openssl-dev
+  - zlib1g 
+  - zlib1g-dev
+  - libgmp-dev
+  - libssl-dev
+
+libssl_pkgs:
+  - libssl1.0.0=1.0.2g-1ubuntu4.15 
+  - libssl-dev=1.0.2g-1ubuntu4.15

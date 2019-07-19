@@ -34,7 +34,8 @@ Vagrant.configure("2") do |config|
 	confDir = File.expand_path(File.dirname(__FILE__))
 	glusterVolumes = confDir + '/config/gluster.conf'
 	glusterHosts = confDir + '/config/gluster.hosts'
-	ansible_privkey = File.expand_path("~/.ssh/ansible_id_rsa")
+	# ansible_privkey = "~/.ssh/ansible_id_rsa"
+	ansible_privkey = "~/.ssh/id_rsa"
 
 	# Loading environment variables to /etc/profile.d/vagrant_env.sh
 	as_str = vars.map { |k, str| ["export #{k}=#{str.gsub "$", "\$"}"] }.join("\n")
@@ -93,5 +94,5 @@ Vagrant.configure("2") do |config|
 			s.path = "scripts/gluster-cli.sh"
 		end
 	end
-	
+
 end

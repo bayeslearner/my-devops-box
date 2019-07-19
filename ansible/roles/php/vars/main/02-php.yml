@@ -1,41 +1,60 @@
 php_default_version_debian: "7.0"
+php_install_recommends: false
 php_enable_php_fpm: true
 php_enable_webserver: false
 php_webserver_daemon: "nginx"
 
+# php.ini settings
 php_display_errors: "On"
 php_expose_php: "On"
 php_memory_limit: "512M"
 php_max_execution_time: "60"
 php_max_input_time: "60"
 php_max_input_vars: "1000"
-php_realpath_cache_size: "32K"
+php_realpath_cache_size: "4096K"
 
 php_file_uploads: "On"
 php_max_file_uploads: "20"
 php_post_max_size: "32M"
 php_allow_url_fopen: "On"
 
-php_date_timezone: "Europe/Paris"
+php_date_timezone: "UTC"
 
+# apt packages
 php_packages:
   - php
   - php-dev
+  - php-common
   - php-cli
   - php-fpm
-  - php-common
   - php-gd
+  - php-gmp
   - php-xml
-  - php-zip
   - php-mbstring
+  - php-readline
+  - php-bcmath
+  - php-bz2
+  - php-mcrypt
+  - php-sqlite3
   - php-pdo
-  - php-apcu
   - php-opcache
   - php-json
+  - php-imap
   - php-curl
-  - php-xdebug
+  - php-intl
+  - php-zip
   - php-sybase
-  - php-oauth
   - php-mysql
   - php-pgsql
   - php-pear
+
+# OpCache settings
+php_opcache_zend_extension: "opcache.so"
+php_opcache_enable: "1"
+php_opcache_memory_consumption: "256"
+php_opcache_max_accelerated_files: "20000"
+php_opcache_validate_timestamps: "1"
+php_opcache_revalidate_freq: "60"
+
+# handled manually in code
+php_enable_apc: false

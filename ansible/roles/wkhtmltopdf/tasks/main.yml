@@ -1,0 +1,10 @@
+---
+- name: check for wkhtmltopdf on host
+  stat:
+    path: "{{ wkhtmltopdf_path }}"
+  register: wkhtmltopdf_bin
+
+# - debug: "var=wkhtmltopdf_bin"
+
+- include_tasks: install.yml
+  when: wkhtmltopdf_bin.stat.exists == false

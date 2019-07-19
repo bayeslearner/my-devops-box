@@ -1,0 +1,5 @@
+---
+- name: APT | install and configure Nginx
+  import_role:
+    name: geerlingguy.nginx
+  tags: [ 'packages' ]

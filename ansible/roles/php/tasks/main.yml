@@ -1,0 +1,92 @@
+---
+- name: APT | ensure librdkafka is not installed
+  find:
+    paths: /usr/local/lib
+    patterns: 'librdkafka*'
+  register: librdkafka_result
+
+# - debug: "var=librdkafka_result"
+
+- name: APT | install librdkafka if it is not found and host does not belong to group 'web'
+  include_tasks: install-librdkafka.yml
+  when:
+    - "'web' not in group_names"
+    - librdkafka_result.matched < 1
+  tags: [ 'packages' ]
+
+- name: APT | install freetds
+  apt:
+    package: "{{ freetds_pkgs }}"
+    state: present
+  tags: [ 'packages' ]
+
+- name: APT | configure freetds driver for pdo_dblib
+  template: 
+    src: freetds.ini.j2
+    dest: /etc/freetds/freetds.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: APT | ensure cassandra c++ driver is not installed
+  find:
+    paths: /usr/lib/x86_64-linux-gnu/
+    patterns: '*cassandra*'
+  register: cassandra_cpp_result
+
+# - debug: "var=cassandra_cpp_result"
+
+- name: APT | install cassandra c++ driver if it is not found
+  include_tasks: install-cassandra-cpp.yml
+  when:
+    - cassandra_cpp_result.matched < 1
+  tags: [ 'packages' ]
+
+- name: PHP | install php packages and configure php.ini and opcache settings
+  import_role:
+    name: geerlingguy.php
+  tags: [ 'packages' ]
+  
+- name: PECL | update channel
+  command: "pecl channel-update pecl.php.net"
+  register: pecl_update
+  changed_when: "'up to date' in pecl_update.stdout_lines"
+
+- name: PECL | install extensions
+  shell: "yes '' | pecl install {{ item }}"
+  register: pecl_result
+  changed_when: pecl_result is succeeded
+  failed_when: "not (('already installed' in pecl_result.stdout) or ('install ok:' in pecl_result.stdout))"
+  with_items: "{{ php_pecl_extensions_install }}" # defined in group_vars 
+
+- name: PECL | copy extensions .ini files
+  template: 
+    src: extension.ini.j2
+    dest: /etc/php/{{ php_default_version_debian }}/mods-available/{{ item }}.ini
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ php_pecl_extensions_files }}" # defined in group_vars 
+
+- name: PECL | override default configuration for xdebug
+  template: 
+    src: xdebug.ini.j2
+    dest: /etc/php/{{ php_default_version_debian }}/mods-available/xdebug.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: PECL | override default configuration for apc
+  template: 
+    src: apcu.ini.j2
+    dest: /etc/php/{{ php_default_version_debian }}/mods-available/apcu.ini
+    owner: root
+    group: root
+    mode: 0644
+
+- name: PECL | enable extensions using phpenmod
+  shell: phpenmod {{ item }}
+  loop: "{{ php_pecl_extensions_enable }}" # defined in group_vars 
+  register: item
+  changed_when: "item.stdout_lines == ''"
+  failed_when: "item.stderr != ''"

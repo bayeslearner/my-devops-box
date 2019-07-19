@@ -1,0 +1,31 @@
+---
+### variables related to apt packages ###
+
+# freetds for mssql connectivity
+freetds_pkgs:
+  - freetds-common
+  - freetds-bin
+  - freetds-dev
+
+libuv_urls:
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.29.1/libuv1_1.29.1-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/dependencies/libuv/v1.29.1/libuv1-dev_1.29.1-1_amd64.deb
+
+cassandra_urls:
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.13.0/cassandra-cpp-driver_2.13.0-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.13.0/cassandra-cpp-driver-dev_2.13.0-1_amd64.deb
+  - https://downloads.datastax.com/cpp-driver/ubuntu/16.04/cassandra/v2.13.0/cassandra-cpp-driver-dbg_2.13.0-1_amd64.deb
+
+# theses package lists must be processed in this particular order to work correctly (stable then dev)
+libuv_pkgs:
+  - libuv1_1.29.1-1_amd64.deb
+  - libuv1-dev_1.29.1-1_amd64.deb
+  
+cassandra_pkgs:
+  - cassandra-cpp-driver_2.13.0-1_amd64.deb
+  - cassandra-cpp-driver-dev_2.13.0-1_amd64.deb
+  - cassandra-cpp-driver-dbg_2.13.0-1_amd64.deb
+
+# building librdkafka from sources requires version and checksum for archive download
+librdkafka_version: "1.1.0"
+librdkafka_checksum: "sha256:123b47404c16bcde194b4bd1221c21fdce832ad12912bd8074f88f64b2b86f2b"
