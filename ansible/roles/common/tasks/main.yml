@@ -1,6 +1,13 @@
 ---
 - name: APT | install common packages for any host
   apt:
-    package: "{{ common_apt_packages }}"
+    package: "{{ common_pkgs }}"
     state: present
+  tags: [ 'packages' ]
+
+- name: APT | downgrade libssl-dev for debian/stretch hosts (required for cassandra-cpp-drivers)
+  include_tasks: install-libssl.yml
+  when:
+    - ansible_facts['distribution'] is match("Debian")
+    - ansible_facts['distribution_release'] is match("stretch")
   tags: [ 'packages' ]
