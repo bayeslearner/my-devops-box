@@ -59,3 +59,51 @@ php_opcache_revalidate_freq: "60"
 
 # handled manually in code
 php_enable_apc: false
+
+php_install_from_source: true
+php_source_version: "PHP-7.1.30"
+php_source_clone_dir: "~/php-src"
+php_source_clone_depth: 1
+php_source_install_path: "/opt/php"
+php_source_install_gmp_path: "/usr/include/x86_64-linux-gnu/gmp.h"
+php_source_make_command: "make -jN"
+php_source_configure_command: >
+  ./configure 
+    --prefix=/etc/php \
+    --with-config-file-path=/etc/php/7.1/fpm \
+    --enable-fpm \
+    --with-fpm-user=www-data \
+    --with-fpm-group=www-data \
+    --with-fpm-systemd \
+    --enable-opcache \
+    --enable-cli \
+    --enable-mbstring \
+    --enable-intl \
+    --enable-bcmath \
+    --enable-zip \
+    --enable-pdo \
+    --enable-sysvmsg \
+    --enable-sysvsem \
+    --enable-sysvshm \
+    --enable-wddx \
+    --enable-embedded-mysqli \
+    --enable-intl \
+    --enable-pcntl \
+    --with-curl \
+    --with-mcrypt \
+    --with-pear \
+    --with-pspell \
+    --with-openssl \
+    --with-xmlrpc \
+    --with-gd \
+    --with-xsl \
+    --with-mysqli \
+    --with-freetype-dir=/usr \
+    --with-jpeg-dir=/usr \
+    --with-png-dir=/usr \
+    --with-pdo-pgsql=usr \
+    --with-pdo-mysql=/usr \
+    --with-gettext=/usr \
+    --with-zlib=/usr \
+    --with-bz2=/usr \
+    --with-recode=/usr
