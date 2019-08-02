@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
     web.vm.provider 'virtualbox' do |vb|
       vb.gui = false
       vb.name = "web01"
-      vb.customize ['modifyvm', :id, '--cpus', '1']
+      vb.customize ['modifyvm', :id, '--cpus', '2']
       vb.customize ['modifyvm', :id, '--memory', '1024']
       vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
@@ -38,7 +38,7 @@ Vagrant.configure("2") do |config|
     api.vm.provider 'virtualbox' do |vb|
       vb.gui = false
       vb.name = "api01"
-      vb.customize ['modifyvm', :id, '--cpus', '1']
+      vb.customize ['modifyvm', :id, '--cpus', '2']
       vb.customize ['modifyvm', :id, '--memory', '1024']
       vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
@@ -54,7 +54,7 @@ Vagrant.configure("2") do |config|
     worker.vm.provider 'virtualbox' do |vb|
       vb.gui = false
       vb.name = "worker01"
-      vb.customize ['modifyvm', :id, '--cpus', '1']
+      vb.customize ['modifyvm', :id, '--cpus', '2']
       vb.customize ['modifyvm', :id, '--memory', '1024']
       vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
@@ -70,7 +70,7 @@ Vagrant.configure("2") do |config|
     consumer.vm.provider 'virtualbox' do |vb|
       vb.gui = false
       vb.name = "consumer01"
-      vb.customize ['modifyvm', :id, '--cpus', '1']
+      vb.customize ['modifyvm', :id, '--cpus', '2']
       vb.customize ['modifyvm', :id, '--memory', '1024']
       vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
       vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
