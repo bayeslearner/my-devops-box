@@ -9,3 +9,5 @@ php_extensions_files:
 php_extensions_enable:
   - cassandra
   - rdkafka
+
+php_default_version_debian: "7.3"

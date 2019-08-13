@@ -1,4 +1,4 @@
-php_default_version_debian: "7.3"
+# php_default_version_debian: "7.3" # defined in group_vars
 php_install_recommends: false
 php_enable_php_fpm: true
 php_enable_webserver: false
