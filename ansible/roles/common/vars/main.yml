@@ -2,6 +2,7 @@
 common_pkgs:
   - software-properties-common
   - build-essential
+  - multiarch-support
   - python-apt
   - dirmngr 
   - apt-transport-https
@@ -14,27 +15,10 @@ common_pkgs:
   - htop
   - dos2unix
   - autoconf 
-  - re2c 
-  - bison
-  - libpcre3-dev
-  - libcurl3-openssl-dev
+  - libgmp-dev
+  - cmake
   - zlib1g 
   - zlib1g-dev
-  - libgmp-dev
-  - libssl-dev
-  - libxml2-dev 
-  - libcurl4-openssl-dev
-  - libjpeg-dev
-  - libpng-dev 
-  - libxpm-dev 
-  - libmysqlclient-dev
-  - libpq-dev 
-  - libicu-dev 
-  - libfreetype6-dev
-  - libldap2-dev 
-  - libxslt-dev 
-  - libldb-dev
-  
 
 libssl_pkgs:
   - libssl1.0.0=1.0.2g-1ubuntu4.15 

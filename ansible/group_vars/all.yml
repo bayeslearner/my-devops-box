@@ -1,20 +1,11 @@
 ---
-php_pecl_extensions_install:
-  - apcu
-  - apcu_bc
-  - xdebug
-  - oauth
+php_pecl_extensions_install: 
+  - rdkafka
+
+php_extensions_files: 
   - cassandra
   - rdkafka
 
-php_pecl_extensions_files:
-  - oauth
-  - cassandra
-  - rdkafka
-
-php_pecl_extensions_enable:
-  - apcu
-  - xdebug
-  - oauth
+php_extensions_enable:
   - cassandra
   - rdkafka

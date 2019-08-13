@@ -1,17 +1,10 @@
 ---
-php_pecl_extensions_install:
-  - apcu
-  - apcu_bc
-  - xdebug
-  - oauth
+php_pecl_extensions_install: []
+
+php_extensions_files: 
   - cassandra
 
-php_pecl_extensions_files:
-  - oauth
+php_extensions_enable:
   - cassandra
 
-php_pecl_extensions_enable:
-  - apcu
-  - xdebug
-  - oauth
-  - cassandra
+php_default_version_debian: "7.0"

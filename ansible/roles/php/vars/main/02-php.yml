@@ -1,4 +1,4 @@
-php_default_version_debian: "7.0"
+php_default_version_debian: "7.3"
 php_install_recommends: false
 php_enable_php_fpm: true
 php_enable_webserver: false
@@ -34,7 +34,6 @@ php_packages:
   - php-readline
   - php-bcmath
   - php-bz2
-  - php-mcrypt
   - php-sqlite3
   - php-pdo
   - php-opcache
@@ -47,6 +46,9 @@ php_packages:
   - php-mysql
   - php-pgsql
   - php-pecl-http
+  - php-apcu-bc
+  - php-xdebug
+  - php-oauth
   - php-pear
 
 # OpCache settings
@@ -57,5 +59,7 @@ php_opcache_max_accelerated_files: "20000"
 php_opcache_validate_timestamps: "1"
 php_opcache_revalidate_freq: "60"
 
-# handled manually in code
-php_enable_apc: false
+# APCu settings
+php_enable_apc: true
+php_apc_shm_size: "96M"
+php_apc_enable_cli: "0"

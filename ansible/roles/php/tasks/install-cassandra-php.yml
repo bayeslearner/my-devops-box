@@ -1,0 +1,24 @@
+---
+- name: PHP | clone datastax/php-driver repository
+  git:
+    repo: https://github.com/datastax/php-driver.git
+    dest: /usr/src/php-driver
+
+- name: PHP | build cassandra php driver
+  become: true
+  shell: |
+    cd ext/
+    /usr/bin/phpize{{ php_default_version_debian }}
+    mkdir -p /usr/src/php-driver/build
+    cd /usr/src/php-driver/build
+    ../ext/configure --with-php-config=/usr/bin/php-config{{ php_default_version_debian }} > /dev/null
+    make clean >/dev/null
+    make >/dev/null 2>&1
+    make install
+  args:
+    chdir: /usr/src/php-driver
+
+- name: PHP | cleanup datastax/php-driver files
+  file:
+    path: /usr/src/php-driver
+    state: absent
