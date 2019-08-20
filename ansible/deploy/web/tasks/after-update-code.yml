@@ -1,0 +1,40 @@
+---
+- name: Upload parameters.yml
+  template:
+    src: "{{ playbook_dir }}/templates/parameters.yml"
+    dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
+
+- name: Create logs folder for symlinks
+  file:
+    path: "{{ release_logs_path }}"
+    state: directory
+
+- name: Install Composer dependencies
+  composer:
+    command: install
+    arguments: --classmap-authoritative
+    optimize_autoloader: yes
+    working_dir: "{{ ansistrano_release_path.stdout }}"
+
+- name: Clear the cache
+  command: php app/console cache:clear -e prod
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
+- name: Install Node dependencies
+  command: npm install
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
+- name: Compile assets
+  command: "npm run build -- --mode=production"
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+
+- name: Setup directory permissions for var/logs
+  become: true
+  file:
+    path: "{{ release_logs_path }}"
+    state: directory
+    mode: 0777
+    recurse: true

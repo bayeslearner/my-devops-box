@@ -1,0 +1,30 @@
+parameters:
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: ~
+    mailer_password: ~
+    mailer_port:       ~
+    mailer_from:       web-failure-dist@rg-systemes.com
+    mailer_to:         dev@rg-systemes.com
+    mailer_spool_path: C:\spool
+    secret: ThisTokenIsNotSoSecretChangeIt
+    api_base_url: https://api.rg-supervision.com/api/
+    api_key: 123456789
+    api_enable_ssl: false
+    api_timeout: 60
+    analytics_id: false
+    olark_id: ~
+    supported_locales: ['en', 'es_MX', 'fr', 'nl']
+    version: local
+    assets_version: v1337
+    gluster_mounts:
+        export: gluster/mount/point/export
+        billing: gluster/mount/point/billing
+    maintenance_routes: []
+    locale: en
+    cassandra_cluster.contact_points: [ 127.0.0.1 ]
+    cassandra_cluster.credentials.username: web
+    cassandra_cluster.credentials.password: web
+    zendesk_auth_key: 66YDaSSkXr1ilWHpviIXp4YJ2ZpOGGFfjdBJYI9TEh3ckhiG
+    zendesk_sub_domain: d3v-rgsystem
+    zendesk_help_mail: help@d3v-rgsystem.zendesk.com

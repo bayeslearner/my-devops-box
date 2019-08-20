@@ -1,1 +1,31 @@
-# production parameters
+# This file is auto-generated during the composer install
+parameters:
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    mailer_port: null
+    mailer_from: web-failure-dist@rg-systemes.com
+    mailer_to: dev@rg-systemes.com
+    mailer_spool_path: web/spool
+    secret: ThisTokenIsNotSoSecretChangeIt/p
+    api_base_url: 'http://192.168.1.20/api/'
+    # api_base_url: 'http://api.rg-supervision.local/api/'
+    api_key: d1070c5af394be069726ef44c05c00a752484a6b
+    api_enable_ssl: false
+    api_timeout: 60
+    analytics_id: UA-19209996-1
+    olark_id: 3441-204-10-4970
+    locale: en
+    supported_locales: [en, es_MX, fr, nl]
+    version: local
+    assets_version: v1337
+    maintenance_routes: {  }
+    gluster_mounts: { export: 'C:/Users/B.BOIVIN/Documents/github/rgsupv-dashboard/web/export', image: 'C:/Users/B.BOIVIN/Documents/github/rgsupv-dashboard/web/themes' }
+    cassandra_cluster.contact_points: [192.168.1.70, 192.168.1.71, 192.168.1.72]
+    cassandra_cluster.credentials.username: cassandra
+    cassandra_cluster.credentials.password: cassandra
+    zendesk_auth_key: 66YDaSSkXr1ilWHpviIXp4YJ2ZpOGGFfjdBJYI9TEh3ckhiG
+    zendesk_sub_domain: d3v-rgsystem
+    zendesk_help_mail: help@d3v-rgsystem.zendesk.com
+    project_root_path: /home/vagrant/rgsupv-dashboard
