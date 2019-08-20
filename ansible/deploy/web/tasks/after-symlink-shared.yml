@@ -1,0 +1,36 @@
+---
+- name: Set up infrastructure-related parameters
+  template:
+    src: '{{ playbook_dir }}/templates/parameters.yml.dist'
+    dest: '{{ ansistrano_release_path.stdout }}/app/config/parameters.yml'
+
+- name: Install Composer dependencies
+  composer:
+    command: install
+    arguments: --classmap-authoritative
+    optimize_autoloader: yes
+    working_dir: '{{ ansistrano_release_path.stdout }}'
+
+- name: Clear the cache
+  command: '{{ release_console_path }} cache:clear --no-warmup --env=prod'
+
+- name: Warm up the cache
+  command: '{{ release_console_path }} cache:warmup --env=prod'
+
+- name: Install Node dependencies
+  command: npm install
+  args:
+    chdir: '{{ ansistrano_release_path.stdout }}'
+
+- name: Compile assets
+  command: 'npm run build -- --mode=production'
+  args:
+    chdir: '{{ ansistrano_release_path.stdout }}'
+
+- name: Setup directory permissions for var/logs
+  become: true
+  file:
+    path: '{{ release_logs_path }}'
+    state: directory
+    mode: 0777
+    recurse: true
