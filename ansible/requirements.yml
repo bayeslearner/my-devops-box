@@ -1,6 +1,7 @@
 ---
 # install with the following command: 
 # ansible-galaxy install -r /home/vagrant/ansible/requirements.yml
+
 - src: geerlingguy.php
   version: 3.7.0
 
@@ -13,8 +14,8 @@
 - src: geerlingguy.nginx
   version: 2.7.0
 
-# - src: carlosbuenosvinos.ansistrano-deploy
-#   version: 3.2.0
+- src: ansistrano.deploy
+  version: 3.2.0
 
-# - src: carlosbuenosvinos.ansistrano-rollback
-#   version: 3.0.0
+- src: ansistrano.rollback
+  version: 3.0.0
