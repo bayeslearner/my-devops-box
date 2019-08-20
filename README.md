@@ -36,7 +36,7 @@ Ansible lab example
 ```bash
 vagrant up --provision-with common,file,ansible,ansible-post-install
 # Boot the inventory machines
-cd ansible-lab/
+cd lab-ansible/
 Vagrant up
 ```
 
