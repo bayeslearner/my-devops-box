@@ -18,4 +18,5 @@ cp /tmp/gluster.conf /etc/glusterfs/gluster.conf
 
 # append config to fstab is not already present
 grep -q "glusterfs" /etc/fstab || echo "/etc/glusterfs/gluster.conf  /mnt/gluster/    glusterfs   rw    0   0" | tee -a /etc/fstab
+
 mount -a
