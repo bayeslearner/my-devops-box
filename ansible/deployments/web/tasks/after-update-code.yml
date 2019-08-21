@@ -1,16 +1,16 @@
----
-- name: refresh perms
+---  
+- name: Upload parameters.yml
+  template:
+    src: "parameters.yml"
+    dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
+
+- name: Refresh permissions for all files
   file:
     path: /opt
     owner: web
     group: ansible
     mode: 0775
     recurse: true
-    
-- name: Upload parameters.yml
-  template:
-    src: "parameters.yml"
-    dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
 
 - name: Create logs folder for symlinks
   file:
