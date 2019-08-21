@@ -12,25 +12,21 @@
 - name: Install Composer dependencies
   composer:
     command: install
-    arguments: --classmap-authoritative
+    arguments: --classmap-authoritative --no-scripts
+    no_dev: yes
     optimize_autoloader: yes
     working_dir: "{{ ansistrano_release_path.stdout }}"
-
-- name: Clear the cache
-  command: php app/console cache:clear -e prod
-  args:
-    chdir: "{{ ansistrano_release_path.stdout }}"
-
+  
 - name: Install Node dependencies
-  command: npm install
-  args:
-    chdir: "{{ ansistrano_release_path.stdout }}"
+  npm:
+    production: true
+    path: "{{ ansistrano_release_path.stdout }}"
 
-- name: Compile assets
-  command: "npm run build -- --mode=production"
-  args:
-    chdir: "{{ ansistrano_release_path.stdout }}"
-
+- name: Compile assets for production
+  npm:
+    name: run build -- --mode=production
+    path: "{{ ansistrano_release_path.stdout }}"
+  
 - name: Setup directory permissions for var/logs
   become: true
   file:

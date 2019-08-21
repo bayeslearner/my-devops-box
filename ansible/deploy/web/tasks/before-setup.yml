@@ -3,3 +3,6 @@
   file:
     path: "{{ ansistrano_deploy_to }}"
     state: directory
+    owner: web
+    group: ansible
+    mode: 0775

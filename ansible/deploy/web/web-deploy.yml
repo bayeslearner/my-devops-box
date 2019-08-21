@@ -1,7 +1,10 @@
 ---
 - hosts: web
+  
+  become: yes
+  become_user: web
+
   serial: 1
-  become: true
   gather_facts: true
   debugger: on_failed
 

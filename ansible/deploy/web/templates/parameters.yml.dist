@@ -16,6 +16,12 @@ parameters:
     olark_id: ~
     supported_locales: ['en', 'es_MX', 'fr', 'nl']
     version: local
+    uservoice_widget_key: ZyFNqcD7ERlgU2F4iTW2A
+    uservoice_primary_color: null
+    uservoice_link_color: null
+    uservoice_sso_key: null
+    uservoice_domain: supervision
+    uservoice_forum_id: 260026
     assets_version: v1337
     gluster_mounts:
         export: gluster/mount/point/export
