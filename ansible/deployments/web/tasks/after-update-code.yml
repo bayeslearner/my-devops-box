@@ -11,8 +11,6 @@
   template:
     src: "parameters.yml"
     dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
-  notify: 
-    - refresh perms
 
 - name: Create logs folder for symlinks
   file:
