@@ -2,6 +2,7 @@
 - hosts: all
   become: true
   gather_facts: true
+  debugger: on_failed
 
   pre_tasks:
     - name: APT | update apt cache

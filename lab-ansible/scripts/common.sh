@@ -6,7 +6,13 @@ HOME=/home/ansible
 sudo useradd -p $(openssl passwd -1 ansible) --create-home -s /bin/bash ansible
 
 # add it to sudoers
-echo "ansible        ALL=(ALL)       NOPASSWD: ALL" | sudo tee -a /etc/sudoers
+echo "
+Defaults:ansible  !requiretty
+ansible   ALL=(ALL)   NOPASSWD: ALL
+" | sudo tee /etc/sudoers.d/ansible
+
+# validate
+sudo visudo -cf /etc/sudoers.d/ansible 
 
 # set ssh keys
 sudo mkdir $HOME/.ssh/

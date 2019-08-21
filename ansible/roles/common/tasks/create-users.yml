@@ -1,0 +1,46 @@
+- name: Ensure a dedicated user named as the host's group exists
+  user:
+    name: "{{ item }}"
+    group: "ansible"
+    state: present
+    shell: /bin/bash
+    home: /opt
+    password: "{{ item | password_hash('sha512') }}" # todo: use encrypted vault ansible variable instead
+    update_password: always
+  with_items:
+    - web 
+    - api
+    - worker
+    - consumer
+  when: "item in group_names"
+  tags: ['users']
+
+- name: Add each created user is added to sudoers
+  lineinfile:
+    path: /etc/sudoers.d/{{ item }}
+    line: "{{ item }} ALL=(ALL) NOPASSWD: ALL"
+    state: present
+    mode: 0440
+    create: yes
+    validate: "visudo -cf %s"
+  with_items:
+    - web 
+    - api
+    - worker
+    - consumer
+  when: "item in group_names"
+  tags: ['users']
+
+- name: Ensure /opt directory has correct ownership and permissions
+  file: 
+    path: /opt
+    owner: "{{ item }}"
+    group: ansible
+    mode: 0775
+  with_items: 
+    - web
+    - api
+    - worker
+    - consumer
+  when: "item in group_names"
+  tags: ['users']
