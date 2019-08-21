@@ -1,4 +1,4 @@
 ---
 - name: ANSISTRANO | Deploy rgsupv-dashboard
   include_role:
-   name: ansistrano.deploy
+    name: ansistrano.deploy

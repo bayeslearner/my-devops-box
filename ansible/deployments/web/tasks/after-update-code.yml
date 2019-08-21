@@ -1,4 +1,12 @@
 ---
+- name: refresh perms
+  file:
+    path: /opt
+    owner: web
+    group: ansible
+    mode: 0775
+    recurse: true
+    
 - name: Upload parameters.yml
   template:
     src: "parameters.yml"
@@ -14,24 +22,29 @@
 - name: Install Composer dependencies
   composer:
     command: install
-    arguments: --classmap-authoritative --no-scripts
+    arguments: --classmap-authoritative
     no_dev: yes
     optimize_autoloader: yes
     working_dir: "{{ ansistrano_release_path.stdout }}"
-  become: web
+  become_user: web
 
 - name: Install Node dependencies
   npm:
     production: true
     path: "{{ ansistrano_release_path.stdout }}"
-  become: web
+  become_user: web
 
 - name: Compile assets for production
   npm:
     name: run build -- --mode=production
     path: "{{ ansistrano_release_path.stdout }}"
-  become: web
-    
+  become_user: web
+
+# - name: Compile assets for production (alternative)
+#   shell: npm run build -- --mode=production
+#   args:
+#     chdir: "{{ ansistrano_release_path.stdout }}"
+  
 - name: Setup directory permissions for var/logs
   become: true
   file:

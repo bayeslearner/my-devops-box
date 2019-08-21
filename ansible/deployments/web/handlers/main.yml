@@ -1,9 +1,10 @@
 ---
-- name: Refresh user permissions on /opt
-  file:
-    path: /opt
-    owner: web
-    group: ansible
-    mode: 0775
-    recurse: true
-  listen: refresh perms
+- name: restart nginx
+  service: 
+    name: nginx
+    state: restarted
+
+- name: restart php-fpm
+  service: 
+    name: php7.0-fpm
+    state: restarted
