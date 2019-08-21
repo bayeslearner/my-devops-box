@@ -12,5 +12,8 @@
       default: master
       private: no
 
+  environment:
+    SYMFONY_ENV: prod # required for AppKernel::registerBundles()
+
   roles:
     - web

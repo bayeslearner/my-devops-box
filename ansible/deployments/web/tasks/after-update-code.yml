@@ -4,6 +4,11 @@
     src: "parameters.yml"
     dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
 
+- name: Create logs folder for symlinks
+  file:
+    path: "{{ release_logs_path }}"
+    state: directory
+
 - name: Refresh permissions for all files
   file:
     path: /opt
@@ -12,19 +17,15 @@
     mode: 0775
     recurse: true
 
-- name: Create logs folder for symlinks
-  file:
-    path: "{{ release_logs_path }}"
-    state: directory
-
 - name: Install Composer dependencies
   composer:
     command: install
     arguments: --classmap-authoritative
-    no_dev: yes
+    no_dev: no # Should be turned to yes after 3.4 upgrade
     optimize_autoloader: yes
     working_dir: "{{ ansistrano_release_path.stdout }}"
   become_user: web
+  ignore_errors: yes # 
 
 - name: Install Node dependencies
   npm:
