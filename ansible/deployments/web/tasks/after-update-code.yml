@@ -1,8 +1,10 @@
 ---
 - name: Upload parameters.yml
   template:
-    src: "{{ playbook_dir }}/templates/parameters.yml"
+    src: "parameters.yml"
     dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
+  notify: 
+    - refresh perms
 
 - name: Create logs folder for symlinks
   file:
@@ -16,17 +18,20 @@
     no_dev: yes
     optimize_autoloader: yes
     working_dir: "{{ ansistrano_release_path.stdout }}"
-  
+  become: web
+
 - name: Install Node dependencies
   npm:
     production: true
     path: "{{ ansistrano_release_path.stdout }}"
+  become: web
 
 - name: Compile assets for production
   npm:
     name: run build -- --mode=production
     path: "{{ ansistrano_release_path.stdout }}"
-  
+  become: web
+    
 - name: Setup directory permissions for var/logs
   become: true
   file:
