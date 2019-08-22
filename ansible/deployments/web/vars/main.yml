@@ -19,6 +19,7 @@ ansistrano_keep_releases: 2 # Releases to keep after a new deployment. See "Prun
 # By default the shared paths directories and base directories for shared files are created automatically if not exists. But in some scenarios those paths could be symlinks to another directories in the filesystem, and the deployment process would fails. With these variables you can disable the involved tasks. If you have two or three shared paths, and don't need creation only for some of them, you always could disable the automatic creation and add a custom task in a hook.
 ansistrano_ensure_shared_paths_exist: yes
 ansistrano_ensure_basedirs_shared_files_exist: yes
+ansistrano_allow_anonymous_stats: no
 
 # Arrays of directories and files to be shared.
 # The following arrays of directories and files will be symlinked to the current release directory after the 'update-code' step and its callbacks
@@ -34,7 +35,7 @@ ansistrano_ensure_basedirs_shared_files_exist: yes
 #   - my-file.txt
 #   - path/to/file.txt
 ansistrano_shared_paths:
-  - var/logs
+  - app/logs
 
 # Deployment strategy
 ansistrano_deploy_via: git # Method used to deliver the code to the server. Options are copy, rsync, git, svn, s3 or download
