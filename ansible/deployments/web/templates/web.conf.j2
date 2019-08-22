@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 # Created at {{ ansible_date_time.date }} - {{ ansible_date_time.time }}
-
 # Nginx vhost configuration with production settings for rgsupv-dashboard
+
 server {
     listen 80 default_server;
     server_name {{ nginx_name | default('dashboard.rg-supervision.com') }};
@@ -36,7 +36,6 @@ server {
 
         location ~ ^/app\.php(/|$) {
             fastcgi_pass unix:/var/run/php/php{{ php_default_version_debian }}-fpm.sock; # defined in group_vars
-            fastcgi_pass 127.0.0.1:9000;
             fastcgi_split_path_info ^(.+\.php)(/.*)$;
             fastcgi_buffer_size 16k;
             fastcgi_buffers 4 16k;
@@ -68,7 +67,7 @@ server {
     location /rg-themes/ {
         root /mnt/gluster/branding/rgsupv-brandings;
         location ~ \.php(/|$) {
-            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_pass unix:/var/run/php/php{{ php_default_version_debian }}-fpm.sock; # defined in group_vars
             fastcgi_split_path_info ^(.+\.php)(/.*)$;
             include fastcgi_params;
             fastcgi_param SCRIPT_FILENAME $request_filename;

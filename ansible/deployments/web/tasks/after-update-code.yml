@@ -26,7 +26,7 @@
     working_dir: "{{ ansistrano_release_path.stdout }}"
   become_user: web
 
-- name: Install Node dependencies
+- name: Install Npm dependencies
   npm:
     production: true
     path: "{{ ansistrano_release_path.stdout }}"
@@ -38,6 +38,20 @@
     chdir: "{{ ansistrano_release_path.stdout }}"
   become_user: web
 
-# copy nginx vhost pointing on releases/current dir
-# restart nginx (handlers)
-# restart php-fpm (handlers)
+- name: Copy Nginx vhost configuration file
+  template: 
+    src: web.conf.j2
+    dest: /etc/nginx/sites-available/web.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart nginx
+
+- name: Activate vhost with symlink
+  file: 
+    src: /etc/nginx/sites-available/web.conf
+    dest: /etc/nginx/sites-enabled/web.conf
+    state: link
+  notify: 
+    - restart nginx
+    - restart php-fpm
