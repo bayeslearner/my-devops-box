@@ -7,7 +7,7 @@
 
 - name: Ensure gluster mount point exists
   file:
-    path: "{{ gluster_mount_dir }}"
+    path: /mnt/gluster
     state: directory
   tags: ['storage']
 
@@ -23,7 +23,7 @@
 - name: Add mount point to fstab
   mount:
     src: /etc/glusterfs/gluster.conf
-    name: "{{ gluster_mount_dir }}"
+    name: /mnt/gluster
     fstype: glusterfs
     state: mounted
   tags: ['storage']
