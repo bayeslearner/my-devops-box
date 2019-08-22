@@ -5,6 +5,9 @@ HOME=/home/ansible
 # create ansible user
 sudo useradd -p $(openssl passwd -1 ansible) --create-home -s /bin/bash ansible
 
+# add ansible user to ansible group
+sudo usermod -a -G ansible ansible
+
 # add it to sudoers
 echo "
 Defaults:ansible  !requiretty
