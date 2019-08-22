@@ -21,11 +21,10 @@
   composer:
     command: install
     arguments: --classmap-authoritative
-    no_dev: no # Should be turned to yes after 3.4 upgrade
+    no_dev: yes
     optimize_autoloader: yes
     working_dir: "{{ ansistrano_release_path.stdout }}"
   become_user: web
-  ignore_errors: yes # 
 
 - name: Install Node dependencies
   npm:
@@ -33,21 +32,12 @@
     path: "{{ ansistrano_release_path.stdout }}"
   become_user: web
 
-- name: Compile assets for production
-  npm:
-    name: run build -- --mode=production
-    path: "{{ ansistrano_release_path.stdout }}"
+- name: Compile assets for production (shell module version)
+  shell: npm run build -- --mode=production
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
   become_user: web
 
-# - name: Compile assets for production (alternative)
-#   shell: npm run build -- --mode=production
-#   args:
-#     chdir: "{{ ansistrano_release_path.stdout }}"
-  
-- name: Setup directory permissions for var/logs
-  become: true
-  file:
-    path: "{{ release_logs_path }}"
-    state: directory
-    mode: 0777
-    recurse: true
+# copy nginx vhost pointing on releases/current dir
+# restart nginx (handlers)
+# restart php-fpm (handlers)
