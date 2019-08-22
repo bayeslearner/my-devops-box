@@ -1,0 +1,14 @@
+---
+- name: Install glusterfs client
+  apt:
+    name:
+      - glusterfs-client
+      - attr
+
+- name: Mount volume(s)
+  include: mount-volumes.yml
+  when: glusterfs_volumes
+
+- name: Unmount volume(s)
+  include: unmount-volumes.yml
+  when: glusterfs_volumes

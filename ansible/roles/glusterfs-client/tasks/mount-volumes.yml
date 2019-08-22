@@ -1,0 +1,50 @@
+---
+- name: Remove old mount point from fstab in case of change
+  lineinfile:
+    dest: /etc/fstab
+    regexp: "^{{ item.nodes[0] + ':/' + item.volume }} (?!.*{{ item.mount.path }} ).*"
+    state: absent
+  register: regex_fstab
+  with_items: "{{ glusterfs_volumes }}"
+  when: glusterfs_auto_remount
+
+- name: Unmount old mount point in case of change
+  command: umount "{{ item.0.nodes[0] + ':/' + item.0.volume }}"
+  when: >
+    'line(s) removed' in item.1.msg and glusterfs_auto_remount
+  with_together:
+    - "{{ glusterfs_volumes }}"
+    - "{{ regex_fstab.results }}"
+
+- name: Ensure mount paths presence
+  file:
+    path: "{{ item.mount.path }}"
+    state: directory
+  with_items: "{{ glusterfs_volumes }}"
+  when: >
+    item.mount is defined and
+    (item.state is not defined or item.state == "present")
+
+- name: Mount volume(s)
+  mount:
+    name: "{{ item.mount.path }}"
+    src: "{{ item.nodes[0] + ':/' + item.volume }}"
+    fstype: glusterfs
+    opts: "{%- if item.mount.options is defined -%}{{ item.mount.options }}{%- else -%}{%- if item.nodes | length > 1 -%}{{ 'defaults,_netdev,backupvolfile-server=' + item.nodes[1] }}{%- else -%}defaults,_netdev{%- endif -%}{%- endif -%}"
+    state: mounted
+  with_items: "{{ glusterfs_volumes }}"
+  when: >
+    item.mount is defined and
+    (item.state is not defined or item.state == "present")
+    
+- name: Ensure mount paths permissions
+  file:
+    path: "{{ item.mount.path }}"
+    state: directory
+    owner: "{{ item.mount.owner | default ('root') }}"
+    group: "{{ item.mount.group | default ('root') }}"
+    mode: "{{ item.mount.mode | default ('0755') }}"
+  with_items: "{{ glusterfs_volumes }}"
+  when: >
+    item.mount is defined and
+    (item.state is not defined or item.state == "present")

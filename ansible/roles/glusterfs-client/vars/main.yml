@@ -1,0 +1,15 @@
+glusterfs_auto_remount: true
+glusterfs_nodes:
+  - 192.168.1.110
+  - 192.168.1.111
+
+glusterfs_volumes:
+  - volume: /opt/gluster/scripts
+    state: present
+    nodes: "{{ glusterfs_nodes }}"
+    mount:
+      path: /mnt/gluster
+      owner: ansible
+      group: ansible
+      mode: 0775
+      options: defaults,_netdev

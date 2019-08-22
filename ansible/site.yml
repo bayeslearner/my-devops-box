@@ -31,3 +31,4 @@
 - import_playbook: wkhtmltopdf.yml
 - import_playbook: nodejs.yml
 - import_playbook: nginx.yml
+- import_playbook: glusterfs-client.yml
