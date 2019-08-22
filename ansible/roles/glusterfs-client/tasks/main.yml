@@ -6,6 +6,58 @@
       - attr
   tags: ['packages']
 
-- name: Mount volumes
-  include_tasks: mount-volumes.yml
+- name: Ensure gluster configuration directory exists
+  file:
+    path: "{{ gluster_conf_dir }}"
+    state: directory
+  tags: ['storage']
+
+- name: Ensure gluster mount point exists
+  file:
+    path: /mnt/gluster
+    state: directory
+  tags: ['storage']
+
+- name: Remove old mount point from fstab in case of change
+  lineinfile:
+    dest: /etc/fstab
+    regexp: "^/etc/glusterfs/*"
+    state: absent
+  register: fstab_removal
+  tags: ['storage']
+
+# - debug: "var=fstab_removal"
+
+- name: Copy scripts volume configuration file over the VM
+  template:
+    src: scripts.vol.j2
+    dest: "{{ gluster_conf_dir }}/scripts.vol"
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['storage']
+
+- name: Mount scripts volume to fstab
+  mount:
+    src: "{{ gluster_conf_dir }}/scripts.vol"
+    name: /mnt/gluster/scripts
+    fstype: glusterfs
+    state: mounted
+  tags: ['storage']
+
+- name: Copy SSL volume configuration file over the VM
+  template:
+    src: scripts.vol.j2
+    dest: "{{ gluster_conf_dir }}/ssl.vol"
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['storage']
+
+- name: Mount SSL volume to fstab
+  mount:
+    src: "{{ gluster_conf_dir }}/ssl.vol"
+    name: /mnt/gluster/ssl
+    fstype: glusterfs
+    state: mounted
   tags: ['storage']
