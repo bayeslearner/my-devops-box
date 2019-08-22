@@ -28,7 +28,7 @@
 
 # - debug: "var=fstab_removal"
 
-- name: Copy SSL volume configuration file over the VM
+- name: Copy volumes configuration files over the VM
   template:
     src: item.vol.j2
     dest: "{{ gluster_conf_dir }}/{{ item }}.vol"
