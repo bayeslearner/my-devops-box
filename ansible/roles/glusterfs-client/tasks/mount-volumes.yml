@@ -3,4 +3,6 @@
   lineinfile:
     dest: /etc/fstab
     state: present
-    line: "/etc/glusterfs/gluster.conf  /mnt/gluster/    glusterfs   rw    0   0"
+    line: '/etc/glusterfs/gluster.conf  /mnt/gluster/    glusterfs   rw    0   0'
+    regexp: '^%glusterfs'
+  tags: ['storage']

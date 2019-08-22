@@ -4,7 +4,9 @@
     name:
       - glusterfs-client
       - attr
+  tags: ['packages']
 
 - name: Mount volumes
   include_tasks:
     - mount-volumes.yml
+  tags: ['storage']
