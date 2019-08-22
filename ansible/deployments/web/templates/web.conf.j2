@@ -79,14 +79,12 @@ server {
         deny all;
     }
 
-    # SSL
-    ssl_certificate /mnt/gluster/ssl/dashboard.rg-supervision.com/fullchain.pem;
-    ssl_certificate_key /mnt/gluster/ssl/dashboard.rg-supervision.com/privkey.pem;
-
-    # OCSP
+    # SSL 
     ssl_stapling on;
     ssl_stapling_verify on;
-    ssl_trusted_certificate /mnt/gluster/ssl/dashboard.rg-supervision.com/chain.pem;
+    ssl_certificate /mnt/gluster/ssl/{{ nginx_name | default('dashboard.rg-supervision.com') }}/fullchain.pem;
+    ssl_certificate_key /mnt/gluster/ssl/{{ nginx_name | default('dashboard.rg-supervision.com') }}/privkey.pem;
+    ssl_trusted_certificate /mnt/gluster/ssl/{{ nginx_name | default('dashboard.rg-supervision.com') }}/chain.pem;
 
     # Gzip
     location ~/\.(?:gif|jpe?g|png)$ {
