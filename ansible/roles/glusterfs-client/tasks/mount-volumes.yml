@@ -11,18 +11,35 @@
     state: directory
   tags: ['storage']
 
-- name: Copy configuration over the VM
+- name: Copy scripts volume configuration file over the VM
   template:
-    src: gluster.conf.j2
-    dest: "{{ gluster_conf_dir }}/gluster.conf"
+    src: scripts.vol.j2
+    dest: "{{ gluster_conf_dir }}/scripts.vol"
     owner: root
     group: root
     mode: 0644
   tags: ['storage']
 
-- name: Add mount point to fstab
+- name: Mount scripts volume to fstab
   mount:
-    src: /etc/glusterfs/gluster.conf
+    src: "{{ gluster_conf_dir }}/gluster.conf"
+    name: /mnt/gluster
+    fstype: glusterfs
+    state: mounted
+  tags: ['storage']
+
+- name: Copy SSL volume configuration file over the VM
+  template:
+    src: scripts.vol.j2
+    dest: "{{ gluster_conf_dir }}/scripts.vol"
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['storage']
+
+- name: Mount SSL volume to fstab
+  mount:
+    src: "{{ gluster_conf_dir }}/ssl.vol"
     name: /mnt/gluster
     fstype: glusterfs
     state: mounted

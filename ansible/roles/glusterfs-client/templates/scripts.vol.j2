@@ -1,0 +1,36 @@
+# {{ ansible_managed }}
+# Created at {{ ansible_date_time.date }} - {{ ansible_date_time.time }}
+
+# Scripts
+volume scripts1
+    type protocol/client
+    option transport-type tcp
+    option remote-host {{ gluster_node_ip_1 }}
+    option remote-subvolume /opt/gluster/scripts
+    option ping-timeout 5
+end-volume
+
+volume scripts2
+    type protocol/client
+    option transport-type tcp
+    option remote-host {{ gluster_node_ip_2 }}
+    option remote-subvolume /opt/gluster/scripts
+    option ping-timeout 5
+end-volume
+
+volume replicate
+    type cluster/replicate
+    subvolumes scripts1 scripts2
+end-volume
+
+volume writebehind
+    type performance/write-behind
+    option window-size 1MB
+    subvolumes replicate
+end-volume
+
+volume cache
+    type performance/io-cache
+    option cache-size 512MB
+    subvolumes writebehind
+end-volume

@@ -1,24 +1,26 @@
 # {{ ansible_managed }}
 # Created at {{ ansible_date_time.date }} - {{ ansible_date_time.time }}
-volume scripts1
+
+# SSL
+volume ssl1
     type protocol/client
     option transport-type tcp
     option remote-host {{ gluster_node_ip_1 }}
-    option remote-subvolume /opt/gluster/scripts
+    option remote-subvolume /opt/gluster/ssl
     option ping-timeout 5
 end-volume
 
-volume scripts2
+volume ssl2
     type protocol/client
     option transport-type tcp
     option remote-host {{ gluster_node_ip_2 }}
-    option remote-subvolume /opt/gluster/scripts
+    option remote-subvolume /opt/gluster/ssl
     option ping-timeout 5
 end-volume
 
 volume replicate
     type cluster/replicate
-    subvolumes scripts1 scripts2
+    subvolumes ssl1 ssl2
 end-volume
 
 volume writebehind
