@@ -1,2 +1,5 @@
+gluster_conf_dir: /etc/glusterfs
+gluster_mount_dir: /mnt/gluster
+
 gluster_node_ip_1: 192.168.1.110
 gluster_node_ip_2: 192.168.1.111

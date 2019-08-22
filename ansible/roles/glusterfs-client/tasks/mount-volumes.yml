@@ -1,8 +1,29 @@
 ---
+- name: Ensure gluster configuration directory exists
+  file:
+    path: "{{ gluster_conf_dir }}"
+    state: directory
+  tags: ['storage']
+
+- name: Ensure gluster mount point exists
+  file:
+    path: "{{ gluster_mount_dir }}"
+    state: directory
+  tags: ['storage']
+
+- name: Copy configuration over the VM
+  template:
+    src: gluster.conf.j2
+    dest: "{{ gluster_conf_dir }}/gluster.conf"
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['storage']
+
 - name: Add mount point to fstab
-  lineinfile:
-    dest: /etc/fstab
-    state: present
-    line: '/etc/glusterfs/gluster.conf  /mnt/gluster/    glusterfs   rw    0   0'
-    regexp: '^%glusterfs'
+  mount:
+    src: /etc/glusterfs/gluster.conf
+    name: "{{ gluster_mount_dir }}"
+    fstype: glusterfs
+    state: mounted
   tags: ['storage']
