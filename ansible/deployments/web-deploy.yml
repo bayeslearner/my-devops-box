@@ -12,8 +12,10 @@
       default: master
       private: no
 
+  # allows composer install with --no-dev argument
+  # required for AppKernel::registerBundles()
   environment:
-    SYMFONY_ENV: prod # required for AppKernel::registerBundles()
+    SYMFONY_ENV: prod 
 
   roles:
     - web
