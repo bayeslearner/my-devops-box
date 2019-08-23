@@ -12,7 +12,9 @@
       default: master
       private: no
 
-  # environment: ~
+  # allows composer install with --no-dev argument
+  # environment:
+  #   SYMFONY_ENV: prod 
 
   roles:
     - api
