@@ -27,6 +27,7 @@ host_key_checking = False
 inventory = ~/ansible/inventory
 interpreter_python = /usr/bin/python
 callback_whitelist = profile_tasks, timer
+ansible_managed = Ansible managed: {file} modified on %Y-%m-%d %H:%M:%S by {uid} on {host}. Any changes might be lost.
 
 [ssh_connection]
 pipelining = True
