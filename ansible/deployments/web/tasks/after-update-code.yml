@@ -1,7 +1,7 @@
 ---  
 - name: Upload parameters.yml
   copy:
-    src: "parameters.yml"
+    src: parameters.yml
     dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
 
 - name: Create logs folder for symlinks
