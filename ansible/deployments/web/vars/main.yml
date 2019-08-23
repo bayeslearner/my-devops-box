@@ -50,3 +50,6 @@ nginx_template_path: web.conf.j2
 nginx_root: "{{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/web"
 nginx_name: dashboard-beta.rg-supervision.com
 nginx_well_known_ip: 192.168.200.30
+nginx_ssl_certificate_path: /mnt/gluster/ssl/{{ nginx_name }}/fullchain.pem;
+nginx_ssl_certificate_key_path: /mnt/gluster/ssl/{{ nginx_name }}/privkey.pem;
+nginx_ssl_trusted_certificate_path: /mnt/gluster/ssl/{{ nginx_name }}/chain.pem;

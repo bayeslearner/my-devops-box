@@ -53,9 +53,6 @@ server {
     access_log /var/log/nginx/api-ssl-access.log combined_ssl;
 
     # SSL 
-    ssl_stapling on;
-    ssl_stapling_verify on;
-    ssl_certificate /mnt/gluster/ssl/{{ nginx_name | default('api.rg-supervision.com') }}/fullchain.pem;
-    ssl_certificate_key /mnt/gluster/ssl/{{ nginx_name | default('api.rg-supervision.com') }}/privkey.pem;
-    ssl_trusted_certificate /mnt/gluster/ssl/{{ nginx_name | default('api.rg-supervision.com') }}/chain.pem;
+    ssl_certificate {{ nginx_ssl_certificate_path }};
+    ssl_certificate_key {{ nginx_ssl_certificate_key_path }};
 }
