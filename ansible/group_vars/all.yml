@@ -11,3 +11,30 @@ php_extensions_enable:
   - rdkafka
 
 php_default_version_debian: "7.3"
+
+php_packages: 
+  - php
+  - php-dev
+  - php-pear
+  - php-common
+  - php-cli
+  - php-xdebug
+  - php-fpm
+  - php-gd
+  - php-gmp
+  - php-xml
+  - php-mbstring
+  - php-readline
+  - php-bcmath
+  - php-bz2
+  - php-sqlite3
+  - php-pdo
+  - php-opcache
+  - php-json
+  - php-imap
+  - php-curl
+  - php-intl
+  - php-zip
+  - php-sybase
+  - php-mysql
+  - php-pgsql

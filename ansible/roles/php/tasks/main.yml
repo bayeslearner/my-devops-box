@@ -19,6 +19,8 @@
   apt:
     package: "{{ freetds_pkgs }}"
     state: present
+  when:
+    - "'web' not in group_names"
   tags: [ 'packages' ]
 
 - name: APT | configure freetds driver for pdo_dblib
@@ -28,6 +30,8 @@
     owner: root
     group: root
     mode: 0644
+  when:
+    - "'web' not in group_names"
   tags: [ 'packages' ]
 
 - name: APT | ensure cassandra c++ driver is not installed
@@ -100,10 +104,28 @@
     mode: 0644
   tags: [ 'php' ]
 
+- name: PHP | disable xdebug by default for production
+  shell: phpdismod xdebug
+  register: output
+  changed_when: "output.stdout_lines == ''"
+  failed_when: "output.stderr != ''"
+  tags: [ 'php' ]
+
 - name: PHP | enable extensions using phpenmod
   shell: phpenmod {{ item }}
   loop: "{{ php_extensions_enable }}" # defined in group_vars 
-  register: item
-  changed_when: "item.stdout_lines == ''"
-  failed_when: "item.stderr != ''"
+  register: output
+  changed_when: "output.stdout_lines == ''"
+  failed_when: "output.stderr != ''"
+  tags: [ 'php' ]
+
+- name: PHP | ensure realpath_cache_ttl is set in .ini files
+  lineinfile:
+    path: "{{ item }}/php.ini"
+    regexp: '^realpath_cache_ttl = .*'
+    line: 'realpath_cache_ttl = {{ php_realpath_cache_ttl }}'
+    insertafter: '^realpath_cache_size'
+    state: present
+  with_items: "{{ php_conf_paths }}"
+  notify: restart webserver 
   tags: [ 'php' ]

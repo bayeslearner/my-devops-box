@@ -12,6 +12,7 @@ php_max_execution_time: "60"
 php_max_input_time: "60"
 php_max_input_vars: "1000"
 php_realpath_cache_size: "4096K"
+php_realpath_cache_ttl: "500"
 
 php_file_uploads: "On"
 php_max_file_uploads: "20"
@@ -21,35 +22,35 @@ php_allow_url_fopen: "On"
 php_date_timezone: "UTC"
 
 # apt packages
-php_packages:
-  - php
-  - php-dev
-  - php-common
-  - php-cli
-  - php-fpm
-  - php-gd
-  - php-gmp
-  - php-xml
-  - php-mbstring
-  - php-readline
-  - php-bcmath
-  - php-bz2
-  - php-sqlite3
-  - php-pdo
-  - php-opcache
-  - php-json
-  - php-imap
-  - php-curl
-  - php-intl
-  - php-zip
-  - php-sybase
-  - php-mysql
-  - php-pgsql
-  - php-pecl-http
-  - php-apcu-bc
-  - php-xdebug
-  - php-oauth
-  - php-pear
+# php_packages: # defined in group_vars
+#   - php
+#   - php-dev
+#   - php-common
+#   - php-cli
+#   - php-fpm
+#   - php-gd
+#   - php-gmp
+#   - php-xml
+#   - php-mbstring
+#   - php-readline
+#   - php-bcmath
+#   - php-bz2
+#   - php-sqlite3
+#   - php-pdo
+#   - php-opcache
+#   - php-json
+#   - php-imap
+#   - php-curl
+#   - php-intl
+#   - php-zip
+#   - php-sybase
+#   - php-mysql
+#   - php-pgsql
+#   - php-pecl-http
+#   - php-apcu-bc
+#   - php-xdebug
+#   - php-oauth
+#   - php-pear
 
 # OpCache settings
 php_opcache_zend_extension: "opcache.so"
