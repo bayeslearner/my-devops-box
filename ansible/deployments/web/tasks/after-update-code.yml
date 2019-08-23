@@ -45,7 +45,6 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart nginx
 
 - name: Activate vhost with symlink
   file: 
