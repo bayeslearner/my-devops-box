@@ -1,2 +1,3 @@
 id_rsa
 web/files/parameters.yml
+api/files/.env.*

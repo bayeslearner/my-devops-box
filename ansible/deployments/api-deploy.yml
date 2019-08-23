@@ -1,0 +1,18 @@
+---
+- hosts: api
+  
+  become: yes
+  serial: 1
+  gather_facts: true
+  debugger: on_failed
+
+  vars_prompt:
+    - name: git_branch
+      prompt: 'Enter a branch to deploy'
+      default: master
+      private: no
+
+  # environment: ~
+
+  roles:
+    - api
