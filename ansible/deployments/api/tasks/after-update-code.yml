@@ -1,7 +1,7 @@
 ---  
 - name: Copy .env.local file over the VM
   copy: 
-    src: env.local
+    src: .env.local
     dest: "{{ ansistrano_release_path.stdout }}/.env.local"
 
 - name: Generate cached .env vars
