@@ -18,7 +18,7 @@
     state: directory
   tags: ['storage']
 
-- name: Remove old mount point from fstab in case of change
+- name: Remove old mount points from fstab in case of change
   lineinfile:
     dest: /etc/fstab
     regexp: "^/etc/glusterfs/*"
@@ -28,9 +28,28 @@
 
 # - debug: "var=fstab_removal"
 
+- name: Unmount all volumes
+  mount:
+    src: "{{ gluster_conf_dir }}/{{ item }}.vol"
+    name: /mnt/gluster/{{ item }}
+    fstype: glusterfs
+    state: unmounted
+  with_items: "{{ gluster_volume_files }}"
+  tags: ['storage']
+
+- name: Remove volumes from fstab
+  mount:
+    src: "{{ gluster_conf_dir }}/{{ item }}.vol"
+    name: /mnt/gluster/{{ item }}
+    fstype: glusterfs
+    state: absent
+  with_items: "{{ gluster_volume_files }}"
+  tags: ['storage']
+
+
 - name: Copy volumes configuration files over the VM
   template:
-    src: item.vol.j2
+    src: "{{ item }}.vol.j2"
     dest: "{{ gluster_conf_dir }}/{{ item }}.vol"
     owner: root
     group: root
