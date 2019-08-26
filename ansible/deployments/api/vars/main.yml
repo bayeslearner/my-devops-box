@@ -35,6 +35,7 @@ ansistrano_allow_anonymous_stats: no
 #   - path/to/file.txt
 ansistrano_shared_paths:
   - var/log
+  - public/spool
 
 # Deployment strategy
 ansistrano_deploy_via: git # Method used to deliver the code to the server. Options are copy, rsync, git, svn, s3 or download
