@@ -31,8 +31,8 @@
 
 - name: cassandra-php | cleanup files and folders
   file:
-    path: "{{ workdir }}"
+    path: "{{ item }}"
     state: absent
   with_items:
     - /usr/src/php-driver.tar.gz
-    - "{{ workir }}"
+    - "{{ workdir }}"
