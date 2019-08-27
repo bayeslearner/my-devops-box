@@ -45,7 +45,7 @@ ansistrano_deploy_via: git # Method used to deliver the code to the server. Opti
 # ansistrano_git_branch: "{{ git_branch }}" # What version of the repository to check out. This can be the full 40-character SHA-1 hash, the literal string HEAD, a branch name, or a tag name
 ansistrano_git_repo: "git@github.com:fidanf/rgsupv-core.git" # Location of the git repository
 ansistrano_git_branch: "sf4-php73" # What version of the repository to check out. This can be the full 40-character SHA-1 hash, the literal string HEAD, a branch name, or a tag name
-ansistrano_git_identity_key_path: "{{ playbook_dir }}/id_rsa" # If specified this file is copied over and used as the identity key for the git commands, path is relative to the playbook in which it is used
+ansistrano_git_identity_key_path: "{{ playbook_dir }}/rgsupv-core_id_rsa" # If specified this file is copied over and used as the identity key for the git commands, path is relative to the playbook in which it is used
 
 # Nginx vhost variables 
 nginx_template_path: api.conf.j2
