@@ -1,0 +1,30 @@
+---
+- name: Removes Kafka Manager existing crontab file if exists
+  cron:
+    cron_file: consumer-jobs
+    state: absent
+    user: consumer
+    name: KafkaManager
+
+- name: Ensure KafkaManager's pidfile exists
+  stat:
+    path: '{{ansistrano_deploy_to}}/run/kafkamanager.pid'
+  register: kafkamanager_pidfile
+
+- debug: "var=kafkamanager_pidfile"
+
+- name: Find KafkaManager's PID
+  shell: 'cat {{ansistrano_deploy_to}}/run/kafkamanager.pid'
+  register: kafkamanager_pid
+  when: kafkamanager_pidfile.stat.exists
+
+- name: Shutdown PID
+  shell: 'kill -2 {{kafkamanager_pid}}'
+  when: kafkamanager_pidfile.stat.exists
+
+- name: Wait for process to terminate
+  wait_for: 
+    path: /proc/{{kafkamanager_pid}}/status
+    state: absent
+  when: kafkamanager_pidfile.stat.exists
+  
