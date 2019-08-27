@@ -4,13 +4,6 @@
     src: .env.local
     dest: "{{ ansistrano_release_path.stdout }}/.env.local"
 
-- name: Generate cached .env vars
-  composer:
-    command: dump-env
-    arguments: prod
-    working_dir: "{{ ansistrano_release_path.stdout }}"
-  become_user: api
-
 - name: Create logs folder for symlinks
   file:
     path: "{{ release_logs_path }}"
@@ -31,6 +24,12 @@
     no_dev: yes
     optimize_autoloader: yes
     working_dir: "{{ ansistrano_release_path.stdout }}"
+  become_user: api
+
+- name: Generate cached .env vars
+  shell: composer dump-env prod
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
   become_user: api
 
 - name: Copy Nginx vhost configuration file

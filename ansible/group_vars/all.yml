@@ -38,4 +38,4 @@ php_packages:
   - php-sybase
   - php-mysql
   - php-pgsql
-  - php-apcu
+  - php-apcu-bc
