@@ -1,24 +1,38 @@
 ---
-- name: PHP | clone datastax/php-driver repository
-  git:
-    repo: https://github.com/datastax/php-driver.git
-    dest: /usr/src/php-driver
+- name: cassandra-php | download datastax/php-driver archive from GitHub
+  get_url: 
+    url: "https://github.com/datastax/php-driver/archive/v{{ cassandra_php_driver_version }}.tar.gz"
+    dest: "/usr/src/php-driver.tar.gz"
 
-- name: PHP | build cassandra php driver
+- name: cassandra-php | Set working directory
+  set_fact: 
+    workdir: /usr/src/php-driver-{{cassandra_php_driver_version}}
+
+- name: cassandra-php | extract .tar archive
+  unarchive:
+    src: /usr/src/php-driver.tar.gz
+    dest: /usr/src
+    creates: "{{ workdir }}"
+    remote_src: yes
+
+- name: cassandra-php | compile source code
   become: true
   shell: |
     cd ext/
     /usr/bin/phpize{{ php_default_version_debian }}
-    mkdir -p /usr/src/php-driver/build
-    cd /usr/src/php-driver/build
+    mkdir -p {{ workdir }}/build
+    cd {{ workdir }}/build
     ../ext/configure --with-php-config=/usr/bin/php-config{{ php_default_version_debian }} > /dev/null
     make clean >/dev/null
     make >/dev/null 2>&1
     make install
   args:
-    chdir: /usr/src/php-driver
+    chdir: "{{ workdir }}"
 
-- name: PHP | cleanup datastax/php-driver files
+- name: cassandra-php | cleanup files and folders
   file:
-    path: /usr/src/php-driver
+    path: "{{ workdir }}"
     state: absent
+  with_items:
+    - /usr/src/php-driver.tar.gz
+    - "{{ workir }}"
