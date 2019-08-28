@@ -1,0 +1,48 @@
+---  
+- name: Copy .env.local file over the VM
+  copy: 
+    src: .env.local
+    dest: "{{ ansistrano_release_path.stdout }}/.env.local"
+
+- name: Create logs folder for symlinks
+  file:
+    path: "{{ release_logs_path }}"
+    state: directory
+
+- name: Refresh permissions for all files
+  file:
+    path: /opt
+    owner: consumer
+    group: ansible
+    mode: 0775
+    recurse: true
+
+- name: Install Composer dependencies
+  composer:
+    command: install
+    arguments: --classmap-authoritative
+    no_dev: yes
+    optimize_autoloader: yes
+    working_dir: "{{ ansistrano_release_path.stdout }}"
+  become_user: consumer
+
+- name: Generate cached .env vars
+  shell: composer dump-env prod
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+  become_user: consumer
+
+- name: Start KafkaManager
+  cron:
+    state: present
+    name: KafkaManager
+    job: /sbin/start-stop-daemon --start --quiet --make-pidfile --pidfile {{ansistrano_deploy_to}}/run/kafkamanager.pid --chuid consumer --oknodo --exec /usr/bin/php -- /opt/rgsupv-core/current/bin/console rg:kafka:manager --env=cli --max-sub-process={{max_sub_processes}} --no-debug -vvv 
+  become_user: consumer
+  
+      # */5 * * * * /sbin/start-stop-daemon --start --make-pidfile --pidfile {{ansistrano_deploy_to}}/run/{{ ansible_hostname }}_witness.pid --chuid consumer --oknodo --exec /usr/bin/php -- /opt/rgsupv-core/current/bin/console rg:mails:spool-size --env=cli --name={{ ansible_hostname }}
+      # * * * * * /usr/bin/php {{ansistrano_deploy_to}}/bin/console swiftmailer:spool:send --env=cli --no-debug > /dev/null
+      # * * * * * ( sleep 10; /usr/bin/php {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/bin/console swiftmailer:spool:send --env=cli --no-debug > /dev/null )
+      # * * * * * ( sleep 20; /usr/bin/php {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/bin/console swiftmailer:spool:send --env=cli --no-debug > /dev/null )
+      # * * * * * ( sleep 30; /usr/bin/php {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/bin/console swiftmailer:spool:send --env=cli --no-debug > /dev/null )
+      # * * * * * ( sleep 40; /usr/bin/php {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/bin/console swiftmailer:spool:send --env=cli --no-debug > /dev/null )
+      # * * * * * ( sleep 50; /usr/bin/php {{ansistrano_deploy_to}}/{{ansistrano_current_dir}}/bin/console swiftmailer:spool:send --env=cli --no-debug > /dev/null )

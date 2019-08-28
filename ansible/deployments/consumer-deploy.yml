@@ -1,5 +1,5 @@
 ---
-- hosts: web
+- hosts: consumer
   
   become: yes
   serial: 1
@@ -13,9 +13,8 @@
       private: no
 
   # allows composer install with --no-dev argument
-  # required for AppKernel::registerBundles()
-  environment:
-    SYMFONY_ENV: prod 
+  # environment:
+  #   SYMFONY_ENV: prod 
 
   roles:
-    - web
+    - consumer

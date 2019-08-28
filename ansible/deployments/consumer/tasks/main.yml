@@ -1,0 +1,4 @@
+---
+- name: ANSISTRANO | Deploy rgsupv-core
+  include_role:
+    name: ansistrano.deploy

@@ -1,8 +1,8 @@
 ---  
-- name: Upload parameters.yml
-  copy:
-    src: parameters.yml
-    dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
+- name: Copy .env.local file over the VM
+  copy: 
+    src: .env.local
+    dest: "{{ ansistrano_release_path.stdout }}/.env.local"
 
 - name: Create logs folder for symlinks
   file:
@@ -12,7 +12,7 @@
 - name: Refresh permissions for all files
   file:
     path: /opt
-    owner: web
+    owner: api
     group: ansible
     mode: 0775
     recurse: true
@@ -24,32 +24,26 @@
     no_dev: yes
     optimize_autoloader: yes
     working_dir: "{{ ansistrano_release_path.stdout }}"
-  become_user: web
+  become_user: api
 
-- name: Install Npm dependencies
-  npm:
-    production: true
-    path: "{{ ansistrano_release_path.stdout }}"
-  become_user: web
-
-- name: Compile assets for production (shell module version)
-  shell: npm run build -- --mode=production
+- name: Generate cached .env vars
+  shell: composer dump-env prod
   args:
     chdir: "{{ ansistrano_release_path.stdout }}"
-  become_user: web
+  become_user: api
 
 - name: Copy Nginx vhost configuration file
   template: 
-    src: web.conf.j2
-    dest: /etc/nginx/sites-available/web.conf
+    src: api.conf.j2
+    dest: /etc/nginx/sites-available/api.conf
     owner: root
     group: root
     mode: 0644
 
 - name: Activate vhost with symlink
   file: 
-    src: /etc/nginx/sites-available/web.conf
-    dest: /etc/nginx/sites-enabled/web.conf
+    src: /etc/nginx/sites-available/api.conf
+    dest: /etc/nginx/sites-enabled/api.conf
     state: link
   notify: 
     - restart nginx
