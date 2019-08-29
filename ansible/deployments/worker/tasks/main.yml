@@ -1,0 +1,23 @@
+---
+- name: supervisor | Ensure supervisor is installed
+  apt:
+    name: supervisor
+    state: present
+
+- name: supervisor | Upload main configuration file
+  template:
+    src: supervisord.conf.j2
+    dest: /etc/supervisor/supervisord.conf
+    owner: root
+    group: root
+  notify: restart supervisor
+
+- name: supervisor | compute numprocs for worker program
+  set_fact:
+    worker_instances: "{{ ansible_facts.ansible_processor_vcpus }} * 2"
+
+- debug: "var=worker_instances"
+
+- name: ANSISTRANO | Deploy rgsupv-core
+  include_role:
+    name: ansistrano.deploy
