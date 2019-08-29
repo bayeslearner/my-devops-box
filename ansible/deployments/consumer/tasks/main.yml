@@ -1,4 +1,9 @@
 ---
+- name: Ensure supervisor is installed
+  apt:
+    name: supervisor
+    state: present
+
 - name: ANSISTRANO | Deploy rgsupv-core
   include_role:
     name: ansistrano.deploy

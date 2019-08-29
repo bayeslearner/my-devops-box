@@ -1,0 +1,5 @@
+---
+- name: supervisor | Restart kafkamanager
+  supervisorctl:
+    name: kafkamanager
+    state: restarted

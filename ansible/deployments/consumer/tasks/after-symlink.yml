@@ -1,0 +1,12 @@
+---
+- name: supervisor | Restart kafkamanager program
+  supervisorctl:
+    name: 'kafkamanager:'
+    state: restarted
+
+# Shell version
+# - name: supervisor | Ensure all programs are restarted
+#   shell: supervisorctl update all
+#   register: supervisor_updated_output
+
+# - debug: "var=supervisor_updated_output"
