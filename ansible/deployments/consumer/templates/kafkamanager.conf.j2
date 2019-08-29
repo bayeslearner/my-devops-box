@@ -1,7 +1,7 @@
 # kafkamanager supervisor configuration file
 # {{ ansible_managed }}
 [program:kafkamanager]
-command=php bin/console rg:kafka:manager -e cli --max-sub-process=30
+command=php bin/console rg:kafka:manager -e cli --max-sub-process={{ max_sub_processes }}
 directory={{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}
 autostart=true
 autorestart=true
