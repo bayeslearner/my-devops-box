@@ -1,8 +1,15 @@
 ---
-- name: Ensure supervisor is installed
+- name: supervisor | Ensure supervisor is installed
   apt:
     name: supervisor
     state: present
+
+- name: supervisor | Upload main configuration file
+  template:
+    src: supervisord.conf.j2
+    dest: /etc/supervisor/supervisord.conf
+    owner: root
+    group: root
 
 - name: ANSISTRANO | Deploy rgsupv-core
   include_role:
