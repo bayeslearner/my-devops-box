@@ -10,6 +10,7 @@
     dest: /etc/supervisor/supervisord.conf
     owner: root
     group: root
+  notify: restart supervisor
 
 - name: ANSISTRANO | Deploy rgsupv-core
   include_role:
