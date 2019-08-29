@@ -26,6 +26,7 @@
   roles: 
     - common
 
+- import_playbook: dns.yml
 - import_playbook: php.yml
 - import_playbook: composer.yml
 - import_playbook: wkhtmltopdf.yml
