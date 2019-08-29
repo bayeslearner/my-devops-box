@@ -6,7 +6,7 @@ supervisor_http_username: admin
 supervisor_http_password: admin
 
 # Extra ansistrano vars
-tasks_dir: "{{ playbook_dir }}/consumer/tasks"
+tasks_dir: "{{ playbook_dir }}/worker/tasks"
 release_web_path: "{{ ansistrano_release_path.stdout }}/public"
 release_logs_path: "{{ ansistrano_release_path.stdout }}/var/log"
 spool_path: "{{ ansistrano_deploy_to }}/spool"

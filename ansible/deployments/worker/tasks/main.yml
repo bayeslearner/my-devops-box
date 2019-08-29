@@ -14,7 +14,7 @@
 
 - name: supervisor | compute numprocs for worker program
   set_fact:
-    worker_instances: "{{ ansible_facts.ansible_processor_vcpus }} * 2"
+    worker_instances: "({{ ansible_facts['processor_cores'] }} * 2)|int"
 
 - debug: "var=worker_instances"
 
