@@ -12,6 +12,7 @@ supervisor_http_password: admin
 tasks_dir: "{{ playbook_dir }}/consumer/tasks"
 release_web_path: "{{ ansistrano_release_path.stdout }}/public"
 release_logs_path: "{{ ansistrano_release_path.stdout }}/var/log"
+spool_path: "{{ ansistrano_deploy_to }}/spool"
 
 # Ansistrano role vars
 ansistrano_before_setup_tasks_file: "{{ tasks_dir }}/before-setup.yml"
@@ -46,7 +47,6 @@ ansistrano_allow_anonymous_stats: no
 #   - path/to/file.txt
 ansistrano_shared_paths:
   - var/log
-  - public/spool
 
 # Deployment strategy
 ansistrano_deploy_via: git # Method used to deliver the code to the server. Options are copy, rsync, git, svn, s3 or download
