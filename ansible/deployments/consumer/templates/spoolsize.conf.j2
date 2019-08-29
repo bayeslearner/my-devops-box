@@ -1,4 +1,4 @@
-# kafkamanager supervisor configuration file
+# spoolsize supervisor configuration file
 # {{ ansible_managed }}
 [program:spoolsize]
 command=php bin/console rg:mails:spool-size -e cli --name={{ ansible_hostname }}

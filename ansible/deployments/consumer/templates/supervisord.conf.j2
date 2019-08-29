@@ -1,5 +1,5 @@
-; supervisor config file
-
+# supervisord configuration file
+# {{ ansible_managed }}
 [unix_http_server]
 file=/var/run/supervisor.sock   ; (the path to the socket file)
 chmod=0700                       ; sockef file mode (default 0700)
