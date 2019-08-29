@@ -32,10 +32,10 @@
     chdir: "{{ ansistrano_release_path.stdout }}"
   become_user: worker
 
-- name: supervisor | Upload kafkamanager configuration file
+- name: supervisor | Upload worker configuration file
   template:
-    src: kafkamanager.conf.j2
-    dest: /etc/supervisor/conf.d/kafkamanager.conf
+    src: worker.conf.j2
+    dest: /etc/supervisor/conf.d/worker.conf
     owner: root
     group: root
     mode: 0644

@@ -12,12 +12,6 @@
     group: root
   notify: restart supervisor
 
-- name: supervisor | compute numprocs for worker program
-  set_fact:
-    worker_instances: "({{ ansible_facts['processor_cores'] }} * 2)|int"
-
-- debug: "var=worker_instances"
-
 - name: ANSISTRANO | Deploy rgsupv-core
   include_role:
     name: ansistrano.deploy
