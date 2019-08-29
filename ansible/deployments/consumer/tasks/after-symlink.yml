@@ -1,7 +1,13 @@
 ---
-- name: supervisor | Restart kafkamanager program
+- name: supervisor | Restart kafka group program
   supervisorctl:
-    name: 'kafkamanager:'
+    # name: 'kafkamanager:'
+    name: 'kafka:'
+    state: restarted
+
+- name: supervisor | Restart mail group program
+  supervisorctl:
+    name: 'mail:'
     state: restarted
 
 # Shell version

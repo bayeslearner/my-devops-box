@@ -5,8 +5,13 @@
 
 # - debug: "var=supervisor_stop_output"
 
-- name: supervisor | reread then remove kafkamanager program if present
+- name: supervisor | Remove any programs from group 'kafka'
   supervisorctl:
-    name: kafkamanager
+    name: 'kafka:'
+    state: absent
+  
+- name: supervisor | Remove any programs from group 'mail'
+  supervisorctl:
+    name: 'mail:'
     state: absent
   
