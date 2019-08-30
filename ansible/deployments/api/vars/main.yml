@@ -10,8 +10,9 @@ nginx_template_path: api.conf.j2
 nginx_root: "{{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/web"
 nginx_name: api.beta-supervision.com
 nginx_well_known_ip: 192.168.200.30
-nginx_ssl_certificate_path: /mnt/gluster/ssl/{{ nginx_name }}/api.rg-supervision.com.chained.crt
-nginx_ssl_certificate_key_path: /mnt/gluster/ssl/{{ nginx_name }}/api.rg-supervision.com.key
+nginx_ssl_certificate_path: /mnt/gluster/ssl/api-beta.rg-supervision.com/fullchain.pem
+nginx_ssl_certificate_key_path: /mnt/gluster/ssl/api-beta.rg-supervision.com/privkey.pem
+nginx_ssl_trusted_certificate_path: /mnt/gluster/ssl/api-beta.rg-supervision.com/chain.pem
 # nginx_ssl_trusted_certificate_path: /mnt/gluster/ssl/{{ nginx_name }}/api.rg-supervision.com.crt
 
 # Local custom vars

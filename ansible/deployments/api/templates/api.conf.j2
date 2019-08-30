@@ -52,7 +52,10 @@ server {
     error_log /var/log/nginx/api-ssl-error.log;
     access_log /var/log/nginx/api-ssl-access.log combined_ssl;
 
-    # SSL 
+    # SSL
+    ssl_stapling on;
+    ssl_stapling_verify on;
     ssl_certificate {{ nginx_ssl_certificate_path }};
     ssl_certificate_key {{ nginx_ssl_certificate_key_path }};
+    #ssl_trusted_certificate {{ nginx_ssl_trusted_certificate_path }};
 }
