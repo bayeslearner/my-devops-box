@@ -28,9 +28,3 @@ parameters:
     zendesk_auth_key: 66YDaSSkXr1ilWHpviIXp4YJ2ZpOGGFfjdBJYI9TEh3ckhiG
     zendesk_sub_domain: d3v-rgsystem
     zendesk_help_mail: help@d3v-rgsystem.zendesk.com
-    uservoice_widget_key: ZyFNqcD7ERlgU2F4iTW2A
-    uservoice_primary_color: null
-    uservoice_link_color: null
-    uservoice_sso_key: null
-    uservoice_domain: supervision
-    uservoice_forum_id: 260026
