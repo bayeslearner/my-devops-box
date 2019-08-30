@@ -48,3 +48,19 @@
   notify: 
     - restart nginx
     - restart php-fpm
+
+- name: supervisor | Upload spoolsize configuration file
+  template:
+    src: spoolsize.conf.j2
+    dest: /etc/supervisor/conf.d/spoolsize.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: supervisor | Upload spoolsend configuration file
+  template:
+    src: spoolsend.conf.j2
+    dest: /etc/supervisor/conf.d/spoolsend.conf
+    owner: root
+    group: root
+    mode: 0644

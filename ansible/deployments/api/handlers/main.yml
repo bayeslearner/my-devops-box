@@ -8,3 +8,8 @@
   service: 
     name: php{{ php_default_version_debian }}-fpm
     state: restarted
+
+- name: restart supervisor
+  service:
+    name: supervisor
+    state: restarted
