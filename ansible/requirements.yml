@@ -21,3 +21,5 @@
   version: 3.0.0
 
 - src: oefenweb.dns
+
+- src: geerlingguy.filebeat
