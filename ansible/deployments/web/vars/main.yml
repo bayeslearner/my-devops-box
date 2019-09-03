@@ -13,10 +13,11 @@ tasks_dir: "{{ playbook_dir }}/web/tasks"
 release_web_path: "{{ ansistrano_release_path.stdout }}/web"
 release_logs_path: "{{ ansistrano_release_path.stdout }}/app/logs"
 
-# Ansistrano vars
+# Ansistrano role vars
 ansistrano_before_setup_tasks_file: "{{ tasks_dir }}/before-setup.yml"
+ansistrano_before_update_code_tasks_file: "{{ tasks_dir }}/before-update-code.yml"
 ansistrano_after_update_code_tasks_file: "{{ tasks_dir }}/after-update-code.yml"
-ansistrano_before_symlink_tasks_file: "{{ tasks_dir }}/before-symlink.yml"
+ansistrano_after_symlink_tasks_file: "{{ tasks_dir }}/after-symlink.yml"
 
 ansistrano_deploy_to: "/opt/rgsupv-dashboard" # Base path to deploy to.
 ansistrano_version_dir: "releases" # Releases folder name

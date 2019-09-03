@@ -9,6 +9,14 @@
     path: "{{ release_logs_path }}"
     state: directory
 
+- name: Remove sensitive scripts from web/ dir
+  file:
+    path: '{{ release_web_path }}/{{ item }}'
+    state: absent
+  with_items:
+    - app_dev.php
+    - config.php
+    
 - name: Refresh permissions for all files
   file:
     path: /opt
@@ -54,3 +62,11 @@
   notify: 
     - restart nginx
     - restart php-fpm
+
+- name: supervisor | Upload spoolsend configuration file
+  template:
+    src: spoolsend.conf.j2
+    dest: /etc/supervisor/conf.d/spoolsend.conf
+    owner: root
+    group: root
+    mode: 0644
