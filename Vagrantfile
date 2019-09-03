@@ -3,7 +3,7 @@
 
 Vagrant.configure("2") do |config|
 	# General settings
-	config.vm.box = "rgsystems/xenial64"
+	config.vm.box = "rgsystems/bionic64"
 	config.vm.hostname = "devops-box"
 
 	# SSH Settings
@@ -25,8 +25,8 @@ Vagrant.configure("2") do |config|
 
 	# Env vars
 	vars = {
-		"TERRAFORM_VERSION" => "0.12.2",
-		"PACKER_VERSION" => "1.4.1",
+		"TERRAFORM_VERSION" => "0.12.7",
+		"PACKER_VERSION" => "1.4.3",
 		"DOCKER_COMPOSE_VERSION" => "1.24.0"
 	}
 	
