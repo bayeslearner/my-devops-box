@@ -21,9 +21,11 @@ release_web_path: "{{ ansistrano_release_path.stdout }}/public"
 release_logs_path: "{{ ansistrano_release_path.stdout }}/var/log"
 spool_path: "{{ ansistrano_deploy_to }}/spool"
 
-# Ansistrano vars
+# Ansistrano role vars
 ansistrano_before_setup_tasks_file: "{{ tasks_dir }}/before-setup.yml"
+ansistrano_before_update_code_tasks_file: "{{ tasks_dir }}/before-update-code.yml"
 ansistrano_after_update_code_tasks_file: "{{ tasks_dir }}/after-update-code.yml"
+ansistrano_after_symlink_tasks_file: "{{ tasks_dir }}/after-symlink.yml"
 
 ansistrano_deploy_to: "/opt/rgsupv-core" # Base path to deploy to.
 ansistrano_version_dir: "releases" # Releases folder name
