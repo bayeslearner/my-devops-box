@@ -1,5 +1,5 @@
 # worker supervisor configuration file
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 [program:worker]
 command=php bin/console rg:worker:start -e cli --name={{ ansible_hostname }}
 directory={{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}

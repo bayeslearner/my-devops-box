@@ -1,5 +1,5 @@
 # spoolsize supervisor configuration file
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 [program:spoolsize]
 command=php bin/console rg:mails:spool-size -e cli --name={{ ansible_hostname }}
 directory={{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}

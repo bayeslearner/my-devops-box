@@ -1,5 +1,5 @@
 # spoolsend supervisor configuration file
-# {{ ansible_managed }}
+{{ ansible_managed | comment }}
 [program:spoolsend]
 command=php app/console swiftmailer:spool:send -e prod --no-debug
 directory={{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}
