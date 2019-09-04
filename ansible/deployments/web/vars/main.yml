@@ -5,7 +5,7 @@ supervisor_http_port: 9001
 supervisor_http_username: admin
 supervisor_http_password: admin
 
-# Nginx vhost variables 
+# Nginx vhost variables
 nginx_template_path: web.conf.j2
 nginx_root: "{{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/web"
 nginx_name: dashboard-beta.rg-supervision.com
@@ -30,7 +30,7 @@ ansistrano_after_symlink_tasks_file: "{{ tasks_dir }}/after-symlink.yml"
 ansistrano_deploy_to: "/opt/rgsupv-dashboard" # Base path to deploy to.
 ansistrano_version_dir: "releases" # Releases folder name
 ansistrano_current_dir: "current" # Softlink name. You should rarely changed it.
-ansistrano_current_via: "symlink" 
+ansistrano_current_via: "symlink"
 ansistrano_keep_releases: 2 # Releases to keep after a new deployment. See "Pruning old releases".
 
 # Shared paths and basedir shared files creation.
@@ -65,23 +65,21 @@ ansistrano_git_identity_key_path: "{{ playbook_dir }}/rgsupv-dashboard_id_rsa" #
 
 # Filebeat variables
 filebeat_create_config: true
-filebeat_prospectors:
-  - input_type: syslog
-    paths:
-      - "/var/log/*.log"
-  - input_type: syslog
-    paths:
+filebeat_inputs:
+  - paths:
+      - /var/log/*.log
       - "{{ ansistrano_deploy_to }}/shared/app/logs/*.log" # supervisor and symfony logs
-  - input_type: nginx
-    paths:
+    document_type: syslog
+  - paths:
       - "/var/log/nginx/*log" # supervisor and symfony logs
+    document_type: nginx
 
 filebeat_output_elasticsearch_enabled: false
 filebeat_output_logstash_enabled: true
 filebeat_output_logstash_hosts:
   - "192.168.1.81:5044"
 
-filebeat_enable_logging: true 
+filebeat_enable_logging: true
 filebeat_log_level: warning
 filebeat_log_dir: /var/log/filebeat
 filebeat_log_filename: filebeat.log

@@ -69,7 +69,7 @@ ansistrano_git_identity_key_path: "{{ playbook_dir }}/id_rsa" # If specified thi
 
 # Filebeat variables
 filebeat_create_config: true
-filebeat_prospectors:
+filebeat_inputs:
   - input_type: syslog
     paths:
       - "/var/log/*.log"
