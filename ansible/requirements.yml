@@ -21,5 +21,8 @@
   version: 3.0.0
 
 - src: oefenweb.dns
+  version: v1.1.20
 
-- src: geerlingguy.filebeat
+- src: https://github.com/fidanf/ansible-role-filebeat
+  name: fidanf.filebeat
+  version: master
