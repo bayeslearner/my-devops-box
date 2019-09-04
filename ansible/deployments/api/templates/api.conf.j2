@@ -49,8 +49,8 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
       
     # Logs
-    error_log /var/log/nginx/api-ssl-error.log;
-    access_log /var/log/nginx/api-ssl-access.log combined_ssl;
+    error_log {{ nginx_error_log_path }};
+    access_log {{ nginx_access_log_path }} timed_combined;
 
     # SSL
     ssl_stapling on;

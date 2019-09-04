@@ -95,8 +95,8 @@ server {
     }
 
     # Logs
-    error_log /var/log/nginx/dashboard-ssl-error.log;
-    access_log /var/log/nginx/dashboard-ssl-access.log timed_combined;
+    error_log {{ nginx_error_log_path }};
+    access_log {{ nginx_access_log_path }} timed_combined;
 
     # SSL
     ssl_stapling on;

@@ -13,7 +13,8 @@ nginx_well_known_ip: 192.168.200.30
 nginx_ssl_certificate_path: /mnt/gluster/ssl/api-beta.rg-supervision.com/fullchain.pem
 nginx_ssl_certificate_key_path: /mnt/gluster/ssl/api-beta.rg-supervision.com/privkey.pem
 nginx_ssl_trusted_certificate_path: /mnt/gluster/ssl/api-beta.rg-supervision.com/chain.pem
-# nginx_ssl_trusted_certificate_path: /mnt/gluster/ssl/{{ nginx_name }}/api.rg-supervision.com.crt
+nginx_error_log_path: /var/log/nginx/dashboard-ssl-error.log
+nginx_access_log_path: /var/log/nginx/dashboard-ssl-access.log
 
 # Local custom vars
 tasks_dir: "{{ playbook_dir }}/api/tasks"
