@@ -1,4 +1,10 @@
 ---
+# supervisor vars
+supervisor_http_enable: true
+supervisor_http_port: 9001
+supervisor_http_username: admin
+supervisor_http_password: admin
+
 # Nginx vhost variables 
 nginx_template_path: web.conf.j2
 nginx_root: "{{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/web"
