@@ -33,4 +33,3 @@
 - import_playbook: nodejs.yml
 - import_playbook: nginx.yml
 - import_playbook: glusterfs-client.yml
-- import_playbook: filebeat.yml
