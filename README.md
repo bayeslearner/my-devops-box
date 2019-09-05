@@ -34,7 +34,7 @@ vagrant up --provision-with common,aws-cli
 
 Ansible lab example 
 ```bash
-vagrant up --provision-with common,file,ansible,ansible-post-install
+vagrant up --provision-with common,file,ansible,ansible-post-install,awx
 # Boot the inventory machines
 cd lab-ansible/
 Vagrant up
