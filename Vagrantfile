@@ -23,14 +23,14 @@ Vagrant.configure("2") do |config|
 		vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
 	end
 
-	# Env vars
+	# Env vars for scripts
 	vars = {
 		"TERRAFORM_VERSION" => "0.12.7",
 		"PACKER_VERSION" => "1.4.3",
 		"DOCKER_COMPOSE_VERSION" => "1.24.0"
 	}
 	
-	# Vagrantfile vars
+	# Vagranfile local vars
 	confDir = File.expand_path(File.dirname(__FILE__))
 	glusterVolumes = confDir + '/config/gluster.conf'
 	glusterHosts = confDir + '/config/gluster.hosts'
@@ -39,7 +39,10 @@ Vagrant.configure("2") do |config|
 
 	# Loading environment variables to /etc/profile.d/vagrant_env.sh
 	as_str = vars.map { |k, str| ["export #{k}=#{str.gsub "$", "\$"}"] }.join("\n")
-	config.vm.provision "shell", inline: "echo \"#{as_str}\" > /etc/profile.d/vagrant_env.sh", run: "always"
+	config.vm.provision "env", type: "shell", run: "always" do |s|
+		s.name = "Loading environment variables from Vagrantfile"
+		s.inline = "echo \"#{as_str}\" > /etc/profile.d/vagrant_env.sh"
+	end
 
 	# Provisioning
 	config.vm.provision "common", type: "shell" do |s|
@@ -64,17 +67,22 @@ Vagrant.configure("2") do |config|
 		end
 	end
 	
-	config.vm.provision "docker", type: "shell" do |s|
+	config.vm.provision "docker", type: "shell", env: vars do |s|
 		s.name = "Installing docker & docker-compose"
 		s.path = "scripts/docker.sh"
 	end
 
-	config.vm.provision "packer", type: "shell" do |s|
+	config.vm.provision "awx", type: "shell" do |s|
+		s.name = "Installing Ansible AWX"
+		s.path = "scripts/awx.sh"
+	end
+
+	config.vm.provision "packer", type: "shell", env: vars do |s|
 		s.name = "Installing Packer"
 		s.path = "scripts/packer.sh"
 	end
 
-	config.vm.provision "terraform", type: "shell" do |s|
+	config.vm.provision "terraform", type: "shell", env: vars do |s|
 		s.name = "Installing Terraform"
 		s.path = "scripts/terraform.sh" 
 	end
