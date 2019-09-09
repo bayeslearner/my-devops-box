@@ -17,6 +17,6 @@ fi
 
 git clone https://github.com/ansible/awx.git ${INSTALL_DIR}
 pushd ${INSTALL_DIR}/installer
-sed -i -r "s/#?project_data_dir=.*/project_data_dir=\\/home\/vagrant\/ansible/g" inventory
+mkdir -p /var/lib/awx/projects
 ansible-playbook -i inventory install.yml
 popd
