@@ -7,7 +7,7 @@ if ! [ -x "$(command -v docker)" ] ; then
     exit 1
 fi
 
-apt-get install python-pip
+apt-get install -yq python-pip
 pip install docker-compose
 
 # check if ansible is installed
