@@ -1,0 +1,18 @@
+---
+- hosts: all
+
+  become: true
+  gather_facts: true
+  debugger: on_failed
+
+  vars:
+    dns_remove_resolvconf: false
+    dns_domain: ''
+    dns_nameservers:
+      - 192.168.1.200 # beta
+      - 10.0.2.3 # virtualbox's DNS server, using host's DNS entries
+    dns_searches: 
+      - beta-supervision.com
+
+  roles:
+    - oefenweb.dns

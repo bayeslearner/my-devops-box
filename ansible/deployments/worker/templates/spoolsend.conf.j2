@@ -1,0 +1,16 @@
+# spoolsend supervisor configuration file
+{{ ansible_managed | comment }}
+[program:spoolsend]
+command=php bin/console swiftmailer:spool:send -e cli --no-debug
+directory={{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}
+autostart=true
+autorestart=true
+startretries=5
+startsecs=0
+user=worker
+numprocs=1
+process_name=%(program_name)s_%(process_num)02d
+stderr_logfile={{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/var/log/%(program_name)s_stderr.log
+stderr_logfile_maxbytes=10MB
+stdout_logfile={{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/var/log/%(program_name)s_stdout.log
+stdout_logfile_maxbytes=10MB

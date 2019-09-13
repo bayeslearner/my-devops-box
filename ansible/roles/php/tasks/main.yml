@@ -4,6 +4,7 @@
     paths: /usr/local/lib
     patterns: 'librdkafka*'
   register: librdkafka_result
+  tags: [ 'packages' ]
 
 # - debug: "var=librdkafka_result"
 
@@ -18,6 +19,8 @@
   apt:
     package: "{{ freetds_pkgs }}"
     state: present
+  when:
+    - "'web' not in group_names"
   tags: [ 'packages' ]
 
 - name: APT | configure freetds driver for pdo_dblib
@@ -27,12 +30,17 @@
     owner: root
     group: root
     mode: 0644
+  when:
+    - "'web' not in group_names"
+  tags: [ 'packages' ]
 
 - name: APT | ensure cassandra c++ driver is not installed
   find:
     paths: /usr/lib/x86_64-linux-gnu/
+    recurse: true
     patterns: '*cassandra*'
   register: cassandra_cpp_result
+  tags: [ 'packages' ]
 
 # - debug: "var=cassandra_cpp_result"
 
@@ -42,51 +50,82 @@
     - cassandra_cpp_result.matched < 1
   tags: [ 'packages' ]
 
-- name: PHP | install php packages and configure php.ini and opcache settings
+- name: PHP | install php packages, configure opcache and php.ini
   import_role:
     name: geerlingguy.php
-  tags: [ 'packages' ]
-  
-- name: PECL | update channel
+  tags: [ 'php' ]
+
+- name: PHP | check for cassandra php driver
+  find:
+    paths: /usr/lib/php/
+    recurse: true
+    patterns: 'cassandra*'
+  register: cass_php_output
+  tags: [ 'php' ]
+
+# - debug: "var=cass_php_output"
+
+- name: PHP | download and compile cassandra php driver if it is not found
+  include_tasks: install-cassandra-php.yml
+  when:
+    - cass_php_output.matched < 1
+  tags: [ 'php' ]
+
+- name: PHP | update pecl channel
   command: "pecl channel-update pecl.php.net"
   register: pecl_update
   changed_when: "'up to date' in pecl_update.stdout_lines"
+  tags: [ 'php' ]
 
-- name: PECL | install extensions
+- name: PHP | install pecl extensions
   shell: "yes '' | pecl install {{ item }}"
   register: pecl_result
   changed_when: pecl_result is succeeded
   failed_when: "not (('already installed' in pecl_result.stdout) or ('install ok:' in pecl_result.stdout))"
   with_items: "{{ php_pecl_extensions_install }}" # defined in group_vars 
+  tags: [ 'php' ]
 
-- name: PECL | copy extensions .ini files
+- name: PHP | copy extensions .ini files
   template: 
     src: extension.ini.j2
     dest: /etc/php/{{ php_default_version_debian }}/mods-available/{{ item }}.ini
     owner: root
     group: root
     mode: 0644
-  with_items: "{{ php_pecl_extensions_files }}" # defined in group_vars 
+  with_items: "{{ php_extensions_files }}" # defined in group_vars 
+  tags: [ 'php' ]
 
-- name: PECL | override default configuration for xdebug
+- name: PHP | override default configuration for xdebug
   template: 
     src: xdebug.ini.j2
     dest: /etc/php/{{ php_default_version_debian }}/mods-available/xdebug.ini
     owner: root
     group: root
     mode: 0644
+  tags: [ 'php' ]
 
-- name: PECL | override default configuration for apc
-  template: 
-    src: apcu.ini.j2
-    dest: /etc/php/{{ php_default_version_debian }}/mods-available/apcu.ini
-    owner: root
-    group: root
-    mode: 0644
+- name: PHP | disable xdebug by default for production
+  shell: phpdismod xdebug
+  register: output
+  changed_when: "output.stdout_lines == ''"
+  failed_when: "output.stderr != ''"
+  tags: [ 'php' ]
 
-- name: PECL | enable extensions using phpenmod
+- name: PHP | enable extensions using phpenmod
   shell: phpenmod {{ item }}
-  loop: "{{ php_pecl_extensions_enable }}" # defined in group_vars 
-  register: item
-  changed_when: "item.stdout_lines == ''"
-  failed_when: "item.stderr != ''"
+  loop: "{{ php_extensions_enable }}" # defined in group_vars 
+  register: output
+  changed_when: "output.stdout_lines == ''"
+  failed_when: "output.stderr != ''"
+  tags: [ 'php' ]
+
+- name: PHP | ensure realpath_cache_ttl is set in .ini files
+  lineinfile:
+    path: "{{ item }}/php.ini"
+    regexp: '^realpath_cache_ttl = .*'
+    line: 'realpath_cache_ttl = {{ php_realpath_cache_ttl }}'
+    insertafter: '^realpath_cache_size'
+    state: present
+  with_items: "{{ php_conf_paths }}"
+  notify: restart webserver 
+  tags: [ 'php' ]

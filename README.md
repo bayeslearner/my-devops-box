@@ -34,10 +34,18 @@ vagrant up --provision-with common,aws-cli
 
 Ansible lab example 
 ```bash
- vagrant up --provision-with common,file,ansible,ansible-post-install
- # Boot the inventory machines
- cd ansible-lab/
- Vagrant up
+vagrant up --provision-with common,file,ansible,ansible-post-install
+# Boot the inventory machines
+cd lab-ansible/
+Vagrant up
+```
+
+Ansible with AWX 
+```bash
+vagrant up --provision-with common,file,ansible,ansible-post-install,docker,awx
+# Boot the inventory machines
+cd lab-ansible/
+Vagrant up
 ```
 
 ## Enable GlusterFS client

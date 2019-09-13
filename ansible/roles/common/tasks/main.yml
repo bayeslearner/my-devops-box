@@ -11,3 +11,7 @@
     - ansible_facts['distribution'] is match("Debian")
     - ansible_facts['distribution_release'] is match("stretch")
   tags: [ 'packages' ]
+
+- name: USERS | Manage users for each group
+  include_tasks: create-users.yml
+  tags: ['users']

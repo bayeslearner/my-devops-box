@@ -1,0 +1,57 @@
+---  
+- name: Copy .env.local file over the VM
+  copy: 
+    src: .env.local
+    dest: "{{ ansistrano_release_path.stdout }}/.env.local"
+
+- name: Create logs folder for symlinks
+  file:
+    path: "{{ release_logs_path }}"
+    state: directory
+
+- name: Refresh permissions for all files
+  file:
+    path: /opt
+    owner: worker
+    group: ansible
+    mode: 0775
+    recurse: true
+
+- name: Install Composer dependencies
+  composer:
+    command: install
+    arguments: --classmap-authoritative
+    no_dev: yes
+    optimize_autoloader: yes
+    working_dir: "{{ ansistrano_release_path.stdout }}"
+  become_user: worker
+
+- name: Generate cached .env vars
+  shell: composer dump-env prod
+  args:
+    chdir: "{{ ansistrano_release_path.stdout }}"
+  become_user: worker
+
+- name: supervisor | Upload worker configuration file
+  template:
+    src: worker.conf.j2
+    dest: /etc/supervisor/conf.d/worker.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: supervisor | Upload spoolsize configuration file
+  template:
+    src: spoolsize.conf.j2
+    dest: /etc/supervisor/conf.d/spoolsize.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: supervisor | Upload spoolsend configuration file
+  template:
+    src: spoolsend.conf.j2
+    dest: /etc/supervisor/conf.d/spoolsend.conf
+    owner: root
+    group: root
+    mode: 0644

@@ -1,4 +1,4 @@
-php_default_version_debian: "7.0"
+# php_default_version_debian: "7.3" # defined in group_vars
 php_install_recommends: false
 php_enable_php_fpm: true
 php_enable_webserver: false
@@ -12,6 +12,7 @@ php_max_execution_time: "60"
 php_max_input_time: "60"
 php_max_input_vars: "1000"
 php_realpath_cache_size: "4096K"
+php_realpath_cache_ttl: "600"
 
 php_file_uploads: "On"
 php_max_file_uploads: "20"
@@ -21,33 +22,7 @@ php_allow_url_fopen: "On"
 php_date_timezone: "UTC"
 
 # apt packages
-php_packages:
-  - php
-  - php-dev
-  - php-common
-  - php-cli
-  - php-fpm
-  - php-gd
-  - php-gmp
-  - php-xml
-  - php-mbstring
-  - php-readline
-  - php-bcmath
-  - php-bz2
-  - php-mcrypt
-  - php-sqlite3
-  - php-pdo
-  - php-opcache
-  - php-json
-  - php-imap
-  - php-curl
-  - php-intl
-  - php-zip
-  - php-sybase
-  - php-mysql
-  - php-pgsql
-  - php-pecl-http
-  - php-pear
+# php_packages: # defined in group_vars
 
 # OpCache settings
 php_opcache_zend_extension: "opcache.so"
@@ -57,5 +32,7 @@ php_opcache_max_accelerated_files: "20000"
 php_opcache_validate_timestamps: "1"
 php_opcache_revalidate_freq: "60"
 
-# handled manually in code
-php_enable_apc: false
+# APCu settings
+php_enable_apc: true
+php_apc_shm_size: "96M"
+php_apc_enable_cli: "0"

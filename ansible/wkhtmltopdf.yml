@@ -5,11 +5,6 @@
   - worker
   - consumer
 
-  # Forks for rolling updates
-  # https://docs.ansible.com/ansible/latest/user_guide/playbooks_delegation.html 
-  # run this playbook with --forks=X to override this default value
-  # serial: 5 
-
   become: true
   gather_facts: true
   debugger: on_failed

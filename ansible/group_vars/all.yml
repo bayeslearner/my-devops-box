@@ -1,20 +1,41 @@
 ---
-php_pecl_extensions_install:
-  - apcu
-  - apcu_bc
-  - xdebug
-  - oauth
+php_pecl_extensions_install: 
+  - rdkafka
+
+php_extensions_files: 
   - cassandra
   - rdkafka
 
-php_pecl_extensions_files:
-  - oauth
+php_extensions_enable:
   - cassandra
   - rdkafka
 
-php_pecl_extensions_enable:
-  - apcu
-  - xdebug
-  - oauth
-  - cassandra
-  - rdkafka
+php_default_version_debian: "7.3"
+
+php_packages: 
+  - php
+  - php-dev
+  - php-pear
+  - php-common
+  - php-cli
+  - php-xdebug
+  - php-fpm
+  - php-gd
+  - php-gmp
+  - php-xml
+  - php-mbstring
+  - php-readline
+  - php-bcmath
+  - php-bz2
+  - php-sqlite3
+  - php-pdo
+  - php-opcache
+  - php-json
+  - php-imap
+  - php-curl
+  - php-intl
+  - php-zip
+  - php-sybase
+  - php-mysql
+  - php-pgsql
+  - php-apcu-bc

@@ -1,0 +1,16 @@
+---
+- name: Ensure deployment base directory exists
+  file:
+    path: "{{ ansistrano_deploy_to }}"
+    state: directory
+    owner: api
+    group: ansible
+    mode: 0775
+
+- name: Ensure spool directory exists
+  file:
+    path: "{{ spool_path }}"
+    state: directory
+    owner: api
+    group: ansible
+    mode: 0775

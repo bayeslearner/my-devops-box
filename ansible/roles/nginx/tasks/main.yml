@@ -3,3 +3,11 @@
   import_role:
     name: geerlingguy.nginx
   tags: [ 'packages' ]
+
+- name: Nginx | Copy dhparam.pem over the VM
+  copy:
+    src: dhparam.pem
+    dest: /etc/nginx/dhparam.pem
+    owner: root
+    group: root
+    mode: 0775

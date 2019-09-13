@@ -1,0 +1,13 @@
+---
+- hosts: 
+  - web
+  - api
+  - worker
+  - consumer
+
+  become: true
+  gather_facts: true
+  debugger: on_failed
+
+  roles:
+    - glusterfs-client

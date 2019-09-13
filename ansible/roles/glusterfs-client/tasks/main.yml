@@ -1,0 +1,67 @@
+---
+- name: Install glusterfs client
+  apt:
+    name:
+      - glusterfs-client
+      - attr
+  tags: ['packages']
+
+- name: Ensure gluster configuration directory exists
+  file:
+    path: "{{ gluster_conf_dir }}"
+    state: directory
+  tags: ['storage']
+
+- name: Ensure gluster mount point exists
+  file:
+    path: /mnt/gluster
+    state: directory
+  tags: ['storage']
+
+- name: Remove old mount points from fstab in case of change
+  lineinfile:
+    dest: /etc/fstab
+    regexp: "^/etc/glusterfs/*"
+    state: absent
+  register: fstab_removal
+  tags: ['storage']
+
+# - debug: "var=fstab_removal"
+
+- name: Unmount all volumes
+  mount:
+    src: "{{ gluster_conf_dir }}/{{ item }}.vol"
+    name: /mnt/gluster/{{ item }}
+    fstype: glusterfs
+    state: unmounted
+  with_items: "{{ gluster_volume_files }}"
+  tags: ['storage']
+
+- name: Remove volumes from fstab
+  mount:
+    src: "{{ gluster_conf_dir }}/{{ item }}.vol"
+    name: /mnt/gluster/{{ item }}
+    fstype: glusterfs
+    state: absent
+  with_items: "{{ gluster_volume_files }}"
+  tags: ['storage']
+
+
+- name: Copy volumes configuration files over the VM
+  template:
+    src: "{{ item }}.vol.j2"
+    dest: "{{ gluster_conf_dir }}/{{ item }}.vol"
+    owner: root
+    group: root
+    mode: 0644
+  tags: ['storage']
+  with_items: "{{ gluster_volume_files }}"
+
+- name: Mount the volumes to fstab
+  mount:
+    src: "{{ gluster_conf_dir }}/{{ item }}.vol"
+    name: /mnt/gluster/{{ item }}
+    fstype: glusterfs
+    state: mounted
+  with_items: "{{ gluster_volume_files }}"
+  tags: ['storage']

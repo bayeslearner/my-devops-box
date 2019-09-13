@@ -1,0 +1,38 @@
+---
+- name: cassandra-php | download datastax/php-driver archive from GitHub
+  get_url: 
+    url: "https://github.com/datastax/php-driver/archive/v{{ cassandra_php_driver_version }}.tar.gz"
+    dest: "/usr/src/php-driver.tar.gz"
+
+- name: cassandra-php | Set working directory
+  set_fact: 
+    workdir: /usr/src/php-driver-{{cassandra_php_driver_version}}
+
+- name: cassandra-php | extract .tar archive
+  unarchive:
+    src: /usr/src/php-driver.tar.gz
+    dest: /usr/src
+    creates: "{{ workdir }}"
+    remote_src: yes
+
+- name: cassandra-php | compile source code
+  become: true
+  shell: |
+    cd ext/
+    /usr/bin/phpize{{ php_default_version_debian }}
+    mkdir -p {{ workdir }}/build
+    cd {{ workdir }}/build
+    ../ext/configure --with-php-config=/usr/bin/php-config{{ php_default_version_debian }} > /dev/null
+    make clean >/dev/null
+    make >/dev/null 2>&1
+    make install
+  args:
+    chdir: "{{ workdir }}"
+
+- name: cassandra-php | cleanup files and folders
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /usr/src/php-driver.tar.gz
+    - "{{ workdir }}"

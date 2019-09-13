@@ -1,0 +1,15 @@
+---
+- name: restart nginx
+  service: 
+    name: nginx
+    state: restarted
+
+- name: restart php-fpm
+  service: 
+    name: php{{ php_default_version_debian }}-fpm
+    state: restarted
+
+- name: restart supervisor
+  service:
+    name: supervisor
+    state: restarted

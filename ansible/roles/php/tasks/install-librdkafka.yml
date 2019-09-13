@@ -1,18 +1,18 @@
 ---
-- name: APT | download librdkafka
+- name: librdkafka | download archive from GitHub
   get_url: 
     url: "https://github.com/edenhill/librdkafka/archive/v{{ librdkafka_version }}.tar.gz"
     dest: "/tmp/librdkafka.tar.gz"
     checksum: "{{ librdkafka_checksum }}"
 
-- name: APT | extract .tar archive
+- name: librdkafka | extract .tar archive
   unarchive:
     src: /tmp/librdkafka.tar.gz
     dest: /tmp
     creates: /tmp/librdkafka-{{ librdkafka_version }}
     remote_src: yes
 
-- name: APT | compile source code
+- name: librdkafka | compile source code
   become: true
   shell: |
     ./configure --install-deps

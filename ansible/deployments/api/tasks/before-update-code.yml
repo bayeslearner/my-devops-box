@@ -1,0 +1,11 @@
+---
+- name: supervisor | Ensure all programs are stopped
+  shell: supervisorctl stop all
+  register: supervisor_stop_output
+
+# - debug: "var=supervisor_stop_output"
+  
+- name: supervisor | Remove any programs from group 'mail'
+  supervisorctl:
+    name: 'mail:'
+    state: absent

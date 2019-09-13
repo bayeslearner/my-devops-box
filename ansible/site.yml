@@ -2,6 +2,7 @@
 - hosts: all
   become: true
   gather_facts: true
+  debugger: on_failed
 
   pre_tasks:
     - name: APT | update apt cache
@@ -25,8 +26,10 @@
   roles: 
     - common
 
+- import_playbook: dns.yml
 - import_playbook: php.yml
 - import_playbook: composer.yml
 - import_playbook: wkhtmltopdf.yml
 - import_playbook: nodejs.yml
 - import_playbook: nginx.yml
+- import_playbook: glusterfs-client.yml
