@@ -37,7 +37,7 @@
         path: /etc/apt/sources.list.d/elastic-6.x.list
         state: absent
 
-    - name: Datastax apt key
+    - name: Remove Datastax apt key
       file:
         path: /etc/apt/sources.list.d/datastax.list
         state: absent
