@@ -7,7 +7,7 @@ php_webserver_daemon: "nginx"
 # php.ini settings
 php_display_errors: "On"
 php_expose_php: "On"
-php_memory_limit: "512M"
+php_memory_limit: "-1"
 php_max_execution_time: "60"
 php_max_input_time: "60"
 php_max_input_vars: "1000"
