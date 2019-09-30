@@ -13,24 +13,33 @@
       default: api
       private: no
 
-  tasks:
+  pre_tasks:
 
-    # - name: Stop the agent from running
-    #   shell: rgsupvctl stop
+    - name: Print distribution information about target host(s)
+      debug:
+        msg: "Distribution family is : {{ ansible_distribution }}. Release name is : {{ ansible_distribution_release }}"
+      failed_when:
+        - ansible_facts['distribution'] is not match("Debian") or
+          ansible_facts['distribution_release'] is not match("stretch") 
+
+    - name: Ensure python3 is installed
+      apt:
+        name: python3
+        state: present
+
+    - name: Configure python interpreter to use v3 instead of v2.7
+      file:
+        src: /usr/bin/python3
+        dest: /usr/bin/python
+        state: link
+
+  tasks:
 
     - name: Ensure the provided username exists
       shell: "id -u {{ user }}" # exit code is 1 if not found
 
     - name: Comment every line in the user's cron file
       shell: 'sed -i "s/^\*/#&/g" /var/spool/cron/crontabs/{{user}}'
-
-    - name: Ensure aptitude is present 
-      apt:
-        name: aptitude
-        state: present
-      failed_when:
-        - ansible_facts['distribution'] is not match("Debian")
-        - ansible_facts['distribution_release'] is not match("stretch") 
 
     - name: Remove Elastic apt key
       file:
@@ -42,18 +51,23 @@
         path: /etc/apt/sources.list.d/datastax.list
         state: absent
 
+    - name: Uninstall & purge extra libraries (libxml, libuv etc.)
+      apt:
+        name: ['libuv*', 'cmake']
+        state: absent
+        purge: yes
+      ignore_errors: yes
+
+    - name: Ensure aptitude is present 
+      apt:
+        name: aptitude
+        state: present
+
     - name: Uninstall filebeat
       apt:
         name: filebeat
         state: absent
         purge: yes
-
-    - name: Uninstall old libuv versions
-      apt:
-        name: libuv0*
-        state: absent
-        purge: yes
-      ignore_errors: yes
 
     - name: Remove previously installed PECL extensions
       pear:
@@ -83,28 +97,50 @@
         - /etc/php5/
         - /etc/php/7.0/
         - /usr/lib/php/
+        - /usr/lib/php5/
+        - /usr/share/php/
+        - /var/lib/php/
 
     - name: Delete composer
       file: 
         path: /usr/local/bin/composer
         state: absent
 
-    - name: Create folder for nginx backup
+    - name: Create backup folder for nginx
       file:
-        path: /tmp/nginx-sites
+        path: /home/ansible/nginx-sites/
         state: directory
+
+    - name: Check if sites-available folder is present
+      stat:
+        path: /etc/nginx/sites-available
+      register: nginx_sites
 
     - name: Backup nginx sites
       copy:
         remote_src: yes
         src: /etc/nginx/sites-available/
-        dest: /tmp/nginx-sites/
+        dest: /home/ansible/nginx-sites/
+      when: nginx_sites.stat.exists
 
     - name: Uninstall & purge Nginx
       apt:
         name: nginx* 
         state: absent
         purge: yes
+
+    - name: Cleanup Nginx previous configuration folders
+      file:
+        path: '{{ item }}'
+        state: absent
+      with_items:
+        - /var/www/html
+        - /etc/nginx
+
+    - name: Cleanup apt
+      apt:
+        autoremove: yes
+        autoclean: yes
 
     - name: Update Debian mirrors
       replace:
@@ -117,9 +153,10 @@
       apt: 
         update_cache: yes
 
-    - name: Upgrade both packages and distribution
+    - name: Upgrade packages
       apt: 
         upgrade: full
+        force: yes
 
     - name: Check what the new version is
       shell: lsb_release -r | awk '{print $2}'
@@ -130,18 +167,16 @@
       debug: msg="Debian has been upgraded from {{ ansible_lsb.release }} to {{ new_release.stdout }}"
       when: ansible_lsb.release != new_release.stdout
 
-    - name: Verify update status
-      shell: hostnamectl
-      register: hostnamectl_output
-
-    - debug: var="hostnamectl_output.stdout_lines"
-
     - name: Reboot the server and wait for it to come back up
       reboot:
 
     - name: Wait for the system to become reachable
       wait_for_connection:
 
-    - name: Cleanup apt
-      apt:
-        autoremove: yes
+    - name: Verify update status
+      shell: hostnamectl
+      register: hostnamectl_output
+
+    - name: Print registered output
+      debug: 
+        var: hostnamectl_output.stdout_lines
