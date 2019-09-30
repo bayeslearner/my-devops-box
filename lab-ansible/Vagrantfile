@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
   # VMs
   config.vm.define "web01" do |web|
     web.vm.box = "rgsystems/buster64"
-    web.vm.box_version = ">=1.2.0"
+    web.vm.box_version = ">=1.0.0"
     web.vm.hostname = 'web01'
     web.vm.network "private_network", ip: "192.168.10.21"
     web.vm.provider 'virtualbox' do |vb|
