@@ -1,22 +1,14 @@
----  
-- name: Upload parameters.yml
+---
+- name: Copy .env.local file over the VM
   copy:
-    src: parameters.yml
-    dest: "{{ ansistrano_release_path.stdout }}/app/config/parameters.yml"
+    src: .env.local
+    dest: "{{ ansistrano_release_path.stdout }}/.env.local"
 
 - name: Create logs folder for symlinks
   file:
     path: "{{ release_logs_path }}"
     state: directory
 
-- name: Remove sensitive scripts from web/ dir
-  file:
-    path: '{{ release_web_path }}/{{ item }}'
-    state: absent
-  with_items:
-    - app_dev.php
-    - config.php
-    
 - name: Refresh permissions for all files
   file:
     path: /opt
@@ -47,7 +39,7 @@
   become_user: web
 
 - name: Copy Nginx vhost configuration file
-  template: 
+  template:
     src: web.conf.j2
     dest: /etc/nginx/sites-available/web.conf
     owner: root
@@ -55,11 +47,11 @@
     mode: 0644
 
 - name: Activate vhost with symlink
-  file: 
+  file:
     src: /etc/nginx/sites-available/web.conf
     dest: /etc/nginx/sites-enabled/web.conf
     state: link
-  notify: 
+  notify:
     - restart nginx
     - restart php-fpm
 
