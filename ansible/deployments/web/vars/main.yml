@@ -7,7 +7,7 @@ supervisor_http_password: admin
 
 # Nginx vhost variables
 nginx_template_path: web.conf.j2
-nginx_root: "{{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/web"
+nginx_root: "{{ ansistrano_deploy_to }}/{{ ansistrano_current_dir }}/public"
 nginx_name: dashboard-beta.rg-supervision.com
 nginx_well_known_ip: 192.168.200.30
 nginx_ssl_certificate_path: /mnt/gluster/ssl/dashboard-beta.rg-supervision.com/fullchain.pem
@@ -18,8 +18,8 @@ nginx_access_log_path: /var/log/nginx/dashboard-ssl-access.log
 
 # Local custom vars
 tasks_dir: "{{ playbook_dir }}/web/tasks"
-release_web_path: "{{ ansistrano_release_path.stdout }}/web"
-release_logs_path: "{{ ansistrano_release_path.stdout }}/app/logs"
+release_web_path: "{{ ansistrano_release_path.stdout }}/public"
+release_logs_path: "{{ ansistrano_release_path.stdout }}/var/log"
 
 # Ansistrano role vars
 ansistrano_before_setup_tasks_file: "{{ tasks_dir }}/before-setup.yml"
@@ -53,7 +53,7 @@ ansistrano_allow_anonymous_stats: no
 #   - my-file.txt
 #   - path/to/file.txt
 ansistrano_shared_paths:
-  - app/logs
+  - var/log
 
 # Deployment strategy
 ansistrano_deploy_via: git # Method used to deliver the code to the server. Options are copy, rsync, git, svn, s3 or download
@@ -76,7 +76,7 @@ filebeat_log_filename: filebeat.log
 filebeat_inputs:
   - paths:
     - /var/log/*.log
-    - "{{ ansistrano_deploy_to }}/shared/app/logs/*.log" # supervisor and symfony logs
+    - "{{ ansistrano_deploy_to }}/shared/var/log/*.log" # supervisor and symfony logs
     document_type: syslog
   - paths:
     - "/var/log/nginx/*log" # supervisor and symfony logs
