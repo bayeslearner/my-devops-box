@@ -21,7 +21,6 @@
       - publicsuffix
       - procmail
       - traceroute
-      # - iproute2
       - flex
       - xz-utils
       - libx11-data
@@ -38,10 +37,15 @@
       - pppoeconf
       - popularity-contest
       - installation-report
+      - apt-listchanges
+      - certbot
+      - ispell
+      - geoip-database      
 
     environment:
     
       DEBIAN_FRONTEND: noninteractive
+      APT_LISTCHANGES_FRONTEND: cat
 
   pre_tasks:
 
