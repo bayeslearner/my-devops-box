@@ -7,6 +7,11 @@
     - "{{ hosts | default('test') }}"
   become: true
 
+  environment:
+  
+    DEBIAN_FRONTEND: noninteractive
+    APT_LISTCHANGES_FRONTEND: cat
+
   vars_prompt:
     - name: user
       prompt: Enter the main username for this host
@@ -41,11 +46,6 @@
       - certbot
       - ispell
       - geoip-database      
-
-    environment:
-    
-      DEBIAN_FRONTEND: noninteractive
-      APT_LISTCHANGES_FRONTEND: cat
 
   pre_tasks:
 
