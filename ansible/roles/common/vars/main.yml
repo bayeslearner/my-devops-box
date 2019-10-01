@@ -8,6 +8,7 @@ common_pkgs:
   - apt-transport-https
   - git 
   - curl
+  - rsync
   - wget
   - unzip
   - net-tools 
