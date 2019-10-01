@@ -1,5 +1,5 @@
 # DevOps box
-* A vagrant project with an Ubuntu 16.04.06 box with the tools needed to practise and operate as a DevOps
+* A vagrant project with an Ubuntu 18.04 LTS box with the tools needed to practise and operate as a DevOps
 
 # Tools included
 * Docker & docker-compose
