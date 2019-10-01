@@ -21,7 +21,7 @@
       - publicsuffix
       - procmail
       - traceroute
-      - iproute2
+      # - iproute2
       - flex
       - xz-utils
       - libx11-data
@@ -38,6 +38,10 @@
       - pppoeconf
       - popularity-contest
       - installation-report
+
+    environment:
+    
+      DEBIAN_FRONTEND: noninteractive
 
   pre_tasks:
 
@@ -76,9 +80,24 @@
         state: absent
       tags: ['cleanup']
 
+    - name: Find old jessie GPG keys
+      find:
+        paths: /etc/apt/
+        recurse: true
+        patterns: '*jessie*'
+      register: gpg_result
+      tags: ['cleanup']
+
+    - name: Remove GPG keys if found any
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ gpg_result.files }}"
+      tags: ['cleanup']
+
     - name: Ensure aptitude is present & update apt
       apt:
-        name: aptitude
+        name: ['aptitude', 'ifupdown']
         state: present
         update_cache: yes
       tags: ['cleanup']
@@ -237,11 +256,13 @@
 
     - name: Cleanup apt
       apt:
+        update_cache: yes
         autoremove: yes
         autoclean: yes
         force_apt_get: yes
       tags: ['cleanup', 'upgrade']
 
+      # /usr/bin/aptitude -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold --assume-yes --allow-untrusted full-upgrade
     - name: Upgrade packages
       apt: 
         update_cache: yes
