@@ -21,7 +21,6 @@
   vars:
 
     unecessary_pkgs:
-      - rsync
       - python2.6-minimal
       - publicsuffix
       - procmail
