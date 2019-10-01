@@ -265,13 +265,13 @@
         force_apt_get: yes
       tags: ['cleanup', 'upgrade']
 
-      # /usr/bin/aptitude -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold --assume-yes --allow-untrusted full-upgrade
+    # /usr/bin/aptitude -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew --assume-yes --allow-untrusted full-upgrade
     - name: Upgrade packages
       apt: 
         update_cache: yes
         upgrade: full
         force: yes
-        dpkg_options: "force-confdef,force-confold"
+        dpkg_options: "force-confdef,force-confnew"
       tags: ['upgrade']
 
     - name: Check what the new version is
