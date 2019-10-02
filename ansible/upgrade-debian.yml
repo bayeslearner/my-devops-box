@@ -98,6 +98,21 @@
       with_items: "{{ gpg_result.files }}"
       tags: ['cleanup']
 
+    - name: Find compiled librdkafka files
+      find:
+        paths: /usr/
+        recurse: true
+        patterns: '*librdkafka*'
+      register: librdkafka_result
+      tags: ['cleanup']
+
+    - name: Remove previously compiled librdkafka files if found any
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ librdkafka_result.files }}"
+      tags: ['cleanup']
+
     - name: Ensure aptitude is present & update apt
       apt:
         name: ['aptitude', 'ifupdown']
