@@ -1,6 +1,3 @@
 .vagrant/
 *.log
-
-# Exclude everything from config/ but .dist files
-config/*
-!config/*.dist
+config.yaml
