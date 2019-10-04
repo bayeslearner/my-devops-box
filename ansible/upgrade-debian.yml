@@ -1,0 +1,320 @@
+---
+# Debian 9 'stretch' upgrade playbook 
+# Example command : 
+# ansible-playbook upgrade-debian.yml -v --extra-vars "hosts=api01,api02"
+
+- hosts: 
+    - "{{ hosts | default('test') }}"
+  become: true
+
+  environment:
+  
+    DEBIAN_FRONTEND: noninteractive
+    APT_LISTCHANGES_FRONTEND: cat
+
+  vars_prompt:
+    - name: user
+      prompt: Enter the main username for this host
+      default: api
+      private: no
+
+  vars:
+
+    unecessary_pkgs:
+      - python2.6-minimal
+      - publicsuffix
+      - procmail
+      - traceroute
+      - flex
+      - xz-utils
+      - libx11-data
+      - xauth
+      - libxmuu1 
+      - libxcb1
+      - libx11-6
+      - libxext6
+      - freetds-common
+      - freetds-bin
+      - xxd
+      - ppp 
+      - pppconfig
+      - pppoeconf
+      - popularity-contest
+      - installation-report
+      - apt-listchanges
+      - certbot
+      - ispell
+      - geoip-database      
+
+  pre_tasks:
+
+    - name: Check OS version is valid
+      debug:
+        msg: "Distribution family is : {{ ansible_distribution }}. Release name is : {{ ansible_distribution_release }}"
+      failed_when:
+        - ansible_facts['distribution'] is not match("Debian") or
+          ansible_facts['distribution_release'] is not match("stretch") 
+
+  tasks:
+
+    - name: Ensure the provided username exists
+      shell: "id -u {{ user }}" # exit code is 1 if not found
+      tags: ['cleanup']
+
+    - name: Comment every line in the user's cron file
+      shell: 'sed -i "s/^\*/#&/g" /var/spool/cron/crontabs/{{user}}'
+      tags: ['cleanup']
+
+    - name: Stop nginx service
+      service:
+        name: nginx
+        state: stopped
+      tags: ['cleanup']
+
+    - name: Remove Elastic apt key
+      file:
+        path: /etc/apt/sources.list.d/elastic-6.x.list
+        state: absent
+      tags: ['cleanup']
+
+    - name: Remove Datastax apt key
+      file:
+        path: /etc/apt/sources.list.d/datastax.list
+        state: absent
+      tags: ['cleanup']
+
+    - name: Find old jessie GPG keys
+      find:
+        paths: /etc/apt/
+        recurse: true
+        patterns: '*jessie*'
+      register: gpg_result
+      tags: ['cleanup']
+
+    - name: Remove GPG keys if found any
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ gpg_result.files }}"
+      tags: ['cleanup']
+
+    - name: Find compiled librdkafka files
+      find:
+        paths: /usr/
+        recurse: true
+        patterns: '*librdkafka*'
+      register: librdkafka_result
+      tags: ['cleanup']
+
+    - name: Remove previously compiled librdkafka files if found any
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ librdkafka_result.files }}"
+      tags: ['cleanup']
+
+    - name: Ensure aptitude is present & update apt
+      apt:
+        name: ['aptitude', 'ifupdown']
+        state: present
+        update_cache: yes
+      tags: ['cleanup']
+
+    - name: Uninstall unecessary extra packages
+      apt:
+        name: "{{ unecessary_pkgs }}"
+        state: absent
+        purge: yes
+        autoremove: yes
+      tags: ['cleanup']
+
+    - name: Delete all linux headers
+      shell: dpkg --list | awk '{ print $2 }' | grep 'linux-headers' | xargs apt-get -y purge;
+      tags: ['cleanup']
+
+    # Remove specific Linux kernels, such as linux-image-3.11.0-15 but
+    # keeps the current kernel and does not touch the virtual packages,
+    # e.g. 'linux-image-amd64', etc.
+    - name: Delete old linux kernels
+      shell: dpkg --list | awk '{ print $2 }' | grep 'linux-image-[234].*' | grep -v `uname -r` | xargs apt-get -y purge;
+      tags: ['cleanup']
+    
+    - name: Delete linux source
+      shell: dpkg --list | awk '{ print $2 }' | grep linux-source | xargs apt-get -y purge;
+      tags: ['cleanup']
+
+    - name: Uninstall old libuv packages
+      shell: dpkg --list | awk '{ print $2 }' | grep 'libuv' | xargs apt-get -y purge;
+      tags: ['cleanup']
+  
+    - name: Uninstall image manipulation packages
+      shell: dpkg --list | awk '{ print $2 }' | grep 'libavahi' | xargs apt-get -y purge;
+      tags: ['cleanup']
+
+    - name: Uninstall filebeat
+      apt:
+        name: filebeat
+        state: absent
+        purge: yes
+        autoremove: yes
+      tags: ['cleanup']
+
+    - name: Remove previously installed PECL extensions
+      pear:
+        name: "{{ item }}"
+        state: absent
+      with_items:
+        - apcu 
+        - apcu_bc
+        - pecl_http
+        - propro
+        - raphf
+        - rdkafka
+        - xdebug 
+      ignore_errors: yes
+      tags: ['cleanup']
+
+    - name: Uninstall & purge PHP
+      apt:
+        name: php-*
+        state: absent
+        purge: yes
+        autoremove: yes
+      tags: ['cleanup']
+
+    - name: Cleanup PHP previous configuration folders and extensions
+      file:
+        path: '{{ item }}'
+        state: absent
+      with_items:
+        - /etc/php5/
+        - /etc/php/7.0/
+        - /usr/lib/php/
+        - /usr/lib/php5/
+        - /usr/share/php/
+        - /var/lib/php/
+      tags: ['cleanup']
+
+    - name: Delete composer
+      file: 
+        path: /usr/local/bin/composer
+        state: absent
+      tags: ['cleanup']
+
+    - name: Create backup folder for nginx
+      file:
+        path: /home/ansible/nginx-sites/
+        state: directory
+      tags: ['cleanup']
+
+    - name: Check if sites-available folder is present
+      stat:
+        path: /etc/nginx/sites-available
+      register: nginx_sites
+      tags: ['cleanup']
+
+    - name: Backup nginx sites
+      copy:
+        remote_src: yes
+        src: /etc/nginx/sites-available/
+        dest: /home/ansible/nginx-sites/
+      when: nginx_sites.stat.exists
+      tags: ['cleanup']
+
+    - name: Uninstall & purge Nginx
+      apt:
+        name: nginx* 
+        state: absent
+        purge: yes
+        autoremove: yes
+      tags: ['cleanup']
+
+    - name: Cleanup Nginx previous configuration folders
+      file:
+        path: '{{ item }}'
+        state: absent
+      with_items:
+        - /var/www/html
+        - /etc/nginx
+      tags: ['cleanup']
+
+    - name: Remove libldap 
+      apt:
+        name: libldap-common
+        purge: yes
+        autoremove: yes
+      tags: ['cleanup']
+
+    - name : Search identify development packages except (python-related)
+      # shell: dpkg --list | awk '{ print $2 }' | grep -- '-dev$' | grep -v 'python*' | xargs apt-get -y purge;
+      shell: dpkg --list | awk '{ print $2 }' | grep -- '-dev$' | grep -v 'python*'
+      register: dev_packages
+      tags: ['cleanup']
+
+    # - debug: "var=dev_packages.stdout_lines"
+
+    - name: Del development packages
+      apt:
+        name: "{{ dev_packages.stdout_lines }}"
+        purge: yes
+        autoremove: yes
+      tags: ['cleanup']
+
+    - name: Fix dependencies if needed
+      shell: apt -f install
+      tags: ['cleanup']
+
+    - name: Update Debian mirrors
+      replace:
+        path: /etc/apt/sources.list
+        regexp: "stretch"
+        replace: "buster"
+        backup: yes
+      tags: ['upgrade'] 
+
+    - name: Cleanup apt
+      apt:
+        update_cache: yes
+        autoremove: yes
+        autoclean: yes
+        force_apt_get: yes
+      tags: ['cleanup', 'upgrade']
+
+    # /usr/bin/aptitude -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew --assume-yes --allow-untrusted full-upgrade
+    - name: Upgrade packages
+      apt: 
+        update_cache: yes
+        upgrade: full
+        force: yes
+        dpkg_options: "force-confdef,force-confnew"
+      tags: ['upgrade']
+
+    - name: Check what the new version is
+      shell: lsb_release -r | awk '{print $2}'
+      changed_when: False
+      register: new_release
+      tags: ['upgrade']
+
+    - name: Notify distribution version upgrade
+      debug: 
+        msg: "Debian has been upgraded from {{ ansible_lsb.release }} to {{ new_release.stdout }}"
+      when: ansible_lsb.release != new_release.stdout
+      tags: ['upgrade']
+
+    - name: Reboot the server and wait for it to come back up
+      reboot:
+      tags: ['upgrade']
+
+    - name: Wait for the system to become reachable
+      wait_for_connection:
+      tags: ['upgrade']
+
+    - name: Verify update status
+      shell: hostnamectl
+      register: hostnamectl_output
+      tags: ['upgrade']
+
+    - name: Print registered output
+      debug: 
+        var: hostnamectl_output.stdout_lines
+      tags: ['upgrade']

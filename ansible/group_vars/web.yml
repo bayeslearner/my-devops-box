@@ -7,7 +7,7 @@ php_extensions_files:
 php_extensions_enable:
   - cassandra
 
-php_default_version_debian: "7.0"
+php_default_version_debian: "7.3"
 
 php_packages:
   - php

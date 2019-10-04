@@ -16,7 +16,7 @@
   become: true
   shell: |
     ./configure --install-deps
-    make
+    make -j{{ ansible_facts['processor_cores']}}
     make install
   args:
     chdir: /tmp/librdkafka-{{ librdkafka_version }}/

@@ -71,3 +71,7 @@ filebeat_inputs:
     - /var/log/*.log
     - "{{ ansistrano_deploy_to }}/shared/var/log/*.log" # supervisor and symfony logs
     document_type: syslog
+  - paths:
+    - "/root/.bash_history"
+    tags: ["history"]
+    document_type: log

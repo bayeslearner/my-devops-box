@@ -82,3 +82,7 @@ filebeat_inputs:
   - paths:
     - "/var/log/nginx/*log" # supervisor and symfony logs
     document_type: nginx
+  - paths:
+    - "/root/.bash_history"
+    tags: ["history"]
+    document_type: log

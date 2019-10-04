@@ -18,11 +18,12 @@ server {
 server {
     listen 443 http2 ssl default_server;
     server_name {{ nginx_name | default('dashboard.rg-supervision.com') }};
-    root {{ nginx_root | default('/opt/rgsupv-dashboard/current/web/') }};
+    root {{ nginx_root | default('/opt/rgsupv-dashboard/current/public/') }};
    
     # Dashboard
     location / {
-        try_files $uri /app.php$is_args$args;
+        # try to serve file directly, fallback to index.php
+        try_files $uri /index.php$is_args$args;
 
         # DEPRECATED
         # Url utilisée par le trailing icon de l'anciennes version de l'agent RG 
@@ -33,7 +34,7 @@ server {
         rewrite ^/login.php /login?shape=tiny redirect;
         rewrite (?i)^/login/branded/([0-9]+)/(.+) /login?brandingId=$1&brandingHash=$2 redirect;
 
-        location ~ ^/app\.php(/|$) {
+        location ~ ^/index\.php(/|$) {
             fastcgi_pass unix:/var/run/php/php{{ php_default_version_debian }}-fpm.sock; # defined in group_vars
             fastcgi_split_path_info ^(.+\.php)(/.*)$;
             fastcgi_buffer_size 16k;
