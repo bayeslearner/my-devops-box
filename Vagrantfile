@@ -7,10 +7,10 @@ Vagrant.require_version '>= 2.2.5'
 
 # Local variables
 confDir = File.expand_path(File.dirname(__FILE__))
-configFile = confDir + "/Config.yaml"
+configFile = confDir + "/config.yaml"
 
 # Imports
-require confDir + '/scripts/provision.rb')
+require confDir + '/scripts/provision.rb'
 require 'yaml'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
