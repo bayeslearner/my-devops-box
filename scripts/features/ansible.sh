@@ -11,3 +11,6 @@ else
     echo "Ansible was already installed, skipping..."
     exit 0
 fi
+
+# refresh permissions
+chown -R vagrant:vagrant /home/vagrant
