@@ -8,7 +8,7 @@ if ! [ -x "$(command -v docker)" ] ; then
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
     apt-get update
     apt-get install -y docker-ce
-    usermod -aG docker ${USER}
+    usermod -aG docker vagrant
 else
     echo "Docker was already installed, skipping..."
     exit 0
