@@ -184,20 +184,6 @@ class Provision
         s.name = "Installing common packages"
         s.path = "scripts/common.sh"
       end
-      
-      # DNS
-      if settings.include? 'dns' then
-        config.vm.provision 'shell' do |s|
-          s.name = 'Updating DNS..'
-          s.path = script_dir + '/set-dns.sh'
-          s.args = [ 
-            settings['ip'],
-            settings['dns'][0]['ip'],
-            settings['dns'][0]['domain'].to_s
-          ]
-          s.privileged = false
-        end
-      end
     
       # Creates folder for opt-in features lockfiles
       config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
@@ -231,6 +217,20 @@ class Provision
             s.path = feature_path
             s.env = feature_variables
           end
+        end
+      end
+            
+      # DNS
+      if settings.include? 'dns' then
+        config.vm.provision 'shell' do |s|
+          s.name = 'Updating DNS..'
+          s.path = script_dir + '/set-dns.sh'
+          s.args = [ 
+            settings['ip'],
+            settings['dns'][0]['ip'],
+            settings['dns'][0]['domain'].to_s
+          ]
+          s.privileged = false
         end
       end
 
