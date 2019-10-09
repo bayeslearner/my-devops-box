@@ -17,6 +17,16 @@ if ! [ -x "$(command -v ansible)" ] ; then
     pip install ansible
 fi
 
+
+if [ -f /home/vagrant/.homestead-features/awx ]
+then
+    echo "AWX was already installed. Skipping..."
+    exit 0
+fi
+
+touch /home/vagrant/.homestead-features/awx
+chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
+
 wget -qO /tmp/awx.tar.gz https://github.com/ansible/awx/archive/${VERSION}.tar.gz
 mkdir -p ${INSTALL_DIR}
 tar -C ${INSTALL_DIR} -xzf /tmp/awx.tar.gz --strip-components 1
@@ -25,7 +35,7 @@ if [ -f ${CUSTOM_AWX_CONFIG} ] ; then
     cp ${CUSTOM_AWX_CONFIG} ${INSTALL_DIR}/installer/inventory
 fi
 
-echo "AWX version $(cat ./{$INSTALL_DIR}/VERSION) is going to be installed..."
+echo "==> AWX version $(cat ./{$INSTALL_DIR}/VERSION) is going to be installed..."
 pushd ${INSTALL_DIR}/installer
 ansible-playbook -i inventory install.yml
 popd
