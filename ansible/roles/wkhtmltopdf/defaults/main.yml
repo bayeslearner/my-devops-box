@@ -1,3 +1,0 @@
----
-# the expected path of the binary on the system. Will not install if it's already present on the remote machine
-wkhtmltopdf_path: /usr/local/bin/wkhtmltopdf

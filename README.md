@@ -1,61 +1,52 @@
 # DevOps box
-* A vagrant project with an Ubuntu 18.04 LTS box with the tools needed to practise and operate as a DevOps
+A vagrant project with an Ubuntu 18.04 LTS box with the tools needed to practise and operate as a DevOps
 
 # Tools included
-* Docker & docker-compose
+* Git
+* Curl
+* Telnet
+* Nmap
+
+# Features available
+* AWS client
+* Docker (with docker-compose)
 * Terraform
 * Packer
 * Ansible
-* Git
-* AWS client
-* GlusterFS client
+* AWX
 
-## Run commands examples :
-
-All provisionners (except AWS client)
+## Getting started :
+Call the init script to generate your own YAML configuration file
 ```bash
-vagrant up 
+~$ ./init.sh
 ```
 
+Then fill the generated `config.yaml` with your own values : VM settings, shared folders, environment variables...
+
+## Features setup examples :
 Packer and Terraform 
-```bash
-vagrant up --provision-with common,packer,terraform
-```
-
-Only Docker 
-```bash
-vagrant up --provision-with common,docker
-```
-
-Only AWS client 
-```bash
-vagrant up --provision-with common,aws-cli
-```
-
-Ansible lab example 
-```bash
-vagrant up --provision-with common,file,ansible,ansible-post-install
-# Boot the inventory machines
-cd lab-ansible/
-Vagrant up
+```yml
+features:
+    ...
+    - packer: true
+    - terraform: true
+    ...
 ```
 
 Ansible with AWX 
-```bash
-vagrant up --provision-with common,file,ansible,ansible-post-install,docker,awx
-# Boot the inventory machines
-cd lab-ansible/
-Vagrant up
+```yml
+features:
+    ...
+    - ansible: true
+    - docker: true
+    - awx: true
+    ...
 ```
 
-## Enable GlusterFS client
+Then proceed to boot the VM :
+```bash
+vagrant up
+```
 
-- Copy gluster .dist files and edit them with your own configuration
-```bash
-cp config/gluster.conf.dist config/gluster.conf
-cp config/gluster.hosts.dist config/hosts.conf
-```
-- Start VM
-```bash
-vagrant up --provision-with common,file,glusterfs-cli
-```
+## Configure AWX installation
+Before running the `vagrant up` command, edit the `awx_inventory` file with your own settings. The file will be copied over the **installer/** directory of awx source repository, replacing the [default configuration file](https://github.com/ansible/awx/blob/devel/installer/inventory).

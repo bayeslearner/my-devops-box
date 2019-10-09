@@ -1,5 +1,0 @@
----
-- name: supervisor | Restart mail group program
-  supervisorctl:
-    name: 'mail:'
-    state: restarted
