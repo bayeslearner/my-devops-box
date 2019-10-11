@@ -42,4 +42,6 @@ popd
 
 # "tag" feature as installed
 touch /home/vagrant/.homestead-features/awx
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
+
+# refresh permissions
+chown -R vagrant:vagrant /home/vagrant
