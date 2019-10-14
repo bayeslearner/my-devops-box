@@ -41,5 +41,8 @@ ansible-playbook -i inventory install.yml
 popd
 
 # "tag" feature as installed
+echo "==> Refresh homedir permissions"
 touch /home/vagrant/.homestead-features/awx
-chown -Rf vagrant:vagrant /home/vagrant/.homestead-features
+
+# refresh permissions
+chown -R vagrant:vagrant /home/vagrant

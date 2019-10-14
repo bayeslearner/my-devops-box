@@ -38,7 +38,7 @@ create_preload_data=False
 # AWX Secret key
 # It's *very* important that this stay the same between upgrades or you will lose the ability to decrypt
 # your credentials
-secret_key=awxsecret
+secret_key=976db4898e012160f1b77ceb91dae0e061aecb35b254c9063987f8c2e16e6049
 
 # Build AWX with official logos
 # Requires cloning awx-logos repo as a sibling of this project.
