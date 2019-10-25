@@ -50,3 +50,8 @@ vagrant up
 
 ## Configure AWX installation
 Before running the `vagrant up` command, edit the `awx_inventory` file with your own settings. The file will be copied over the **installer/** directory of awx source repository, replacing the [default configuration file](https://github.com/ansible/awx/blob/devel/installer/inventory).
+
+### Known issues and workarounds  
+
+https://github.com/ansible/awx/issues/4750
+https://github.com/ansible/awx/issues/1632 
