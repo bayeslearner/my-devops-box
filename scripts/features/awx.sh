@@ -2,7 +2,7 @@
 
 INSTALL_DIR="/home/vagrant/awx"
 CUSTOM_AWX_CONFIG=/vagrant/awx_inventory
-VERSION=${AWX_VERSION:-"8.0.0"}
+VERSION=${AWX_VERSION:-"9.0.1"}
 
 if ! [ -x "$(command -v docker)" ] ; then
     echo "Docker needs to be installed before this script!"
@@ -35,7 +35,7 @@ if [ -f ${CUSTOM_AWX_CONFIG} ] ; then
 fi
 
 # launch AWX installation playbook
-echo "==> AWX version $(cat ./{$INSTALL_DIR}/VERSION) is going to be installed..."
+echo "==> AWX version $(cat $INSTALL_DIR/VERSION) is going to be installed..."
 pushd ${INSTALL_DIR}/installer
 ansible-playbook -i inventory install.yml
 popd
