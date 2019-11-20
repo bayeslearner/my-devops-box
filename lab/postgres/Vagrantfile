@@ -1,0 +1,58 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION ||= "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Allow SSH Agent Forward from The Box
+  config.ssh.forward_agent = true
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+
+  # Local variables 
+  ansible_privkey = "~/.ssh/id_rsa"
+  ansible_pubkey = "~/.ssh/id_rsa.pub"
+  servers = YAML.load_file('servers.yaml')
+  
+  # VMs
+  servers.each do |srv|
+    config.vm.define srv['name'] do |i|
+      i.vm.box = srv['box']
+      i.vm.box_version = srv['box_version']
+      i.vm.hostname = srv['name']
+      i.vm.network "private_network", ip: srv['ip']
+      i.vm.provider 'virtualbox' do |vb|
+        vb.gui = false
+        vb.name = srv['name']
+        vb.customize ['modifyvm', :id, '--cpus', srv['cpus']]
+        vb.customize ['modifyvm', :id, '--memory', srv['memory']]
+        vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
+        vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+        vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+      end
+    end
+
+    config.vm.provision 'update /etc/hosts', type: 'shell', path: 'scripts/hosts.sh', run: 'once'
+
+    config.vm.provision 'apt packages', type: 'shell' do |s|
+      s.inline = <<-SHELL
+        apt-get install -y dos2unix telnet
+      SHELL
+    end
+
+    config.vm.provision 'install python interpreter', type: 'shell', path: 'scripts/python.sh'
+
+    config.vm.provision 'copy ssh keys', type: 'shell', run: 'once' do |s| 
+      s.path = 'scripts/common.sh'
+      s.privileged = false
+      s.env = {
+        "ANSIBLE_PRIVKEY_CONTENT" => File.read(File.expand_path(ansible_privkey)),
+        "ANSIBLE_PRIVKEY_NAME" => ansible_privkey.split('/').last,
+        "ANSIBLE_PUBKEY_CONTENT" => File.read(File.expand_path(ansible_pubkey))
+      }
+    end
+
+
+  end
+end
