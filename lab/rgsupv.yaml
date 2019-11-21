@@ -1,0 +1,29 @@
+---
+servers:
+  - name: web01
+    box: rgsystems/buster64
+    box_version: ">=1.1.0"
+    ip: "192.168.10.21"
+    memory: 1024
+    cpus: 1
+  - name: api01
+    box: rgsystems/buster64
+    box_version: ">=1.1.0"
+    ip: "192.168.10.31"
+    memory: 1024
+    cpus: 1
+  - name: worker01
+    box: rgsystems/buster64
+    box_version: ">=1.1.0"
+    ip: "192.168.10.41"
+    memory: 1024
+    cpus: 1
+  - name: consumer01
+    box: rgsystems/buster64
+    box_version: ">=1.1.0"
+    ip: "192.168.10.51"
+    memory: 1024
+    cpus: 1
+
+ansible_pubkey_path: ~/.ssh/id_rsa.pub
+ansible_privkey_path: ~/.ssh/id_rsa
