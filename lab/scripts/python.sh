@@ -1,3 +1,3 @@
-#!/bin/bash -eux
+#!/bin/bash -euv
 
-sudo apt-get install -yq python python-apt
+apt-get install -yq python python-apt

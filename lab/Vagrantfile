@@ -1,102 +1,83 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure("2") do |config|
+# config_file = "postgres.yaml"
+config_file = "rgsupv.yaml"
+
+VAGRANTFILE_API_VERSION ||= "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    config.hostmanager.enabled = true
+    config.hostmanager.manage_host = true
+    config.hostmanager.manage_guest = true
+    config.hostmanager.ignore_private_ip = false
+    config.hostmanager.include_offline = true
+  else
+    puts "Vagrant plugin vagrant-hostmanager must be installed!"
+    abort
+  end
 
   # Allow SSH Agent Forward from The Box
   config.ssh.forward_agent = true
   config.ssh.insert_key = false
   config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
 
-  # local variables 
-  # feel free to edit to fit your needs
-  ansible_privkey = "~/.ssh/id_rsa"
-  ansible_pubkey = "~/.ssh/id_rsa.pub"
+  if !File.exists?(File.join(File.dirname(__FILE__), config_file))
+    puts "The YAML config file is missing!"
+    abort
+  end
+  
+  vars = YAML.load_file(File.join(File.dirname(__FILE__), config_file))
+  ansible_pubkey_path = File.expand_path(vars['ansible_pubkey_path'])
+  ansible_privkey_path = File.expand_path(vars['ansible_privkey_path'])
 
+  if !File.exists?(ansible_pubkey_path) || !File.exists?(ansible_privkey_path)
+    puts "Provided SSH keypair paths could not be resolved!"
+    abort
+  end
+
+  servers = vars['servers']
+  
+  if !servers || servers.empty?
+    puts "No servers defined in #{config_file} !"
+    abort
+  end
+  
   # VMs
-  config.vm.define "web01" do |web|
-    web.vm.box = "rgsystems/buster64"
-    web.vm.box_version = ">=1.0.0"
-    web.vm.hostname = 'web01'
-    web.vm.network "private_network", ip: "192.168.10.21"
-    web.vm.provider 'virtualbox' do |vb|
-      vb.gui = false
-      vb.name = "web01"
-      vb.customize ['modifyvm', :id, '--cpus', '2']
-      vb.customize ['modifyvm', :id, '--memory', '1024']
-      vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
-      vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
-      vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+  servers.each do |srv|
+    config.vm.define srv['name'] do |i|
+      i.vm.box = srv['box']
+      i.vm.box_version = srv['box_version']
+      i.vm.hostname = srv['name']
+      i.vm.network "private_network", ip: srv['ip']
+      i.vm.provider 'virtualbox' do |vb|
+        vb.gui = false
+        vb.name = srv['name']
+        vb.customize ['modifyvm', :id, '--cpus', srv['cpus']]
+        vb.customize ['modifyvm', :id, '--memory', srv['memory']]
+        vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
+        vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
+        vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+      end
     end
   end
 
-  config.vm.define "api01" do |api|
-    api.vm.box = "rgsystems/buster64"
-    api.vm.box_version = ">=1.0.0"
-    api.vm.hostname = 'api01'
-    api.vm.network "private_network", ip: "192.168.10.31"
-    api.vm.provider 'virtualbox' do |vb|
-      vb.gui = false
-      vb.name = "api01"
-      vb.customize ['modifyvm', :id, '--cpus', '2']
-      vb.customize ['modifyvm', :id, '--memory', '1024']
-      vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
-      vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
-      vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
-    end
-  end
-
-  config.vm.define "worker01" do |worker|
-    worker.vm.box = "rgsystems/buster64"
-    worker.vm.box_version = ">=1.0.0"
-    worker.vm.hostname = 'worker01'
-    worker.vm.network "private_network", ip: "192.168.10.41"
-    worker.vm.provider 'virtualbox' do |vb|
-      vb.gui = false
-      vb.name = "worker01"
-      vb.customize ['modifyvm', :id, '--cpus', '2']
-      vb.customize ['modifyvm', :id, '--memory', '1024']
-      vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
-      vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
-      vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
-    end
-  end
-
-  config.vm.define "consumer01" do |consumer|
-    consumer.vm.box = "rgsystems/buster64"
-    consumer.vm.box_version = ">=1.0.0"
-    consumer.vm.hostname = 'consumer01'
-    consumer.vm.network "private_network", ip: "192.168.10.51"
-    consumer.vm.provider 'virtualbox' do |vb|
-      vb.gui = false
-      vb.name = "consumer01"
-      vb.customize ['modifyvm', :id, '--cpus', '2']
-      vb.customize ['modifyvm', :id, '--memory', '1024']
-      vb.customize ['modifyvm', :id, '--ostype', 'Debian_64']
-      vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
-      vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
-    end
-  end
-
-  # common provisionning for every host
   config.vm.provision 'apt packages', type: 'shell' do |s|
     s.inline = <<-SHELL
-      apt-get install -y dos2unix
+      apt-get install -y dos2unix telnet
     SHELL
   end
 
   config.vm.provision 'install python interpreter', type: 'shell', path: 'scripts/python.sh'
-  
-  config.vm.provision 'update hosts entries', type: 'shell', path: 'scripts/hosts.sh', run: 'once'
-  
+
   config.vm.provision 'copy ssh keys', type: 'shell', run: 'once' do |s| 
     s.path = 'scripts/common.sh'
     s.privileged = false
     s.env = {
-      "ANSIBLE_PRIVKEY_CONTENT" => File.read(File.expand_path(ansible_privkey)),
-      "ANSIBLE_PRIVKEY_NAME" => ansible_privkey.split('/').last,
-      "ANSIBLE_PUBKEY_CONTENT" => File.read(File.expand_path(ansible_pubkey))
+      "ANSIBLE_PRIVKEY_CONTENT" => File.read(ansible_privkey_path),
+      "ANSIBLE_PRIVKEY_NAME" => ansible_privkey_path.split('/').last,
+      "ANSIBLE_PUBKEY_CONTENT" => File.read(ansible_pubkey_path)
     }
   end
-
 end
