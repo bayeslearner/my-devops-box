@@ -49,7 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define srv['name'] do |i|
       i.vm.box = srv['box']
       i.vm.box_version = srv['box_version']
-      i.vm.hostname = srv['name']
+      i.vm.hostname = srv['hostname'] ||= srv['name']
       i.vm.network "private_network", ip: srv['ip']
       i.vm.provider 'virtualbox' do |vb|
         vb.gui = false
