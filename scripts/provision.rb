@@ -11,10 +11,10 @@ class Provision
       config.ssh.insert_key = false
   
       # Configure The Box
-      config.vm.box =         settings['box'] ||= 'rgsystems/bionic64'
-      config.vm.hostname =    settings['hostname'] ||= 'rg-devops-box'
-      config.vm.box_version = settings['version'] ||= '>=1.0.0'
-      config.vm.define        settings['name'] ||= 'rg-devops-box'
+      config.vm.box =         settings['box'] ||= 'bento/ubuntu-18.04'
+      config.vm.hostname =    settings['hostname'] ||= 'devops-box'
+      config.vm.box_version = settings['version'] ||= '201912.14.0'
+      config.vm.define        settings['name'] ||= 'devops-box'
   
        # Configure A Private Network IP
       if settings['ip'] != 'autonetwork'
@@ -215,7 +215,7 @@ class Provision
           config.vm.provision "shell" do |s|
             s.name = "Installing " + feature_name
             s.path = feature_path
-            s.env = feature_variables
+            s.env = feature
           end
         end
       end
