@@ -4,15 +4,15 @@ ip: "192.168.10.20"
 memory: 4096
 cpus: 2
 provider: virtualbox
-hostname: "rg-devops-box"
+hostname: "devops-box"
 
-# Uncomment to customize your box version (Ubuntu and Debian available). Latest by default.
-# Checkout https://app.vagrantup.com/rgsystems for details
-# version: "1.0.0"
+# Specify an older build/version from app.vagrantup.com
+# version: "201912.13.0"
 
-dns:
-  - ip: 192.168.1.200
-    domain: beta-supervision.com
+# Custom DNS settings
+# dns:
+# - ip: 192.168.1.2
+#   domain: mydomain.com
 
 # Uncomment to create a bridged connection available from other clients on the LAN
 # Network Adapter label can be found on VirtualBox > VM > Network settings
