@@ -215,7 +215,7 @@ class Provision
           config.vm.provision "shell" do |s|
             s.name = "Installing " + feature_name
             s.path = feature_path
-            s.env = feature_variables
+            s.env = feature
           end
         end
       end

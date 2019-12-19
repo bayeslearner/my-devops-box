@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-VERSION=${DOCKER_COMPOSE_VERSION:-"1.24.0"}
+VERSION=${version:-"1.25.0"}
 
 # install docker
 if ! [ -x "$(command -v docker)" ] ; then

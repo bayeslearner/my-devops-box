@@ -43,6 +43,16 @@ features:
     ...
 ```
 
+Choosing a specific version
+```yml
+features:
+    ...
+    - terraform: true
+      version: "0.12.7"
+    - awx: true
+      version: "9.0.1"
+```
+
 Then proceed to boot the VM :
 ```bash
 vagrant up
