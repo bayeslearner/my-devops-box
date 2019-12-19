@@ -1,8 +1,8 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+config_file = "app.yaml"
 # config_file = "postgres.yaml"
-config_file = "rgsupv.yaml"
 
 VAGRANTFILE_API_VERSION ||= "2"
 
