@@ -7,15 +7,12 @@ config_file = "rgsupv.yaml"
 VAGRANTFILE_API_VERSION ||= "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  if Vagrant.has_plugin?("vagrant-hostmanager")
-    config.hostmanager.enabled = true
-    config.hostmanager.manage_host = true
-    config.hostmanager.manage_guest = true
-    config.hostmanager.ignore_private_ip = false
-    config.hostmanager.include_offline = true
-  else
+  if !Vagrant.has_plugin?("vagrant-hostmanager")
     puts "Vagrant plugin vagrant-hostmanager must be installed!"
     abort
+  else
+    config.hostmanager.manage_host = true
+    config.hostmanager.manage_guest = true
   end
 
   # Allow SSH Agent Forward from The Box
@@ -79,5 +76,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "ANSIBLE_PRIVKEY_NAME" => ansible_privkey_path.split('/').last,
       "ANSIBLE_PUBKEY_CONTENT" => File.read(ansible_pubkey_path)
     }
+  end
+
+  # after triggers 
+  config.trigger.after :up, :destroy do |trigger|
+    trigger.name = "vagrant-hostmanager"
+    trigger.info = "Updating hosts configuration!"
+    trigger.run = { inline: "vagrant hostmanager" }
   end
 end

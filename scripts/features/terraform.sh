@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-VERSION=${TERRAFORM_VERSION:-"0.12.7"}
+VERSION=${version:-"0.12.18"}
 
 # install terraform
 if ! which terraform > /dev/null ; then
