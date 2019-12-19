@@ -1,22 +1,22 @@
 ---
 servers:
   - name: pgsql01
-    box: rgsystems/buster64
-    box_version: ">=1.1.0"
+    box: bento/debian-10.2
+    box_version: "201912.14.0"
     ip: "192.168.56.11"
-    memory: 1024
+    memory: 2048
     cpus: 1
   - name: pgsql02
-    box: rgsystems/buster64
-    box_version: ">=1.1.0"
+    box: bento/debian-10.2
+    box_version: "201912.14.0"
     ip: "192.168.56.12"
-    memory: 1024
+    memory: 2048
     cpus: 1
   - name: pgsql03
-    box: rgsystems/buster64
-    box_version: ">=1.1.0"
+    box: bento/debian-10.2
+    box_version: "201912.14.0"
     ip: "192.168.56.13"
-    memory: 1024
+    memory: 2048
     cpus: 1
   
 ansible_pubkey_path: ~/.ssh/id_rsa.pub
