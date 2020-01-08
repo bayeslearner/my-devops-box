@@ -34,7 +34,7 @@ servers:
     box_version: ">=1.1.0"
     ip: "192.168.10.61"
     memory: 1024
-    cpus: 1
+    cpus: 4
 
 ansible_pubkey_path: ~/.ssh/id_rsa.pub
 ansible_privkey_path: ~/.ssh/id_rsa
