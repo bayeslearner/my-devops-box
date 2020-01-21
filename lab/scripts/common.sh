@@ -2,7 +2,7 @@
 
 HOME=/home/ansible
 
-if [ ! id -u ansible ] ; then 
+if ! $(id -u ansible >/dev/null 2>&1) ; then 
     # create ansible user
     sudo useradd -p $(openssl passwd -1 ansible) --create-home -s /bin/bash ansible
     # add ansible user to ansible group
