@@ -2,6 +2,7 @@
 # vi: set ft=ruby :
 
 # config_file = "postgres.yaml"
+# config_file = "cassandra.yaml"
 config_file = "rgsupv.yaml"
 
 VAGRANTFILE_API_VERSION ||= "2"
@@ -62,6 +63,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision 'apt packages', type: 'shell' do |s|
     s.inline = <<-SHELL
+      apt-get update
       apt-get install -y dos2unix telnet
     SHELL
   end
