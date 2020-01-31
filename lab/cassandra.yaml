@@ -1,25 +1,22 @@
 ---
 servers:
   - name: cass01
-    hostname: cass01-vagrant
     box: rgsystems/bionic64
     box_version: ">=1.2.0"
     ip: "192.168.10.81"
-    memory: 1024
+    memory: 2048
     cpus: 1
   - name: cass02
-    hostname: cass02-vagrant
-    box: rgsystems/buster64
+    box: rgsystems/bionic64
     box_version: ">=1.2.0"
     ip: "192.168.10.82"
-    memory: 1024
+    memory: 2048
     cpus: 1
   - name: cass03
-    hostname: cass03-vagrant
-    box: rgsystems/buster64
+    box: rgsystems/bionic64
     box_version: ">=1.2.0"
     ip: "192.168.10.83"
-    memory: 1024
+    memory: 2048
     cpus: 1
   
 ansible_pubkey_path: ~/.ssh/id_rsa.pub
