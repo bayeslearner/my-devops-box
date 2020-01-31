@@ -27,3 +27,7 @@ sudo chmod 600 $HOME/.ssh/authorized_keys
 
 # refresh permissions
 sudo chown -R ansible:ansible $HOME
+
+# fix /etc/hosts. See: https://github.com/hashicorp/vagrant/issues/7263
+ip_address=$(ip addr show eth1 | grep -w inet | awk '{ sub("/.*", "", $2); print $2 }')
+sudo sed -i "/$HOSTNAME/c\\$ip_address\t$HOSTNAME" /etc/hosts
