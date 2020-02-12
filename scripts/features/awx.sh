@@ -15,7 +15,7 @@ if ! [ -x "$(command -v ansible)" ] ; then
     exit 1
 fi
 
-if [ -f /home/vagrant/.homestead-features/awx ] ; then
+if [ -f /home/vagrant/.devops-features/awx ] ; then
     echo "AWX was already installed. Skipping..."
     exit 0
 fi
