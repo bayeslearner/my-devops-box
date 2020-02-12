@@ -42,7 +42,7 @@ popd
 
 # "tag" feature as installed
 echo "==> Refresh homedir permissions"
-touch /home/vagrant/.homestead-features/awx
+touch /home/vagrant/.devops-features/awx
 
 # refresh permissions
 chown -R vagrant:vagrant /home/vagrant

@@ -186,8 +186,8 @@ class Provision
       end
     
       # Creates folder for opt-in features lockfiles
-      config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.homestead-features"
-      config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.homestead-features"
+      config.vm.provision "shell", inline: "mkdir -p /home/vagrant/.devops-features"
+      config.vm.provision "shell", inline: "chown -Rf vagrant:vagrant /home/vagrant/.devops-features"
       
       # Install opt-in features
       if settings.has_key?('features')
