@@ -5,11 +5,16 @@
 # Then set it as an environment variable from the command-line :
 # export AWX_ACCESS_TOKEN=<token>
 
+if [[ -z $AWX_ACCESS_TOKEN ]] ; then
+  echo "AWX_ACCESS_TOKEN is not set in this context"
+  exit 0;
+fi
+
 ACCESS_TOKEN=${AWX_ACCESS_TOKEN}
 JOB_TEMPLATE_ID=${1:-'1'}
-AWX_HOST=${2:-'192.168.1.5'}
-AWX_PORT=${3:-'443'}
-GIT_BRANCH=${4:-master}
+GIT_BRANCH=${2:-unstable}
+AWX_HOST=${3:-'192.168.1.5'}
+AWX_PORT=${4:-'443'}
 PAYLOAD=$(jq -n -c --arg branch $GIT_BRANCH '{ extra_vars: { git_branch: $branch } }') # Survey with git_branch variable must be set and enabled in job template settings 
 
 # Executes a job template which ID equals to $JOB_TEMPLATE_ID variable, and outputs the JSON response to stdout
