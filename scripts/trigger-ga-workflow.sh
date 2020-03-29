@@ -13,4 +13,4 @@ curl -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token $TOKEN" \
     --request POST \
     --data $PAYLOAD \
-    https://api.github.com/repos/$USER/$REPO/dispatches
+    https://api.github.com/repos/$USER/$REPO/dispatches | jq
