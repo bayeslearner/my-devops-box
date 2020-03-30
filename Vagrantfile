@@ -3,7 +3,7 @@
 
 # Version constraints
 VAGRANTFILE_API_VERSION ||= "2"
-Vagrant.require_version '>= 2.2.5'
+Vagrant.require_version '>= 2.2.7'
 
 # Local variables
 confDir = File.expand_path(File.dirname(__FILE__))

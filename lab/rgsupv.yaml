@@ -35,8 +35,8 @@ servers:
     ip: "192.168.10.61"
     memory: 1024
     cpus: 2
-  - name: grafana01
-    hostname: grafana01-vagrant
+  - name: monitoring01
+    hostname: monitoring01-vagrant
     box: rgsystems/buster64
     box_version: ">=1.1.0"
     ip: "192.168.10.71"
