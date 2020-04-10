@@ -11,17 +11,27 @@ if [[ -z $AWX_ACCESS_TOKEN ]] ; then
 fi
 
 ACCESS_TOKEN=${AWX_ACCESS_TOKEN}
-JOB_TEMPLATE_ID=${1:-'1'}
-GIT_BRANCH=${2:-unstable}
-AWX_HOST=${3:-'192.168.1.5'}
-AWX_PORT=${4:-'443'}
-PAYLOAD=$(jq -n -c --arg branch $GIT_BRANCH '{ extra_vars: { git_branch: $branch } }') # Survey with git_branch variable must be set and enabled in job template settings 
+GIT_BRANCH=${AWX_GIT_BRANCH:-unstable}
+JOB_ROUTE=${AWX_JOB_ROUTE:-job_templates}
+JOB_TEMPLATE_ID=${AWX_JOB_TEMPLATE_ID:-29}
+HOST=${AWX_JOB_HOST:-37.187.190.168}
+PORT=${AWX_JOB_PORT:-9443}
+PAYLOAD=$(jq -n -c --arg branch $GIT_BRANCH '{ extra_vars: { git_branch: $branch } }') # Survey with git_branch variable must be set and enabled in job template settings
 
-# Executes a job template which ID equals to $JOB_TEMPLATE_ID variable, and outputs the JSON response to stdout
-curl -k -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+echo "==> Request to: https://${HOST}:${PORT}/api/v2/${JOB_ROUTE}/${JOB_TEMPLATE_ID}/launch/"
+
+STATUS=$(curl -sk -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     -H "Content-Type: application/json" \
     -d $PAYLOAD \
-    -X POST https://${AWX_HOST}:${AWX_PORT}/api/v2/job_templates/${JOB_TEMPLATE_ID}/launch/ | jq
+    -X POST https://${HOST}:${PORT}/api/v2/${JOB_ROUTE}/${JOB_TEMPLATE_ID}/launch/ \
+    -w '%{http_code}')
+
+echo -e "==> Response status code : ${STATUS:(-3)} \n"
+
+if [ ! ${STATUS:(-3)} -eq 201 ] ; then
+  echo "Request failed. ${STATUS::(-3)}";
+  exit 1;
+fi
 
 # You may also create a token from the command line, using the API
 # To create an application, go to http://<tower_host>/applications
