@@ -1,44 +1,55 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-config_file = "app.yaml"
-# config_file = "postgres.yaml"
-
+plugins = [
+  'vagrant-env',
+  'vagrant-hostmanager'
+]
 VAGRANTFILE_API_VERSION ||= "2"
+
+# require
+require 'dotenv'
 Vagrant.require_version '>= 2.2.7'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  if !Vagrant.has_plugin?("vagrant-hostmanager")
-    puts "Vagrant plugin vagrant-hostmanager must be installed!"
-    abort
-  else
-    config.hostmanager.manage_host = true
-    config.hostmanager.manage_guest = true
-  end
+  # install plugin dependencies
+  plugins.map { |plugin|
+    unless Vagrant.has_plugin?(plugin)
+      puts "Installing #{plugin} Plugin..."
+      system("vagrant plugin install #{plugin}")
+    end
+  }
 
-  # Allow SSH Agent Forward from The Box
-  config.ssh.forward_agent = true
-  config.ssh.insert_key = false
-  config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
+  # configure hostmanager plugin
+  config.hostmanager.manage_host = true
+  config.hostmanager.manage_guest = true
 
-  if !File.exists?(File.join(File.dirname(__FILE__), config_file))
+  # enable env plugin
+  config.env.enable
+  Dotenv.load
+
+  if !File.exists?(File.join(File.dirname(__FILE__), ENV['CONFIG_FILE']))
     puts "The YAML config file is missing!"
     abort
   end
+
+  # configure ssh
+  config.ssh.forward_agent = true
+  config.ssh.insert_key = false
+  config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key"]
   
-  vars = YAML.load_file(File.join(File.dirname(__FILE__), config_file))
-  ansible_pubkey_path = File.expand_path(vars['ansible_pubkey_path'])
-  ansible_privkey_path = File.expand_path(vars['ansible_privkey_path'])
+  settings              = YAML.load_file(File.join(File.dirname(__FILE__), ENV['CONFIG_FILE']))
+  servers               = settings['servers']
+  ansible_pubkey_path   = File.expand_path(settings['ansible_pubkey_path'])
+  ansible_privkey_path  = File.expand_path(settings['ansible_privkey_path'])
 
   if !File.exists?(ansible_pubkey_path) || !File.exists?(ansible_privkey_path)
     puts "Provided SSH keypair paths could not be resolved!"
     abort
   end
 
-  servers = vars['servers']
-  
   if !servers || servers.empty?
-    puts "No servers defined in #{config_file} !"
+    puts "No servers defined in #{ENV['CONFIG_FILE']} !"
     abort
   end
   

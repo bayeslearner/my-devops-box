@@ -1,13 +1,25 @@
 # DevOps box
+
 A vagrant project with an Ubuntu 18.04 LTS box with the tools needed to practise and operate as a DevOps
 
-# Tools included
+- [DevOps box](#devops-box)
+  - [Tools included](#tools-included)
+  - [Features available](#features-available)
+  - [Getting started](#getting-started)
+  - [Features setup examples](#features-setup-examples)
+  - [Configure AWX installation](#configure-awx-installation)
+  - [Boot a multi-VMs Vagrant lab](#boot-a-multi-vms-vagrant-lab)
+    - [Dependencies](#dependencies)
+
+## Tools included
+
 * Git
 * Curl
 * Telnet
 * Nmap
 
-# Features available
+## Features available
+
 * AWS client
 * Docker (with docker-compose)
 * Terraform
@@ -15,7 +27,8 @@ A vagrant project with an Ubuntu 18.04 LTS box with the tools needed to practise
 * Ansible
 * AWX
 
-## Getting started :
+## Getting started
+
 Call the init script to generate your own YAML configuration file
 ```bash
 ~$ ./init.sh
@@ -23,7 +36,8 @@ Call the init script to generate your own YAML configuration file
 
 Then fill the generated `config.yaml` with your own values : VM settings, shared folders, environment variables...
 
-## Features setup examples :
+## Features setup examples
+
 Packer and Terraform 
 ```yml
 features:
@@ -59,7 +73,21 @@ vagrant up
 ```
 
 ## Configure AWX installation
+
 Before running the `vagrant up` command, edit the `awx_inventory` file with your own settings. The file will be copied over the **installer/** directory of awx source repository, replacing the [default configuration file](https://github.com/ansible/awx/blob/devel/installer/inventory).
 
-## Boot a Vagrant lab
-See: [lab/README.md](./lab/README.md)
+## Boot a multi-VMs Vagrant lab
+
+This repository allows to boot up multiple, ansible-ready VMs using pre-defined YAML files. To initialize a new lab : 
+
+1. Move into lab/ directory : `cd lab/`
+2. Copy or edit one of the existing YAML servers definition files found in resources/.
+3. Copy `.env.dist` to `.env`. Add key `CONFIG_PATH=<your_file.yaml>`. For example, `CONFIG_FILE=resources/app.yaml`
+4. Ensure your configuration is valid using command `vagrant validate`
+5. Start your lab using `vagrant up`
+
+### Dependencies 
+
+The Vagrantfile used to boot up labs automatically installs the following vagrant plugins :
+- [vagrant-hostmanager](https://github.com/devopsgroup-io/vagrant-hostmanager)
+- [vagrant-env](https://github.com/gosuri/vagrant-env)
