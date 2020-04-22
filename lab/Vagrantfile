@@ -5,6 +5,7 @@ config_file = "app.yaml"
 # config_file = "postgres.yaml"
 
 VAGRANTFILE_API_VERSION ||= "2"
+Vagrant.require_version '>= 2.2.7'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   if !Vagrant.has_plugin?("vagrant-hostmanager")
@@ -62,6 +63,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision 'apt packages', type: 'shell' do |s|
     s.inline = <<-SHELL
+      apt-get update
       apt-get install -y dos2unix telnet
     SHELL
   end

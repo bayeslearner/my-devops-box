@@ -2,7 +2,7 @@
 
 INSTALL_DIR="/home/vagrant/awx"
 CUSTOM_AWX_CONFIG=/vagrant/awx_inventory
-VERSION=${version:-"9.1.0"}
+VERSION=${version:-"9.2.0"}
 
 if ! [ -x "$(command -v docker)" ] ; then
     echo "Docker needs to be installed before this script!"
@@ -15,7 +15,7 @@ if ! [ -x "$(command -v ansible)" ] ; then
     exit 1
 fi
 
-if [ -f /home/vagrant/.homestead-features/awx ] ; then
+if [ -f /home/vagrant/.devops-features/awx ] ; then
     echo "AWX was already installed. Skipping..."
     exit 0
 fi
@@ -42,7 +42,7 @@ popd
 
 # "tag" feature as installed
 echo "==> Refresh homedir permissions"
-touch /home/vagrant/.homestead-features/awx
+touch /home/vagrant/.devops-features/awx
 
 # refresh permissions
 chown -R vagrant:vagrant /home/vagrant
