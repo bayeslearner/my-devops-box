@@ -8,7 +8,7 @@ DNS_DOMAIN=$3
 echo "==> Setting DNS for ${DISTRIBUTION_RELEASE}..."
 
 # Ubuntu bionic
-if [ ${DISTRIBUTION_RELEASE} == 'bionic' ] ; then
+if [ ${DISTRIBUTION_RELEASE} == 'bionic' || ${DISTRIBUTION_RELEASE} == 'disco' ] ; then
 block="
 ---
 network:
