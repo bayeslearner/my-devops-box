@@ -1,7 +1,8 @@
-#!/bin/bash -eu
+#!/bin/bash -e
 
 # Installs ansible along with other components
-apt-get install -y python3 python3-pip
+apt-get install -y python3-pip
+ln -sf /usr/bin/python3 /usr/bin/python
 pip3 install --upgrade --ignore-installed --requirement /vagrant/requirements.txt
 
 # Display current ansible version
