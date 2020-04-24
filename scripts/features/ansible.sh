@@ -1,15 +1,10 @@
 #!/bin/bash -eu
 
-if ! [ -x "$(command -v ansible)" ] ; then
-    apt-get install -y python-pip
-    pip install ansible 
-    ansible --version
-    pip install molecule yamllint ansible-lint docker-py
-    molecule --version
-else
-    echo "Ansible was already installed, skipping..."
-    exit 0
-fi
+# Installs ansible along with other components
+apt-get install -y python3 python3-pip
+pip3 install --upgrade --ignore-installed --requirement /vagrant/requirements.txt
 
-# refresh permissions
-chown -R vagrant:vagrant /home/vagrant
+# Display current ansible version
+ansible --version
+# Display current molecule version
+molecule --version
