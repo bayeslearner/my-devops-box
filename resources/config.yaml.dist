@@ -5,11 +5,10 @@ memory: 4096
 cpus: 2
 provider: virtualbox
 hostname: "rg-devops-box"
+#box: rgsystems/disco64
+#version: ">=1.0"
 
-# Uncomment to customize your box version (Ubuntu and Debian available). Latest by default.
-# Checkout https://app.vagrantup.com/rgsystems for details
-# version: "1.0.0"
-
+### DNS configuration
 dns:
   - ip: 192.168.1.200
     domain: beta-supervision.com
@@ -27,8 +26,12 @@ keys:
 
 ### Shared folders configuration:
 folders:
-  - map: /path/to/project # host
-    to: /home/vagrant/project # guest (VM)
+  - map: /path/to/project
+    to: /home/vagrant/project
+    options: 
+      owner: vagrant
+      group: vagrant
+      mount_options: ["dmode=0770,fmode=774"]
 
 ### Environment variables:
 variables:
