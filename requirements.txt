@@ -8,3 +8,4 @@ molecule-vagrant
 netaddr
 dnspython
 python-vagrant
+cryptography
