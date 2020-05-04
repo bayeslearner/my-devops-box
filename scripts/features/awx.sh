@@ -2,7 +2,7 @@
 
 INSTALL_DIR="/home/vagrant/awx"
 CUSTOM_AWX_CONFIG=/vagrant/awx_inventory
-VERSION=${version:-"9.2.0"}
+VERSION=${version:-"11.2.0"}
 
 if ! [ -x "$(command -v docker)" ] ; then
     echo "Docker needs to be installed before this script!"
@@ -21,8 +21,8 @@ if [ -f /home/vagrant/.devops-features/awx ] ; then
 fi
 
 # install dependencies
-apt-get install -yq python-pip
-pip install docker-compose
+apt-get install -yq python3-pip
+pip install --upgrade --ignore-installed docker-compose docker
 
 # download release from github
 wget -qO /tmp/awx.tar.gz https://github.com/ansible/awx/archive/${VERSION}.tar.gz
