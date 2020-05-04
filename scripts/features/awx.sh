@@ -37,7 +37,7 @@ fi
 # launch AWX installation playbook
 echo "==> AWX version $(cat $INSTALL_DIR/VERSION) is going to be installed..."
 pushd ${INSTALL_DIR}/installer
-ansible-playbook -i inventory install.yml
+su vagrant -c 'ansible-playbook -i inventory install.yml'
 popd
 
 # "tag" feature as installed
