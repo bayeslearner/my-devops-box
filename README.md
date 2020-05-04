@@ -64,7 +64,7 @@ features:
     - terraform: true
       version: "0.12.7"
     - awx: true
-      version: "9.0.1"
+      version: "10.0.0"
 ```
 
 Then proceed to boot the VM :

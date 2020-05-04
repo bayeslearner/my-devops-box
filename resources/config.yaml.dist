@@ -27,8 +27,12 @@ keys:
 
 ### Shared folders configuration:
 folders:
-  - map: /path/to/project # host
-    to: /home/vagrant/project # guest (VM)
+  - map: /path/to/project
+    to: /home/vagrant/project
+    options: 
+      owner: vagrant
+      group: vagrant
+      mount_options: ["dmode=0770,fmode=774"]
 
 ### Environment variables:
 variables:
