@@ -22,3 +22,5 @@ admin_password=password
 create_preload_data=True
 
 secret_key=awxsecret
+
+project_data_dir=/var/lib/awx/projects
