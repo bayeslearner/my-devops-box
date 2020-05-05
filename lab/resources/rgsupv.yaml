@@ -30,7 +30,7 @@ servers:
     cpus: 2
   - name: lsd01
     hostname: lsd01-vagrant
-    box: rgsystems/buster64S
+    box: rgsystems/buster64
     box_version: ">=1.1.0"
     ip: "192.168.10.61"
     memory: 1024
