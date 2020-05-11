@@ -11,7 +11,7 @@ class Provision
       config.ssh.insert_key = false
   
       # Configure The Box
-      config.vm.box =         settings['box'] ||= 'rgsystems/bionic64'
+      config.vm.box =         settings['box'] ||= 'rgsystems/focal64'
       config.vm.hostname =    settings['hostname'] ||= 'rg-devops-box'
       config.vm.box_version = settings['version'] ||= '>=1.0.0'
       config.vm.define        settings['name'] ||= 'rg-devops-box'
