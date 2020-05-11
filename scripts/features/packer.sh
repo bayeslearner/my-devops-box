@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-VERSION=${version:-"1.4.5"}
+VERSION=${version:-"1.5.6"}
 
 # install packer
 if ! which packer > /dev/null ; then
