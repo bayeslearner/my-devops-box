@@ -1,14 +1,13 @@
 #!/bin/bash -eu
 
-DISTRIBUTION_RELEASE=$(lsb_release -sc)
+DISTRIBUTION_RELEASE=$(lsb_release -si)
 IP=$1
 DNS_IP=$2
 DNS_DOMAIN=$3
 
 echo "==> Setting DNS for ${DISTRIBUTION_RELEASE}..."
 
-# Ubuntu bionic
-if [ ${DISTRIBUTION_RELEASE} == 'bionic' || ${DISTRIBUTION_RELEASE} == 'disco' ] ; then
+if [ ${DISTRIBUTION_RELEASE} == 'Ubuntu' ] ; then
 block="
 ---
 network:
@@ -26,8 +25,7 @@ echo "${block}" | sudo tee /etc/netplan/50-vagrant.yaml >/dev/null 2>&1
 sudo netplan apply 
 fi
 
-# Debian buster
-if [ ${DISTRIBUTION_RELEASE} == 'buster' ] || [ ${DISTRIBUTION_RELEASE} == 'stretch' ] ; then
+if [ ${DISTRIBUTION_RELEASE} == 'Debian' ] ; then
     if [ ! -d /etc/default/resolvconf ] ; then 
         echo "Installing DNS management tools..."
         sudo apt-get update > /dev/null

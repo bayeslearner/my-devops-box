@@ -11,9 +11,9 @@ class Provision
       config.ssh.insert_key = false
   
       # Configure The Box
-      config.vm.box =         settings['box'] ||= 'bento/ubuntu-18.04'
+      config.vm.box =         settings['box'] ||= 'bento/ubuntu-20.04'
       config.vm.hostname =    settings['hostname'] ||= 'devops-box'
-      config.vm.box_version = settings['version'] ||= '201912.14.0'
+      config.vm.box_version = settings['version'] ||= '202004.27.0'
       config.vm.define        settings['name'] ||= 'devops-box'
   
        # Configure A Private Network IP
