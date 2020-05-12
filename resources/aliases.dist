@@ -22,7 +22,7 @@ function docker_gpkg_login()
         echo "Environment variable GITHUB_TOKEN must be set!"
     else
         echo $GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_USER --password-stdin
-    fi:
+    fi;
 }
 
 function docker_hub_login()
