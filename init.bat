@@ -2,6 +2,6 @@
 
 copy /-y resources\config.yaml.dist config.yaml
 copy /-y resources\aliases.dist aliases
+copy /-y resources\after.sh after.sh
 
-echo config file initialized!
-echo aliases file initialized!
+echo Devops box initialized!

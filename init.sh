@@ -2,6 +2,6 @@
 
 cp -i resources/config.yaml.dist config.yaml
 cp -i resources/aliases.dist aliases
+cp -i resources/after.sh after.sh
 
-echo "config file initialized!"
-echo "aliases file initialized!"
+echo "DevOps box initialized!"

@@ -6,9 +6,10 @@ VAGRANTFILE_API_VERSION ||= "2"
 Vagrant.require_version '>= 2.2.7'
 
 # Local variables
-confDir     = File.expand_path(File.dirname(__FILE__))
-configFile  = confDir + "/config.yaml"
-aliasesFile = confDir + "/aliases"
+confDir         = File.expand_path(File.dirname(__FILE__))
+configFile      = confDir + "/config.yaml"
+aliasesFile     = confDir + "/aliases"
+afterScriptPath = confDir + "/after.sh"
 
 # Imports
 require confDir + '/scripts/provision.rb'
@@ -36,5 +37,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         end
     end
 
-	Provision.init(config, settings)
+    Provision.init(config, settings)
+    
+    if File.exist? afterScriptPath then
+        config.vm.provision 'Executing after.sh script',
+        type: 'shell',
+        path: afterScriptPath,
+        privileged: false,
+        keep_color: true
+    end
 end

@@ -15,3 +15,21 @@ function clear_facts()
 function playbook() {
     ansible-playbook "$@"
 }
+
+function docker_gpkg_login()
+{
+    if [[ -z $GITHUB_TOKEN ]] ; then
+        echo "Environment variable GITHUB_TOKEN must be set!"
+    else
+        echo $GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_USER --password-stdin
+    fi;
+}
+
+function docker_hub_login()
+{
+    if [[ -z $DOCKERHUB_TOKEN ]] ; then
+        echo "Environment variable DOCKERHUB_TOKEN must be set!"
+    else
+        echo $DOCKERHUB_TOKEN | docker login registry-1.docker.io -u $GITHUB_USER --password-stdin
+    fi;
+}
