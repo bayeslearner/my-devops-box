@@ -10,7 +10,7 @@ hostname: "rg-devops-box"
 
 ### DNS configuration
 dns:
-  - ip: 192.168.1.200
+  - ip: 192.168.1.200, 10.0.2.3
     domain: beta-supervision.com
 
 # Uncomment to create a bridged connection available from other clients on the LAN
@@ -35,8 +35,14 @@ folders:
 
 ### Environment variables:
 variables:
-  - key: foo
+  - key: DOCKERHUB_USER
+    value: foo
+  - key: DOCKERHUB_TOKEN
     value: bar
+  - key: GITHUB_USER
+    value: acme
+  - key: GITHUB_TOKEN
+    value: baz
 
 ### Features:
 features:

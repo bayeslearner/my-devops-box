@@ -30,6 +30,6 @@ function docker_hub_login()
     if [[ -z $DOCKERHUB_TOKEN ]] ; then
         echo "Environment variable DOCKERHUB_TOKEN must be set!"
     else
-        echo $DOCKERHUB_TOKEN | docker login registry-1.docker.io -u $GITHUB_USER --password-stdin
+        echo $DOCKERHUB_TOKEN | docker login registry-1.docker.io -u $DOCKERHUB_USER --password-stdin
     fi;
 }
