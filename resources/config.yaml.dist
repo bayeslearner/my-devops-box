@@ -10,7 +10,7 @@ hostname: "rg-devops-box"
 
 ### DNS configuration
 dns:
-  - ip: 192.168.1.200
+  - ip: 192.168.1.200, 10.0.2.3
     domain: beta-supervision.com
 
 # Uncomment to create a bridged connection available from other clients on the LAN
