@@ -36,8 +36,14 @@ folders:
 
 ### Environment variables:
 variables:
-  - key: foo
+  - key: DOCKERHUB_USER
+    value: foo
+  - key: DOCKERHUB_TOKEN
     value: bar
+  - key: GITHUB_USER
+    value: acme
+  - key: GITHUB_TOKEN
+    value: baz
 
 ### Features:
 features:
