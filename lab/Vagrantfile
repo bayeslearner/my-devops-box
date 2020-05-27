@@ -24,6 +24,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
 
+  # configure vbguest plugin
+  config.vbguest.auto_update = false
+  
   # enable env plugin
   config.env.enable
   Dotenv.load
