@@ -40,6 +40,7 @@ class Provision
         vb.customize ['modifyvm', :id, '--natdnshostresolver1', settings['natdnshostresolver'] ||= 'on']
         vb.customize ["modifyvm", :id, "--ioapic", "on"] # necessary for 2 or more vcpus
         vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
+        vb.customize ['modifyvm', :id, '--nested-hw-virt', 'on']
         vb.gui = true if settings.key?('gui') && settings['gui']
       end
   
