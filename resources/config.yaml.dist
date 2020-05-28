@@ -52,3 +52,5 @@ features:
   - packer: false
   - terraform: false
   - awx: false
+  - vagrant: false
+  - virtualbox: false
