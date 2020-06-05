@@ -26,6 +26,8 @@ A vagrant project with an Ubuntu 18.04 LTS box with the tools needed to practise
 * Packer
 * Ansible
 * AWX
+* Vagrant (with libvirt plugin)
+* VirtualBox (for nested virtualization)
 
 ## Getting started
 
