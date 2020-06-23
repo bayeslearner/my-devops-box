@@ -2,20 +2,20 @@
 servers:
   - name: pgsql01
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.56.11"
+    box_version: ">=2.4.0"
+    ip: "192.168.56.10"
     memory: 1024
     cpus: 1
   - name: pgsql02
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.56.12"
+    box_version: ">=2.4.0"
+    ip: "192.168.56.11"
     memory: 1024
     cpus: 1
   - name: pgsql03
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.56.13"
+    box_version: ">=2.4.0"
+    ip: "192.168.56.12"
     memory: 1024
     cpus: 1
   
