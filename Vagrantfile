@@ -16,6 +16,8 @@ require confDir + '/scripts/provision.rb'
 require 'yaml'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+      # configure vbguest plugin
+    config.vbguest.auto_update = false
 
 	# load YAML configuration file for extra features
 	if File.exist? configFile then
