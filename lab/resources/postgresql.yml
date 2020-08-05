@@ -4,32 +4,20 @@ servers:
     box: rgsystems/buster64
     box_version: ">=2.4.0"
     ip: "192.168.56.10"
-    memory: 1024
-    cpus: 1
+    memory: 2048
+    cpus: 2
   - name: pgsql02
     box: rgsystems/buster64
     box_version: ">=2.4.0"
     ip: "192.168.56.11"
-    memory: 1024
-    cpus: 1
+    memory: 2048
+    cpus: 2
   - name: pgsql03
     box: rgsystems/buster64
     box_version: ">=2.4.0"
     ip: "192.168.56.12"
-    memory: 1024
-    cpus: 1
-  - name: pgbouncer01
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.56.20"
-    memory: 1024
-    cpus: 1
-  - name: pgpool01
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.56.30"
-    memory: 1024
-    cpus: 1
+    memory: 2048
+    cpus: 2
   
 ansible_pubkey_path: ~/.ssh/id_rsa.pub
 ansible_privkey_path: ~/.ssh/id_rsa
