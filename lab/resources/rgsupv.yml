@@ -5,14 +5,14 @@ servers:
     box: rgsystems/buster64
     box_version: ">=1.1.0"
     ip: "192.168.10.21"
-    memory: 1024
+    memory: 2048
     cpus: 2
   - name: api01
     hostname: api01-vagrant
     box: rgsystems/buster64
     box_version: ">=1.1.0"
     ip: "192.168.10.31"
-    memory: 1024
+    memory: 2048
     cpus: 2
   - name: worker01
     hostname: worker01-vagrant
