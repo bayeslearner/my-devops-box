@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Install python packages
-apt-get install -y python3 python3-apt python3-testresources python3-distutils
+apt-get install -y python3 python3-apt python3-testresources python3-setuptools
 
 # Update symlinks
 ln -sf /usr/bin/python3 /usr/bin/python
