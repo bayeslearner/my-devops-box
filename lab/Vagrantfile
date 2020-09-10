@@ -1,24 +1,26 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-plugins = [
-  'vagrant-env',
-  'vagrant-hostmanager'
-]
+# constants
+PLUGINS = ['vagrant-hostmanager']
 VAGRANTFILE_API_VERSION ||= "2"
 
-# require
+# ensure vagrant-env is installed before attempting to load the .env file
+unless Vagrant.has_plugin?('vagrant-env')
+  puts "vagrant-env is missing and will be added. You may retry afterwards"
+  system "vagrant plugin install vagrant-env"
+  exit 0;
+end
+
+# requirements
 require 'dotenv'
-Vagrant.require_version '>= 2.2.7'
+Vagrant.require_version '>=2.2.9'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # install plugin dependencies
-  plugins.map { |plugin|
-    unless Vagrant.has_plugin?(plugin)
-      puts "Installing #{plugin} Plugin..."
-      system("vagrant plugin install #{plugin}")
-    end
-  }
+  # Vagrant will require these plugins be installed and available for the project.
+  # If the plugins are not available, it will attempt to automatically install them into the local project. 
+  # https://www.vagrantup.com/docs/vagrantfile/vagrant_settings#config-vagrant-plugins 
+  config.vagrant.plugins = PLUGINS
 
   # configure hostmanager plugin
   config.hostmanager.manage_host = true

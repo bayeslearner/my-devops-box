@@ -84,7 +84,7 @@ This repository allows to boot up multiple, ansible-ready VMs using pre-defined 
 
 1. Move into lab/ directory : `cd lab/`
 2. Copy or edit one of the existing YAML servers definition files found in resources/.
-3. Copy `.env.dist` to `.env`. Add key `CONFIG_PATH=<your_file.yaml>`. For example, `CONFIG_FILE=resources/app.yaml`
+3. Copy `.env.dist` to `.env`. Add key `CONFIG_PATH=<your_file.yml>`. For example, `CONFIG_FILE=resources/app.yml`
 4. Ensure your configuration is valid using command `vagrant validate`
 5. Start your lab using `vagrant up`
 
