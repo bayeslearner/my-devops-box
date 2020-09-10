@@ -1,9 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Version constraints
+# constants
+PLUGINS = ['vagrant-vbguest']
 VAGRANTFILE_API_VERSION ||= "2"
-Vagrant.require_version '>= 2.2.7'
+
+# requirements
+Vagrant.require_version '>= 2.2.9'
 
 # Local variables
 confDir         = File.expand_path(File.dirname(__FILE__))
@@ -16,7 +19,12 @@ require confDir + '/scripts/provision.rb'
 require 'yaml'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-      # configure vbguest plugin
+    # Vagrant will require these plugins be installed and available for the project.
+    # If the plugins are not available, it will attempt to automatically install them into the local project. 
+    # https://www.vagrantup.com/docs/vagrantfile/vagrant_settings#config-vagrant-plugins 
+    config.vagrant.plugins = PLUGINS
+
+    # configure vbguest plugin
     config.vbguest.auto_update = false
 
 	# load YAML configuration file for extra features
