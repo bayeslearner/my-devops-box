@@ -1,54 +1,68 @@
 ---
 servers:
   - name: web01
-    hostname: web01-vagrant
+    hostname: web01-lab
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.10.21"
+    box_version: ">=2.4.0"
+    ip: "192.168.10.10"
     memory: 2048
     cpus: 2
   - name: api01
-    hostname: api01-vagrant
+    hostname: api01-lab
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.10.31"
+    box_version: ">=2.4.0"
+    ip: "192.168.10.20"
     memory: 2048
     cpus: 2
   - name: worker01
-    hostname: worker01-vagrant
+    hostname: worker01-lab
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.10.41"
+    box_version: ">=2.4.0"
+    ip: "192.168.10.30"
     memory: 2048
     cpus: 2
-  - name: consumer01
-    hostname: consumer01-vagrant
+  - name: consumer01-lab
+    hostname: consumer01-lab
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.10.51"
+    box_version: ">=2.4.0"
+    ip: "192.168.10.40"
     memory: 2048
     cpus: 2
   - name: lsd01
-    hostname: lsd01-vagrant
+    hostname: lsd01-lab
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.10.61"
-    memory: 1024
-    cpus: 2
-  - name: monitoring01
-    hostname: monitoring01-vagrant
-    box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.10.71"
+    box_version: ">=2.4.0"
+    ip: "192.168.10.50"
     memory: 2048
     cpus: 2
-  - name: monitoring02
-    hostname: monitoring02-vagrant
+  - name: lsd02
+    hostname: lsd02-lab
     box: rgsystems/buster64
-    box_version: ">=1.1.0"
-    ip: "192.168.10.72"
-    memory: 1024
-    cpus: 1
+    box_version: ">=2.4.0"
+    ip: "192.168.10.51"
+    memory: 2048
+    cpus: 2
+  - name: monitoring01-lab
+    hostname: monitoring01
+    box: rgsystems/buster64
+    box_version: ">=2.4.0"
+    ip: "192.168.10.60"
+    memory: 2048
+    cpus: 2
+  - name: monitoring02-lab
+    hostname: monitoring02
+    box: rgsystems/buster64
+    box_version: ">=2.4.0"
+    ip: "192.168.10.61"
+    memory: 2048
+    cpus: 2
+  - name: monitoring03-lab
+    hostname: monitoring03
+    box: rgsystems/buster64
+    box_version: ">=2.4.0"
+    ip: "192.168.10.62"
+    memory: 2048
+    cpus: 2
 
 ansible_pubkey_path: ~/.ssh/id_rsa.pub
 ansible_privkey_path: ~/.ssh/id_rsa
