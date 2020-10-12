@@ -2,10 +2,9 @@
 
 # install awscli
 if ! [ -x "$(command -v aws)" ] ; then
-  alias python=python3.5
-  sudo apt-get install -y python3-pip
-  pip3 install --upgrade pip==9.0.3
-  pip3 install awscli
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o /tmp/awscliv2.zip
+  unzip /tmp/awscliv2.zip
+  bash ./aws/install
 else
   echo "AWS cli was already installed, skipping..."
   exit 0
