@@ -9,3 +9,5 @@ netaddr
 dnspython
 python-vagrant
 cryptography
+jsondiff
+pyyaml
