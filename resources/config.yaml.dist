@@ -47,7 +47,7 @@ variables:
 
 ### Features:
 features:
-  - aws-cli: false
+  - awscli: false
   - ansible: false
   - docker: false
   - packer: false

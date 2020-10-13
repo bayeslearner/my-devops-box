@@ -4,9 +4,9 @@
 # https://goobar.io/2019/12/07/manually-trigger-a-github-actions-workflow/
 
 TOKEN=$GITHUB_TOKEN
-USER=${GITHUB_USER:-"fidanf"}
-REPO=${GITHUB_REPO:-"my-devops-box"}
-EVENT_TYPE=${GITHUB_EVENT_TYPE:-"some-workflow"}
+USER=${GITHUB_USER}
+REPO=${GITHUB_REPO}
+EVENT_TYPE=${GITHUB_EVENT_TYPE}
 PAYLOAD=$(jq -n -c --arg event_type $EVENT_TYPE '{ event_type: $event_type }')
 
 curl -H "Accept: application/vnd.github.v3+json" \
