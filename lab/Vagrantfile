@@ -23,8 +23,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vagrant.plugins = PLUGINS
 
   # configure hostmanager plugin
+  config.hostmanager.enabled = false
   config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
+  config.hostmanager.include_offline = false
 
   # configure vbguest plugin
   config.vbguest.auto_update = false
@@ -74,6 +76,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
         vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
       end
+      i.trigger.after :up do |trigger|
+        trigger.name = "vagrant-hostmanager"
+        trigger.info = "Updating hosts configuration!"
+        trigger.run = { inline: "vagrant hostmanager" }
+      end
     end
   end
 
@@ -96,10 +103,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
   end
 
-  # after triggers 
-  config.trigger.after :up, :destroy do |trigger|
+  config.trigger.after :destroy do |trigger|
     trigger.name = "vagrant-hostmanager"
-    trigger.info = "Updating hosts configuration!"
+    trigger.info = "Cleanup hosts configuration!"
     trigger.run = { inline: "vagrant hostmanager" }
   end
 end
