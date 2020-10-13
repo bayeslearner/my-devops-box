@@ -4,14 +4,15 @@ ip: "192.168.10.20"
 memory: 4096
 cpus: 2
 provider: virtualbox
-hostname: "rg-devops-box"
-#box: rgsystems/disco64
-#version: ">=1.0"
+hostname: "devops-box"
 
-### DNS configuration
-dns:
-  - ip: 192.168.1.200, 10.0.2.3
-    domain: beta-supervision.com
+# Specify an older build/version from app.vagrantup.com
+# version: "201912.13.0"
+
+# Custom DNS settings
+# dns:
+# - ip: 192.168.1.2
+#   domain: mydomain.com
 
 # Uncomment to create a bridged connection available from other clients on the LAN
 # Network Adapter label can be found on VirtualBox > VM > Network settings

@@ -1,68 +1,26 @@
 ---
 servers:
   - name: web01
-    hostname: web01-lab
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.10"
-    memory: 2048
-    cpus: 2
+    hostname: web01-vagrant
+    box: bento/ubuntu-18.04
+    box_version: "201912.14.0"
+    ip: "192.168.10.21"
+    memory: 1024
+    cpus: 1
   - name: api01
-    hostname: api01-lab
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.20"
-    memory: 2048
-    cpus: 2
+    hostname: api01-vagrant
+    box: bento/ubuntu-18.04
+    box_version: "201912.14.0"
+    ip: "192.168.10.31"
+    memory: 1024
+    cpus: 1
   - name: worker01
-    hostname: worker01-lab
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.30"
-    memory: 2048
-    cpus: 2
-  - name: consumer01
-    hostname: consumer01-lab
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.40"
-    memory: 2048
-    cpus: 2
-  - name: lsd01
-    hostname: lsd01-lab
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.50"
-    memory: 2048
-    cpus: 2
-  - name: lsd02
-    hostname: lsd02-lab
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.51"
-    memory: 2048
-    cpus: 2
-  - name: monitoring01-lab
-    hostname: monitoring01
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.60"
-    memory: 2048
-    cpus: 2
-  - name: monitoring02-lab
-    hostname: monitoring02
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.61"
-    memory: 2048
-    cpus: 2
-  - name: monitoring03-lab
-    hostname: monitoring03
-    box: rgsystems/buster64
-    box_version: ">=2.4.0"
-    ip: "192.168.10.62"
-    memory: 2048
-    cpus: 2
+    hostname: worker01-vagrant
+    box: bento/ubuntu-18.04
+    box_version: "201912.14.0"
+    ip: "192.168.10.41"
+    memory: 1024
+    cpus: 1
 
 ansible_pubkey_path: ~/.ssh/id_rsa.pub
 ansible_privkey_path: ~/.ssh/id_rsa
