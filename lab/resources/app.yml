@@ -42,22 +42,22 @@ servers:
     ip: "192.168.10.51"
     memory: 2048
     cpus: 2
-  - name: monitoring01-lab
-    hostname: monitoring01
+  - name: monitoring01
+    hostname: monitoring01-lab
     box: rgsystems/buster64
     box_version: ">=2.4.0"
     ip: "192.168.10.60"
     memory: 2048
     cpus: 2
-  - name: monitoring02-lab
-    hostname: monitoring02
+  - name: monitoring02
+    hostname: monitoring02-lab
     box: rgsystems/buster64
     box_version: ">=2.4.0"
     ip: "192.168.10.61"
     memory: 2048
     cpus: 2
-  - name: monitoring03-lab
-    hostname: monitoring03
+  - name: monitoring03
+    hostname: monitoring03-lab
     box: rgsystems/buster64
     box_version: ">=2.4.0"
     ip: "192.168.10.62"
