@@ -11,3 +11,4 @@ dnspython
 cryptography
 jsondiff
 pyyaml
+pyOpenSSL
