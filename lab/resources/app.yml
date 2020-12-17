@@ -63,6 +63,20 @@ servers:
     ip: "192.168.10.62"
     memory: 2048
     cpus: 2
+  - name: ns01
+    hostname: ns01-lab
+    box: rgsystems/buster64
+    box_version: ">=2.4.0"
+    ip: "192.168.10.100"
+    memory: 1024
+    cpus: 1
+  - name: ns02
+    hostname: ns02-lab
+    box: rgsystems/buster64
+    box_version: ">=2.4.0"
+    ip: "192.168.10.101"
+    memory: 1024
+    cpus: 1
 
 ansible_pubkey_path: ~/.ssh/id_rsa.pub
 ansible_privkey_path: ~/.ssh/id_rsa
