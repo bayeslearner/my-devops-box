@@ -11,7 +11,7 @@ hostname: "rg-devops-box"
 ### DNS configuration
 dns:
   - ip: 192.168.1.200, 10.0.2.3
-    domain: beta-supervision.com
+    domain: staging.rg.gg
 
 # Uncomment to create a bridged connection available from other clients on the LAN
 # Network Adapter label can be found on VirtualBox > VM > Network settings
