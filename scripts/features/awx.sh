@@ -2,7 +2,7 @@
 
 INSTALL_DIR="/home/vagrant/awx"
 CUSTOM_AWX_CONFIG=/vagrant/awx_inventory
-VERSION=${version:-"11.2.0"}
+VERSION=${version:-"16.0.0"}
 
 if ! [ -x "$(command -v docker)" ] ; then
     echo "Docker needs to be installed before this script!"
